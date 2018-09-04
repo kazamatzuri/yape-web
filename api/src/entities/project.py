@@ -14,7 +14,7 @@ class Project(Entity, Base):
     def __init__(self, title, description, created_by):
         Entity.__init__(self, created_by)
         self.title = title
-        self.wrc = wrc
+        
         self.description = description
 
 class ProjectSchema(Schema):

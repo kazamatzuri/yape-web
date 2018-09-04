@@ -1,32 +1,14 @@
 import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ProjectService } from './project.service';
-import { Project } from './project';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <div style="text-align:center">
+      <h1>Projects</h1>
+    </div>
+    <h2>Here are the projects created so far: </h2>
+    <router-outlet></router-outlet>
+  `,
   styleUrls: ['./app.component.css']
 })
-
-export class AppComponent {
-  title = 'web';
-  projectsListSubs: Subscription;
-  projectsList: Project[];
-
-  constructor(private projects: ProjectService) {
-  }
-  ngOnInit() {
-    this.projectsListSubs = this.projects
-      .getProjects()
-      .subscribe(res => {
-        this.projectsList = res;
-      },
-        console.error
-      );
-  }
-
-  ngOnDestroy() {
-    this.projectsListSubs.unsubscribe();
-  }
-}
+export class AppComponent { }
