@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
+from .auth import AuthError, requires_auth
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +28,7 @@ def get_projects():
 
 
 @app.route('/projects', methods=['POST'])
+@requires_auth
 def add_project():
     # mount exam object
     posted_project = ProjectSchema(only=('title', 'description'))\
