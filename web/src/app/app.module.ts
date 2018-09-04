@@ -11,6 +11,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { CallbackComponent } from './callback/callback.component';
 import * as Auth0 from 'auth0-web';
 
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule, MatButtonModule } from '@angular/material';
 
 
 const appRoutes: Routes = [
@@ -32,7 +34,10 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(
       appRoutes,
-    )
+    ),
+    NoopAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

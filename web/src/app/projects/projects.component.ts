@@ -13,9 +13,6 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   projectsListSubs: Subscription;
   projectsList: Project[];
   authenticated = false;
-  signIn = Auth0.signIn;
-  signOut = Auth0.signOut;
-  getProfile = Auth0.getProfile;
 
 
   constructor(private projects: ProjectService) {
