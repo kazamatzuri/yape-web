@@ -8,6 +8,8 @@ flask = "*"
 yape = { git = 'https://github.com/murrayo/yape.git'}
 sqlalchemy = "*"
 "psycopg2-binary" = "*"
+marshmallow = "*"
+flask-cors = "*"
 
 [dev-packages]
 
