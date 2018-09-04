@@ -12,13 +12,15 @@ import { CallbackComponent } from './callback/callback.component';
 import * as Auth0 from 'auth0-web';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatButtonModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { AboutComponent } from './about/about.component';
 
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
   { path: '', component: ProjectsComponent },
   { path: 'callback', component: CallbackComponent },
+  { path: 'about', component: AboutComponent },
 ];
 
 
@@ -28,6 +30,7 @@ const appRoutes: Routes = [
     ProjectsComponent,
     ProjectFormComponent,
     CallbackComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ const appRoutes: Routes = [
     NoopAnimationsModule,
     MatToolbarModule,
     MatButtonModule,
+    MatCardModule,
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]
