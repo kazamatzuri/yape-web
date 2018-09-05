@@ -4,19 +4,16 @@ from marshmallow import Schema, fields
 from .entity import Entity, Base
 
 
-class Project(Entity, Base):
+class PButton(Entity, Base):
     __tablename__ = 'projects'
 
-    title = Column(String)
-    wrc = Column(Integer)
-    description = Column(String)
-    children = relationship("PButton")
+    file = Column(String)
+    project_id = Column(Integer, ForeignKey('project.id'))
 
-    def __init__(self, title, description, created_by):
+    def __init__(self, created_by):
         Entity.__init__(self, created_by)
-        self.title = title
 
-        self.description = description
+
 
 class ProjectSchema(Schema):
     id = fields.Number()

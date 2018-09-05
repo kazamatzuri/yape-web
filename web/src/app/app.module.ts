@@ -14,11 +14,16 @@ import * as Auth0 from 'auth0-web';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule, MatButtonModule, MatCardModule } from '@angular/material';
 import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
 
+import { UploadModule } from './upload/upload.module';
+import { UploadPageComponent } from './upload-page/upload-page.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
-  { path: '', component: ProjectsComponent },
+  { path: 'projects', component: ProjectsComponent },
+  { path: '', component: HomeComponent },
+  { path: 'upload', component: UploadPageComponent },
   { path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
 ];
@@ -31,6 +36,9 @@ const appRoutes: Routes = [
     ProjectFormComponent,
     CallbackComponent,
     AboutComponent,
+    HomeComponent,
+    UploadPageComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -42,6 +50,7 @@ const appRoutes: Routes = [
     MatToolbarModule,
     MatButtonModule,
     MatCardModule,
+    UploadModule,
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

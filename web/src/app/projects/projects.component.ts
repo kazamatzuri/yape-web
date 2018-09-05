@@ -31,9 +31,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
   }
 
-  getProfile() {
-    return Auth0.getProfile()
-  }
+
   ngOnDestroy() {
     this.projectsListSubs.unsubscribe();
   }

@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
+from .entities.pbutton import PButton
 from .auth import AuthError, requires_auth
 
 app = Flask(__name__)
@@ -10,6 +11,15 @@ CORS(app)
 
 # generate database schema
 Base.metadata.create_all(engine)
+
+
+@app.route('/pbutton',methods=['POST'])
+def upload_pbuttons:
+    pb=PButton()
+    session = Session()
+    session.add(pb)
+    session.commit()
+
 
 @app.route('/projects')
 def get_projects():
@@ -31,9 +41,7 @@ def get_projects():
 @requires_auth
 def add_project():
     # mount exam object
-    posted_project = ProjectSchema(only=('title', 'description'))\
-        .load(request.get_json())
-
+    posted_project = ProjectSchema(only=('title', 'description')).load(request.get_json())
     project = Project(**posted_project.data, created_by="HTTP post request")
 
     # persist exam
