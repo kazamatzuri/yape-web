@@ -36,7 +36,7 @@ export class ProjectFormComponent {
     this.projects
       .saveProject(this.project)
       .subscribe(
-        () => this.router.navigate(['/']),
+        () => this.router.navigate(['/projects']),
         error => alert(error.message)
       );
   }
