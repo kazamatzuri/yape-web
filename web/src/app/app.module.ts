@@ -18,14 +18,17 @@ import { HomeComponent } from './home/home.component';
 
 import { UploadModule } from './upload/upload.module';
 import { UploadPageComponent } from './upload-page/upload-page.component';
+import { ProjectComponent } from './project/project.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
   { path: 'projects', component: ProjectsComponent },
+  { path: 'project/:id', component: ProjectComponent },
   { path: '', component: HomeComponent },
   { path: 'upload', component: UploadPageComponent },
   { path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
+
 ];
 
 
@@ -38,6 +41,7 @@ const appRoutes: Routes = [
     AboutComponent,
     HomeComponent,
     UploadPageComponent,
+    ProjectComponent,
 
   ],
   imports: [

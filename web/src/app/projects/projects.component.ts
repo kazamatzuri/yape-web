@@ -3,6 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-projects',
@@ -15,7 +16,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   authenticated = false;
 
 
-  constructor(private projects: ProjectService) {
+  constructor(private projects: ProjectService, private router: Router) {
   }
 
   ngOnInit() {
@@ -29,6 +30,10 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     const self = this;
     Auth0.subscribe((authenticated) => (self.authenticated = authenticated));
 
+  }
+
+  openProject(project) {
+    this.router.navigate(['/project/', project.id])
   }
 
 
