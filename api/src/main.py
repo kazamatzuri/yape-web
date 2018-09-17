@@ -57,9 +57,18 @@ def upload_file():
 
 
 @app.route('/projects')
+@requires_auth
 def get_projects():
     pm = ProjectManager()
     return jsonify(pm.getProjects().data)
+    # fetching from the database
+    #return jsonify(projects.data)
+
+@requires_auth
+@app.route('/project/<id>')
+def get_project(id):
+    pm = ProjectManager()
+    return jsonify(pm.getProject(id).data)
     # fetching from the database
     #return jsonify(projects.data)
 

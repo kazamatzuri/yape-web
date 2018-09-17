@@ -15,13 +15,33 @@ export class ProjectService {
   constructor(private http: HttpClient) {
   }
   private static _handleError(err: HttpErrorResponse | any) {
+    console.log(err)
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
   // GET list of public, future events
   getProjects(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${Auth0.getAccessToken()}`
+      })
+    };
     return this.http
-      .get(`${API_URL}/projects`)
+      .get(`${API_URL}/projects`, httpOptions)
+      .pipe(catchError(ProjectService._handleError));
+  }
+
+  getProject(id): Observable<any> {
+    console.log("getting" + 1);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${Auth0.getAccessToken()}`
+      })
+    };
+    var url = `${API_URL}/project/` + id;
+    console.log(url);
+    return this.http
+      .get(url, httpOptions)
       .pipe(catchError(ProjectService._handleError));
   }
 

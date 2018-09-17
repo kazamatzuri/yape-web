@@ -12,7 +12,12 @@ import { CallbackComponent } from './callback/callback.component';
 import * as Auth0 from 'auth0-web';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { MatToolbarModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { MatButtonModule, MatNativeDateModule, MatIconModule, MatSidenavModule, MatListModule, MatToolbarModule, MatCardModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 
@@ -51,8 +56,10 @@ const appRoutes: Routes = [
       appRoutes,
     ),
     NoopAnimationsModule,
-    MatToolbarModule,
-    MatButtonModule,
+    FormsModule,
+    FlexLayoutModule,
+    MatTabsModule,
+    CommonModule, MatButtonModule, MatToolbarModule, MatNativeDateModule, MatIconModule, MatSidenavModule, MatListModule,
     MatCardModule,
     UploadModule,
   ],

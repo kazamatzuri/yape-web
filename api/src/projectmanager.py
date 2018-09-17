@@ -31,6 +31,21 @@ class ProjectManager():
         return projects
 
     @staticmethod
+    def getProject(projectId):
+        session = Session()
+        project_object = session.query(Project).get(projectId)
+        print(projectId)
+        print(project_object)
+        # transforming into JSON-serializable objects
+
+        schema = ProjectSchema()
+        project = schema.dump(project_object)
+
+        # serializing as JSON
+        session.close()
+        return project
+
+    @staticmethod
     def createProject(title,description):
         if description is None:
             description=""
