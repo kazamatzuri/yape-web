@@ -11,9 +11,11 @@ class PButton(Entity, Base):
     filename = Column(String)
     project_id = Column(Integer, ForeignKey('project.id'))
 
-    def __init__(self, created_by):
+    def __init__(self, created_by,project_id,filename):
         Entity.__init__(self, created_by)
-
+        self.created_by=created_by
+        self.project_id=project_id
+        self.filename=filename
 
 class PButtonSchema(Schema):
     id = fields.Number()

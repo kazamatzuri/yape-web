@@ -48,6 +48,7 @@ class ProjectManager():
 
     @staticmethod
     def getPButtons(projectId):
+        
         session = Session()
         pbutton_objects = session.query(PButton).filter(PButton.project_id==projectId)
         schema = PButtonSchema(many=True)
@@ -66,6 +67,14 @@ class ProjectManager():
         session.close()
         return project
 
+
+    @staticmethod
+    def addPButton(projectid,filename):
+        pb=PButton(created_by="system",project_id=projectid,filename=filename)
+        session=Session()
+        session.add(pb)
+        session.commit()
+        print("saved pid:"+projectid+" fn:"+filename)
 
     @staticmethod
     def createProject(title,description):

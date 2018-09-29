@@ -46,12 +46,13 @@ def upload_file(id):
                 return Response(jsonify(sc),status=400,mimetype='application/json')
             if file and allowed_file(files[file].filename):
                 filename = secure_filename(files[file].filename)
-                id=filename.rsplit('.',1)[0].lower()
-                dir=os.path.join(app.config['UPLOAD_FOLDER'],filename.rsplit('.',1)[0].lower())
+                fn=filename.rsplit('.',1)[0].lower()
+                dir=os.path.join(app.config['UPLOAD_FOLDER'],fn)
                 if not os.path.exists(dir):
                     os.makedirs(dir)
                 files[file].save(os.path.join(dir, filename))
-                sc={"status":"success","id":id}
+                sc={"status":"success","id":fn}
+                pm.addPButton(id,filename)
                 return jsonify(sc),201
     sc={"status":"error"}
     return jsonify(sc),400
