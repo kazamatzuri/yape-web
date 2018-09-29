@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpRequest, HttpEventType, HttpResponse } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { Observable } from 'rxjs';
+import { API_URL } from '../env';
+import { Router } from "@angular/router";
 
-const url = '${API_URL}/upload';
+const url = `${API_URL}`;
 
 @Injectable()
 export class UploadService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   public upload(files: Set<File>): { [key: string]: Observable<any> } {
     // this will be the our resulting map
@@ -20,7 +22,9 @@ export class UploadService {
 
       // create a http-post request and pass the form
       // tell it to report the upload progress
-      const req = new HttpRequest('POST', url, formData, {
+      var eurl = url + this.router.url;
+      console.log(eurl);
+      const req = new HttpRequest('POST', eurl, formData, {
         reportProgress: true
       });
 

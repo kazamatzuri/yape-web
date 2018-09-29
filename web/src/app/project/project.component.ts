@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
+import { PButton } from '../pbutton';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-project',
@@ -10,7 +12,9 @@ import { ProjectService } from '../project.service';
 })
 export class ProjectComponent implements OnInit {
 
-  public project;
+  project;
+  pbuttonslistSubs: Subscription;
+  pbuttonslist: PButton[];
 
   constructor(private projects: ProjectService, private route: ActivatedRoute) {
 
@@ -20,6 +24,11 @@ export class ProjectComponent implements OnInit {
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this.project = this.projects.getProject(id).subscribe(res => {
       this.project = res;
+    },
+      console.error
+    );
+    this.pbuttonslistSubs = this.projects.getPButtons(id).subscribe(res => {
+      this.pbuttonslist = res;
     },
       console.error
     );

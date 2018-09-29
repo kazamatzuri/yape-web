@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { UploadService } from '../upload.service';
 import { forkJoin } from 'rxjs';
+import { Project } from '../../project';
 
 @Component({
   selector: 'app-dialog',
@@ -10,6 +11,7 @@ import { forkJoin } from 'rxjs';
 })
 export class DialogComponent {
   progress;
+
   canBeClosed = true;
   primaryButtonText = 'Upload';
   showCancelButton = true;
@@ -41,6 +43,7 @@ export class DialogComponent {
     this.uploading = true;
 
     // start the upload and save the progress map
+
     this.progress = this.uploadService.upload(this.files);
 
     // convert the progress map into an array

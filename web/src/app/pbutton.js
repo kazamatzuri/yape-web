@@ -1,9 +1,10 @@
-export class Project {
+export class PButton {
   constructor(
-    public title: string,
+    public project: number,
     public description: string,
-    public id: number,
+    public filename: string,
     public wrc?: number,
+    public _id?: number,
     public updatedAt?: Date,
     public createdAt?: Date,
     public lastUpdatedBy?: string,

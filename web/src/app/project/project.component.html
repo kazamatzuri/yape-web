@@ -1,7 +1,6 @@
 <h3 matSubheader>{{project.title}}</h3>
 <mat-list>
   <h3 matSubheader>pButtons</h3>
-  <mat-list-item> Pepper </mat-list-item>
-  <mat-list-item> Salt </mat-list-item>
-  <mat-list-item> Paprika </mat-list-item>
+  <mat-list-item *ngFor="let pb of pbuttonslist"> {{pb.filename}} </mat-list-item>
+  <mat-list-item> <app-upload [project]="project"></app-upload> </mat-list-item>
 </mat-list>

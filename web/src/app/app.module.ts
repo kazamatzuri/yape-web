@@ -8,8 +8,8 @@ import { ProjectsComponent } from './projects/projects.component';
 
 import { ProjectFormComponent } from './projects/project-form.component';
 import { RouterModule, Routes } from '@angular/router';
-import { CallbackComponent } from './callback/callback.component';
-import * as Auth0 from 'auth0-web';
+//import { CallbackComponent } from './callback/callback.component';
+//import * as Auth0 from 'auth0-web';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -31,7 +31,7 @@ const appRoutes: Routes = [
   { path: 'project/:id', component: ProjectComponent },
   { path: '', component: HomeComponent },
   { path: 'upload', component: UploadPageComponent },
-  { path: 'callback', component: CallbackComponent },
+  //{ path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
 
 ];
@@ -42,7 +42,7 @@ const appRoutes: Routes = [
     AppComponent,
     ProjectsComponent,
     ProjectFormComponent,
-    CallbackComponent,
+    //CallbackComponent,
     AboutComponent,
     HomeComponent,
     UploadPageComponent,
@@ -68,12 +68,12 @@ const appRoutes: Routes = [
 })
 export class AppModule {
   constructor() {
-    Auth0.configure({
+    /*Auth0.configure({
       domain: 'yape-web.auth0.com',
       audience: 'https://yape.iscinternal.com/api',
       clientID: 'nlNNFnZV0NRTorLtIUOVwaQWDXcv1GNZ',
       redirectUri: 'http://localhost:4200/callback',
       scope: 'openid profile manage:projects'
-    });
+    });*/
   }
 }

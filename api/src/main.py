@@ -11,7 +11,7 @@ import json
 from werkzeug.utils import secure_filename
 import logging
 
-UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
+UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
 ALLOWED_EXTENSIONS = set(['html'])
 
 app = Flask(__name__)
@@ -26,27 +26,35 @@ Base.metadata.create_all(engine)
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/upload',methods=['POST'])
-def upload_file():
+
+@app.route('/project/<id>',methods=['POST'])
+def upload_file(id):
+    pm = ProjectManager()
+    try:
+        project = pm.getProject(id).data
+    except:
+        sc={"status":"project not found"}
+        return Response(jsonify(sc),status=404,mimetype='application/json')
     if request.method=='POST':
         if 'file' not in request.files:
             return "error"
-        for file in request.files.getlist['file']:
-            if file.filename == '':
+        files = request.files.to_dict()
+        for file in files:
+            if files[file].filename == '':
                 logging.error("no filename supplied in upload")
                 sc={"status":"error"}
                 return Response(jsonify(sc),status=400,mimetype='application/json')
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                id=filename.split.rsplit('.',1)[0].lower()
-                dir=os.path.join(app.config['UPLOAD_FOLDER'],filename.split.rsplit('.',1)[0].lower())
+            if file and allowed_file(files[file].filename):
+                filename = secure_filename(files[file].filename)
+                id=filename.rsplit('.',1)[0].lower()
+                dir=os.path.join(app.config['UPLOAD_FOLDER'],filename.rsplit('.',1)[0].lower())
                 if not os.path.exists(dir):
                     os.makedirs(dir)
-                file.save(os.path.join(dir, filename))
+                files[file].save(os.path.join(dir, filename))
                 sc={"status":"success","id":id}
-                return Response(jsonify(sc),status=201,mimetype='application/json')
+                return jsonify(sc),201
     sc={"status":"error"}
-    return Response(jsonify(sc),status=400,mimetype='application/json')
+    return jsonify(sc),400
 
 #@app.route('/pbutton',methods=['POST'])
 #def upload_pbuttons:
@@ -57,14 +65,14 @@ def upload_file():
 
 
 @app.route('/projects')
-@requires_auth
+#@requires_auth
 def get_projects():
     pm = ProjectManager()
     return jsonify(pm.getProjects().data)
     # fetching from the database
     #return jsonify(projects.data)
 
-@requires_auth
+#@requires_auth
 @app.route('/project/<id>')
 def get_project(id):
     pm = ProjectManager()
@@ -72,9 +80,16 @@ def get_project(id):
     # fetching from the database
     #return jsonify(projects.data)
 
+@app.route('/project/<id>/pbuttons')
+def get_project_buttons(id):
+    pm = ProjectManager()
+    return jsonify(pm.getPButtons(id).data)
+    # fetching from the database
+    #return jsonify(projects.data)
+
 
 @app.route('/projects', methods=['POST'])
-@requires_auth
+#@requires_auth
 def add_project():
     pm = ProjectManager()
     data=request.get_json()

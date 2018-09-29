@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, String, Integer, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-db_url = 'localhost:5432'
+db_url = '127.0.0.1:5432'
 db_name = 'yape-web'
 db_user = 'postgres'
 db_password = 'yape-passw0rd'

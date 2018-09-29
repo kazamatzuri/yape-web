@@ -28,7 +28,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         console.error
       );
     const self = this;
-    Auth0.subscribe((authenticated) => (self.authenticated = authenticated));
+    //Auth0.subscribe((authenticated) => (self.authenticated = authenticated));
 
   }
 

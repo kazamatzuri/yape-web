@@ -19,6 +19,16 @@ export class ProjectService {
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
+  getPButtons(id): Observable<any> {
+    /*const httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${Auth0.getAccessToken()}`
+      })
+    };*/
+    return this.http
+      .get(`${API_URL}/project/` + id + '/pbuttons')
+      .pipe(catchError(ProjectService._handleError));
+  }
   // GET list of public, future events
   getProjects(): Observable<any> {
     const httpOptions = {
@@ -33,15 +43,15 @@ export class ProjectService {
 
   getProject(id): Observable<any> {
     console.log("getting" + 1);
-    const httpOptions = {
+    /*const httpOptions = {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${Auth0.getAccessToken()}`
       })
-    };
+    };*/
     var url = `${API_URL}/project/` + id;
     console.log(url);
     return this.http
-      .get(url, httpOptions)
+      .get(url)
       .pipe(catchError(ProjectService._handleError));
   }
 
