@@ -5,6 +5,8 @@ export class PButton {
     public filename: string,
     public wrc?: number,
     public _id?: number,
+    public graphdir?: string,
+    public ran_last?: Date,
     public updatedAt?: Date,
     public createdAt?: Date,
     public lastUpdatedBy?: string,
