@@ -24,11 +24,13 @@ import { HomeComponent } from './home/home.component';
 import { UploadModule } from './upload/upload.module';
 import { UploadPageComponent } from './upload-page/upload-page.component';
 import { ProjectComponent } from './project/project.component';
+import { PbuttonComponent } from './pbutton/pbutton.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'project/:id', component: ProjectComponent },
+  { path: 'pbutton/:id', component: PbuttonComponent },
   { path: '', component: HomeComponent },
   { path: 'upload', component: UploadPageComponent },
   //{ path: 'callback', component: CallbackComponent },
@@ -47,6 +49,7 @@ const appRoutes: Routes = [
     HomeComponent,
     UploadPageComponent,
     ProjectComponent,
+    PbuttonComponent,
 
   ],
   imports: [

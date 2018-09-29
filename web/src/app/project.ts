@@ -2,7 +2,7 @@ export class Project {
   constructor(
     public title: string,
     public description: string,
-    public id: number,
+    public id?: number,
     public wrc?: number,
     public updatedAt?: Date,
     public createdAt?: Date,

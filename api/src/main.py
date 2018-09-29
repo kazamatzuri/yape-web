@@ -64,6 +64,11 @@ def upload_file(id):
 #    session.add(pb)
 #    session.commit()
 
+#@requires_auth
+@app.route('/pbutton/<id>')
+def get_pbutton(id):
+    pm = ProjectManager()
+    return jsonify(pm.getPbutton(id).data)
 
 @app.route('/projects')
 #@requires_auth

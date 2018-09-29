@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Project } from '../project';
 import { ProjectService } from '../project.service';
 import { PButton } from '../pbutton';
@@ -16,7 +16,7 @@ export class ProjectComponent implements OnInit {
   pbuttonslistSubs: Subscription;
   pbuttonslist: PButton[];
 
-  constructor(private projects: ProjectService, private route: ActivatedRoute) {
+  constructor(private projects: ProjectService, private route: ActivatedRoute, private router: Router) {
 
   }
 
@@ -34,6 +34,9 @@ export class ProjectComponent implements OnInit {
     );
   }
 
+  openPButton(pb) {
+    this.router.navigate(['/pbutton/', pb.id])
+  }
 
 
 }

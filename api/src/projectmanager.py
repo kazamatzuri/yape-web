@@ -32,6 +32,19 @@ class ProjectManager():
         return projects
 
     @staticmethod
+    def getPbutton(pbId):
+        session = Session()
+        pb_object = session.query(PButton).get(pbId)
+        #print(projectId)
+        #print(project_object)
+        # transforming into JSON-serializable objects
+        schema = PButtonSchema()
+        pb = schema.dump(pb_object)
+        # serializing as JSON
+        session.close()
+        return pb
+
+    @staticmethod
     def getProject(projectId):
         session = Session()
         project_object = session.query(Project).get(projectId)
@@ -48,7 +61,7 @@ class ProjectManager():
 
     @staticmethod
     def getPButtons(projectId):
-        
+
         session = Session()
         pbutton_objects = session.query(PButton).filter(PButton.project_id==projectId)
         schema = PButtonSchema(many=True)

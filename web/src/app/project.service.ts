@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_URL } from './env';
 import { Project } from './project';
-import * as Auth0 from 'auth0-web';
+//import * as Auth0 from 'auth0-web';
 
 
 @Injectable({
@@ -31,13 +31,13 @@ export class ProjectService {
   }
   // GET list of public, future events
   getProjects(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${Auth0.getAccessToken()}`
-      })
-    };
+    //const httpOptions = {
+    //  headers: new HttpHeaders({
+    //    'Authorization': `Bearer ${Auth0.getAccessToken()}`
+    //  })
+    //};
     return this.http
-      .get(`${API_URL}/projects`, httpOptions)
+      .get(`${API_URL}/projects`)//, httpOptions)
       .pipe(catchError(ProjectService._handleError));
   }
 
@@ -56,11 +56,11 @@ export class ProjectService {
   }
 
   saveProject(project: Project): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${Auth0.getAccessToken()}`
-      })
-    };
-    return this.http.post(`${API_URL}/projects`, project, httpOptions)
+    // const httpOptions = {
+    //   headers: new HttpHeaders({
+    //     'Authorization': `Bearer ${Auth0.getAccessToken()}`
+    //   })
+    // };
+    return this.http.post(`${API_URL}/projects`, project) //, httpOptions)
   }
 }
