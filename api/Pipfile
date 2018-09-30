@@ -11,6 +11,10 @@ sqlalchemy = "*"
 marshmallow = "*"
 flask-cors = "*"
 python-jose-cryptodome = "*"
+numpy = "*"
+pandas = "*"
+pyyaml = "*"
+matplotlib = "*"
 
 [dev-packages]
 

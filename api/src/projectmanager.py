@@ -31,6 +31,7 @@ class ProjectManager():
         if (dir is None or dir==""):
             dir=pb.filename.split(".")[0]
         pb.ran_last=datetime.now()
+        pb.graphdir=dir
         #pb.save()
         session.commit()
 
@@ -38,7 +39,7 @@ class ProjectManager():
         print(bdir)
         f=join(bdir,pb.filename)
         print(f)
-        #call(["yape","-q","-a","-o",dir,dir])
+        #call(["yape","-q","-a","-o",dir,f])
         session.close()
         return
 
@@ -46,14 +47,16 @@ class ProjectManager():
     def getGraphs(id):
         session=Session()
         pb=session.query(PButton).get(id)
-        dir=pb.graphdir
+        dir=join(UPLOAD_FOLDER,pb.graphdir)
         session.close()
+        print("graphdir: "+dir)
         if (dir is None or dir==""):
             return []
         f = []
         for (dirpath, dirnames, filenames) in walk(dir):
-            if ("png" in filenames):
-                f.extend(filenames)
+            for fn in filenames:
+                if ("png" in fn):
+                    f.extend(filenames)
             break
         return f
 
