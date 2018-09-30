@@ -26,6 +26,8 @@ import { UploadModule } from './upload/upload.module';
 import { UploadPageComponent } from './upload-page/upload-page.component';
 import { ProjectComponent } from './project/project.component';
 import { PbuttonComponent } from './pbutton/pbutton.component';
+import { ImageCardComponent } from './image-card/image-card.component';
+import { ImageDeckComponent } from './image-deck/image-deck.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -51,6 +53,8 @@ const appRoutes: Routes = [
     UploadPageComponent,
     ProjectComponent,
     PbuttonComponent,
+    ImageCardComponent,
+    ImageDeckComponent,
 
   ],
   imports: [

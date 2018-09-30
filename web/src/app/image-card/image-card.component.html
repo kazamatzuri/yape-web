@@ -1,0 +1,13 @@
+<mat-card class="image-card">
+  <mat-card-header>
+    <mat-card-title>{{this.imgurl.replace(".png","")}}</mat-card-title>
+    <!--<mat-card-subtitle>subtitle</mat-card-subtitle>-->
+  </mat-card-header>
+  <img mat-card-image src="{{this.getUrl()}}">
+  <mat-card-content>
+  </mat-card-content>
+  <mat-card-actions>
+    <button md-button>LIKE</button>
+    <button md-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>

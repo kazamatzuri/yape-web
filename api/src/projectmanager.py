@@ -4,6 +4,7 @@ from .entities.pbutton import PButton,PButtonSchema
 from os import walk
 from os.path import join
 from datetime import datetime
+from flask import send_from_directory
 
 from subprocess import call
 UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
@@ -44,6 +45,14 @@ class ProjectManager():
         return
 
     @staticmethod
+    def serveImg(id,url):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        dir=join(UPLOAD_FOLDER,pb.graphdir)
+        session.close()
+        return send_from_directory(dir,url)
+
+    @staticmethod
     def getGraphs(id):
         session=Session()
         pb=session.query(PButton).get(id)
@@ -54,10 +63,9 @@ class ProjectManager():
             return []
         f = []
         for (dirpath, dirnames, filenames) in walk(dir):
-            for fn in filenames:
-                if ("png" in fn):
-                    f.extend(filenames)
+            f.extend(filenames)
             break
+        f = [ fi for fi in f if fi.endswith(".png") ]
         return f
 
     @staticmethod

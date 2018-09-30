@@ -69,6 +69,11 @@ def updateGraphs(id):
     pm.generateGraphs(id)
     return jsonify({}),200
 
+@app.route('/pbutton/<id>/<url>')
+def getImage(id,url):
+    pm=ProjectManager()
+    return pm.serveImg(id,url)
+
 @app.route('/pbutton/<id>/graphs')
 def getGraphs(id):
     pm = ProjectManager()

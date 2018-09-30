@@ -27,6 +27,7 @@ export class PbuttonComponent implements OnInit {
 
     this.graphsub = this.pbservice.getCurrentGraphs(id).subscribe(res => {
       this.currentgraphs = Object.values(res);
+      console.log(this.currentgraphs.length);
     }, console.error
     );
 
