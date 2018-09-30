@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { FilterPipe } from './filter.pipe';
 import { ProjectService } from './project.service';
 import { PbuttonService } from './pbutton.service';
 import { ProjectsComponent } from './projects/projects.component';
@@ -55,6 +56,7 @@ const appRoutes: Routes = [
     PbuttonComponent,
     ImageCardComponent,
     ImageDeckComponent,
+    FilterPipe,
 
   ],
   imports: [
@@ -70,6 +72,7 @@ const appRoutes: Routes = [
     CommonModule, MatButtonModule, MatToolbarModule, MatNativeDateModule, MatIconModule, MatSidenavModule, MatListModule,
     MatCardModule,
     UploadModule,
+
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

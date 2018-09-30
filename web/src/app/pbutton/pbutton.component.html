@@ -5,4 +5,7 @@
   </div><div class="mat-button-focus-overlay"></div>
 </button>
 
-<app-image-deck [items]="currentgraphs"></app-image-deck>
+<input [(ngModel)]="searchText" placeholder="search text goes here">
+
+
+<app-image-deck [items]="currentgraphs| filter : searchText"></app-image-deck>
