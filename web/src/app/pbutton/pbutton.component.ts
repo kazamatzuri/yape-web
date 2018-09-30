@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PButton } from '../pbutton';
 import { ActivatedRoute, Router } from "@angular/router";
+import { PbuttonService } from "../pbutton.service";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pbutton',
@@ -10,16 +12,34 @@ import { ActivatedRoute, Router } from "@angular/router";
 export class PbuttonComponent implements OnInit {
 
   pbutton;
-  constructor(private route: ActivatedRoute) { }
+  graphsub;
+  currentgraphs: string[];
+
+  constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
-    //this.pbutton = this.projects.getProject(id).subscribe(res => {
-    //  this.project = res;
-    //},
-    //  console.error
-    //);
+    this.pbutton = this.pbservice.getPbutton(id).subscribe(res => {
+      this.pbutton = res;
+    },
+      console.error
+    );
+
+    this.graphsub = this.pbservice.getCurrentGraphs(id).subscribe(res => {
+      console.log(res)
+      this.currentgraphs = Object.values(res);
+    }, console.error
+    );
+
+
 
   }
+
+  generateGraphs() {
+    console.log("generate " + this.pbutton);
+    this.pbservice.generateGraphs(this.pbutton.id);
+  }
+
+
 
 }

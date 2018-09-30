@@ -1,6 +1,12 @@
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton,PButtonSchema
+from os import walk
+from os.path import join
+from datetime import datetime
+
+from subprocess import call
+UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
 
 class ProjectManager():
     class __ProjectManager:
@@ -16,6 +22,40 @@ class ProjectManager():
 
     def __getattr__(self, name):
         return getattr(self.instance, name)
+
+    @staticmethod
+    def generateGraphs(id):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        dir=pb.graphdir
+        if (dir is None or dir==""):
+            dir=pb.filename.split(".")[0]
+        pb.ran_last=datetime.now()
+        #pb.save()
+        session.commit()
+
+        bdir=join(UPLOAD_FOLDER,dir)
+        print(bdir)
+        f=join(bdir,pb.filename)
+        print(f)
+        #call(["yape","-q","-a","-o",dir,dir])
+        session.close()
+        return
+
+    @staticmethod
+    def getGraphs(id):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        dir=pb.graphdir
+        session.close()
+        if (dir is None or dir==""):
+            return []
+        f = []
+        for (dirpath, dirnames, filenames) in walk(dir):
+            if ("png" in filenames):
+                f.extend(filenames)
+            break
+        return f
 
     @staticmethod
     def getProjects():

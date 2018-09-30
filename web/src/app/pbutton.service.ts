@@ -11,18 +11,33 @@ export class PbuttonService {
 
   constructor(private http: HttpClient) {
   }
+
   private static _handleError(err: HttpErrorResponse | any) {
     console.log(err)
     return Observable.throw(err.message || 'Error: Unable to complete request.');
   }
 
-  getPButton(id): Observable<any> {
+  generateGraphs(id) {
+    var url = `${API_URL}/pbutton/` + id + '/graphs';
+    console.log("generating " + id + "," + url);
+    var res = this.http
+      .put(url, { test: "a" }).toPromise()
+      .then((response) => response);
+    //.pipe(catchError(PbuttonService._handleError));
+
+    return res;
+  }
+
+  getCurrentGraphs(id) {
+    var url = `${API_URL}/pbutton/` + id + '/graphs';
+    return this.http
+      .get(url)
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
+  getPbutton(id): Observable<any> {
     console.log("getting pb " + id);
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${Auth0.getAccessToken()}`
-      })
-    };*/
+
     var url = `${API_URL}/pbutton/` + id;
     console.log(url);
     return this.http

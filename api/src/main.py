@@ -57,18 +57,22 @@ def upload_file(id):
     sc={"status":"error"}
     return jsonify(sc),400
 
-#@app.route('/pbutton',methods=['POST'])
-#def upload_pbuttons:
-#    pb=PButton()
-#    session = Session()
-#    session.add(pb)
-#    session.commit()
-
 #@requires_auth
 @app.route('/pbutton/<id>')
 def get_pbutton(id):
     pm = ProjectManager()
     return jsonify(pm.getPbutton(id).data)
+
+@app.route('/pbutton/<id>/graphs',methods=['PUT','POST'])
+def updateGraphs(id):
+    pm=ProjectManager()
+    pm.generateGraphs(id)
+    return jsonify({}),200
+
+@app.route('/pbutton/<id>/graphs')
+def getGraphs(id):
+    pm = ProjectManager()
+    return jsonify(pm.getGraphs(id))
 
 @app.route('/projects')
 #@requires_auth
