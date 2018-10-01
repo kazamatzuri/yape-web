@@ -29,6 +29,7 @@ import { ProjectComponent } from './project/project.component';
 import { PbuttonComponent } from './pbutton/pbutton.component';
 import { ImageCardComponent } from './image-card/image-card.component';
 import { ImageDeckComponent } from './image-deck/image-deck.component';
+import { IgraphComponent } from './igraph/igraph.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -57,6 +58,7 @@ const appRoutes: Routes = [
     ImageCardComponent,
     ImageDeckComponent,
     FilterPipe,
+    IgraphComponent,
 
   ],
   imports: [

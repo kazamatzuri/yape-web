@@ -2,8 +2,7 @@
 
 <mat-tab-group>
   <mat-tab label="Interactive">
-    <h1>Some tab content</h1>
-    <p>...</p>
+    <igraph></igraph>
   </mat-tab>
   <mat-tab label="Static Graphs">
     <mat-form-field>
@@ -13,10 +12,19 @@
     <app-image-deck [items]="currentgraphs| filter : searchText"></app-image-deck>
   </mat-tab>
   <mat-tab label="Text pieces">
-    <mat-toolbar color="secondary">
-      <mat-toolbar-row>
-        <span>Custom Toolbar</span>
-      </mat-toolbar-row>
-    </mat-toolbar>
+  <mat-tab-group>
+    <mat-tab label="cpf">
+
+    </mat-tab>
+    <mat-tab label="cstat">
+
+    </mat-tab>
+    <mat-tab label="cpf">
+
+    </mat-tab>
+    <mat-tab label="cpf">
+
+    </mat-tab>
+  </mat-tab-group>
   </mat-tab>
 </mat-tab-group>
