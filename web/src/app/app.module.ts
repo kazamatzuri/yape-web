@@ -30,6 +30,7 @@ import { PbuttonComponent } from './pbutton/pbutton.component';
 import { ImageCardComponent } from './image-card/image-card.component';
 import { ImageDeckComponent } from './image-deck/image-deck.component';
 import { IgraphComponent } from './igraph/igraph.component';
+import { PlotlyModule } from 'angular-plotly.js';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -64,6 +65,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     HttpClientModule,
+    PlotlyModule,
     RouterModule.forRoot(
       appRoutes,
     ),

@@ -5,6 +5,9 @@ from os import walk
 from os.path import join
 from datetime import datetime
 from flask import send_from_directory
+import numpy as np
+import pandas as pd
+import sqlite3
 
 from subprocess import call
 UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
@@ -51,6 +54,39 @@ class ProjectManager():
         dir=join(UPLOAD_FOLDER,pb.graphdir)
         session.close()
         return send_from_directory(dir,url)
+
+    @staticmethod
+    def createDB(id):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        dir=pb.graphdir
+        if (dir is None or dir==""):
+            dir=pb.filename.split(".")[0]
+        pb.graphdir=dir
+        dir=join(UPLOAD_FOLDER,pb.graphdir)
+        filedb=join(dir,"data.db")
+        pb.database=filedb
+        bdir=join(UPLOAD_FOLDER,dir)
+        f=join(bdir,pb.filename)
+        call(["yape","-q","--filedb",filedb,f])
+        session.commit()
+        session.close()
+
+    @staticmethod
+    def getData(id):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        if filedb is None or filedb=="":
+            ProjectManager.createDB(id)
+            session.close()
+            session=Session()
+            pb=session.query(PButton).get(id)
+            filedb=pb.database
+        db=sqlite3.connect(filedb)
+        df=pd.read_sql_query("select * from mgstat",db)
+        session.close()
+        return df[['datetime','Glorefs']].to_json(orient='values')
 
     @staticmethod
     def getGraphs(id):

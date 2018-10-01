@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { PbuttonService } from "../pbutton.service";
 
+import * as Plotly from 'plotly.js/dist/plotly.js';
+import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
+
 @Component({
   selector: 'igraph',
   templateUrl: './igraph.component.html',
@@ -9,7 +12,9 @@ import { PbuttonService } from "../pbutton.service";
 })
 export class IgraphComponent implements OnInit {
   pbutton;
+  rawdata;
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
+
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
@@ -18,25 +23,41 @@ export class IgraphComponent implements OnInit {
     },
       console.error
     );
-    this.drawGraph();
+    this.rawdata = this.pbservice.getData(id).subscribe((res: Object) => {
+      this.rawdata = res;
+      //console.log(res);
+      this.drawGraph();
+    },
+      console.error
+    );
   }
 
   drawGraph() {
-    var trace1 = {
-      x: [1, 2, 3, 4],
-      y: [10, 15, 13, 17],
-      type: 'scatter'
+    Plotly.setPlotConfig({
+      modeBarButtonsToRemove: ['sendDataToCloud']
+    });
+    var TESTER = document.getElementById('graphdiv');
+    var x = [];
+    var y = [];
+    for (var row of this.rawdata) {
+      x.push(Date.parse(row[0].replace(/\//g, '-')));
+      y.push(row[1]);
+    }
+    console.log(x[0]);
+    var data = [{
+      x: x,
+      y: y
+    }];
+    var layout = {
+      xaxis: {
+        type: 'date',
+        nticks: 25
+      },
+      height: 600,
+      title: 'glorefs test'
     };
-
-    var trace2 = {
-      x: [1, 2, 3, 4],
-      y: [16, 5, 11, 9],
-      type: 'scatter'
-    };
-
-    var data = [trace1, trace2];
-
-    Plotly.newPlot('myDiv', data);
+    //console.log(data);
+    Plotly.plot(TESTER, data, layout);
 
   }
 
