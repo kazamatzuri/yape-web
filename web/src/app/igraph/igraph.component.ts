@@ -43,8 +43,16 @@ export class IgraphComponent implements OnInit {
       x.push(Date.parse(row[0].replace(/\//g, '-')));
       y.push(row[1]);
     }
-    console.log(x[0]);
+    //see https://plot.ly/python/reference/#scattergl-mode
+    //for doc
     var data = [{
+      type: "scattergl",
+      mode: "markers",
+      marker: {
+        symbol: "circle",
+        size: 1,
+        opacity: 100
+      },
       x: x,
       y: y
     }];
