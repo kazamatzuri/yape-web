@@ -69,11 +69,25 @@ def updateGraphs(id):
     pm.generateGraphs(id)
     return jsonify({}),200
 
-@app.route('/pbutton/<id>/data')
+@app.route('/pbutton/<id>/textfields')
+def getTextFields(id):
+    pm=ProjectManager()
+    return pm.getTextFields(id)
+
+@app.route('/pbutton/<id>/fields')
+def getFields(id):
+    pm=ProjectManager()
+    return jsonify(pm.getFields(id))
+
+@app.route('/pbutton/<id>/data',methods=['GET','POST'])
 def getData(id):
     pm=ProjectManager()
-    return pm.getData(id)
-    
+    if request.method=='POST':
+        req_data = request.get_json()
+        return pm.getData(id,req_data)
+    else:
+        return pm.getData(id)
+
 @app.route('/pbutton/<id>/<url>')
 def getImage(id,url):
     pm=ProjectManager()

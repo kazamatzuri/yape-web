@@ -73,20 +73,46 @@ class ProjectManager():
         session.close()
 
     @staticmethod
-    def getData(id):
+    def assertDB(id):
         session=Session()
         pb=session.query(PButton).get(id)
         filedb=pb.database
         if filedb is None or filedb=="":
             ProjectManager.createDB(id)
-            session.close()
-            session=Session()
-            pb=session.query(PButton).get(id)
-            filedb=pb.database
-        db=sqlite3.connect(filedb)
-        df=pd.read_sql_query("select * from mgstat",db)
         session.close()
-        return df[['datetime','Glorefs']].to_json(orient='values')
+
+    @staticmethod
+    def getTextFields(id,fields):
+        data={}
+        return data
+
+    @staticmethod
+    def getFields(id):
+        session=Session()
+        ProjectManager.assertDB(id)
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        cursor = db.execute('select * from mgstat')
+        names = [description[0] for description in cursor.description]
+        return names
+
+
+    @staticmethod
+    def getData(id,fields):
+        session=Session()
+        ProjectManager.assertDB(id)
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        if fields is None:
+            df=pd.read_sql_query("select datetime,Glorefs from mgstat",db)
+            session.close()
+            return df[['datetime','Glorefs']].to_json(orient='values')
+        #else:
+
 
     @staticmethod
     def getGraphs(id):
