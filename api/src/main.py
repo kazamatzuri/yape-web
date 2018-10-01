@@ -86,7 +86,7 @@ def getData(id):
         req_data = request.get_json()
         return pm.getData(id,req_data)
     else:
-        return pm.getData(id)
+        return pm.getData(id,None)
 
 @app.route('/pbutton/<id>/<url>')
 def getImage(id,url):

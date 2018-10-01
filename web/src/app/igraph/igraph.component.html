@@ -1,1 +1,12 @@
+<section class="style-section">
+      <label class="style-margin">Color:</label>
+      <mat-radio-group [(ngModel)]="graphstyle" (change)="updateGraphStyle()">
+        <mat-radio-button class="example-margin" value="lines">
+          Lines
+        </mat-radio-button>
+        <mat-radio-button class="example-margin" value="dots">
+          Dots
+        </mat-radio-button>
+      </mat-radio-group>
+    </section>
 <div id="graphdiv"></div>

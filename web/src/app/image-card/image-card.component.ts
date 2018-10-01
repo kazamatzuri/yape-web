@@ -10,6 +10,8 @@ import { ActivatedRoute } from "@angular/router";
 export class ImageCardComponent implements OnInit {
   @Input() imgurl: string;
   apipath: string;
+
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {

@@ -13,10 +13,13 @@ import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
 export class IgraphComponent implements OnInit {
   pbutton;
   rawdata;
+  public graphstyle: string;
+
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
 
   ngOnInit() {
+    this.graphstyle = "lines";
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this.pbutton = this.pbservice.getPbutton(id).subscribe(res => {
       this.pbutton = res;
@@ -30,6 +33,24 @@ export class IgraphComponent implements OnInit {
     },
       console.error
     );
+  }
+
+  updateGraphStyle() {
+    var update = {};
+    if (this.graphstyle == "lines") {
+      update = {
+        'mode': 'lines',
+        opacity: 1.0,
+        'marker.symbol': 'line'
+      };
+    } else {
+      update = {
+        'mode': 'markers',
+        'marker.symbol': 'circle',
+      }
+    }
+    var graphDiv = document.getElementById('graphdiv');
+    Plotly.restyle(graphDiv, update, 0);
   }
 
   drawGraph() {
@@ -50,12 +71,20 @@ export class IgraphComponent implements OnInit {
       mode: "markers",
       marker: {
         symbol: "circle",
-        size: 1,
-        opacity: 100
+        size: 1
       },
       x: x,
       y: y
     }];
+
+    if (this.graphstyle == "lines") {
+      data[0].marker.symbol = "";
+      data[0].mode = "lines";
+    } else {
+      data[0].marker.symbol = "circle";
+    }
+
+
     var layout = {
       xaxis: {
         type: 'date',
