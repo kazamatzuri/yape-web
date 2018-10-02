@@ -1,14 +1,14 @@
 <mat-drawer-container>
-  <mat-drawer #snav [mode]="'side'">
+  <!--<mat-drawer #snav [mode]="'side'">
       <button mat-stroked-button (click)="updateFields()">Apply</button>
       <mat-form-field>
         <input matInput placeholder="search: e.g. wdphase" [(ngModel)]="searchText">
       </mat-form-field>
-      <mat-selection-list #list [(ngModel)]="selectedFields" (ngModelChange)="onNgModelChange($event)">
-        <mat-list-option *ngFor="let item of fields" [value]="item">{{item}}</mat-list-option>
-      </mat-selection-list>
+      <mat-select #list [(ngModel)]="selectedFields" multiple (ngModelChange)="onNgModelChange($event)">
+        <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option>
+      </mat-select>
 
-  </mat-drawer>
+  </mat-drawer>-->
 
   <mat-drawer-content>
     <section class="style-section" fxLayoutGap="20px">
@@ -21,8 +21,11 @@
           Dots
         </mat-radio-button>
       </mat-radio-group>
-
-      <button mat-stroked-button (click)="snav.toggle()">Select fields</button>
+      <mat-form-field>
+      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" multiple (ngModelChange)="onNgModelChange($event)">
+        <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option>
+      </mat-select></mat-form-field>
+      <!--<button mat-stroked-button (click)="snav.toggle()">Select fields</button>-->
     </section>
     <div id="graphdiv"></div>
   </mat-drawer-content>
