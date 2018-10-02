@@ -13,15 +13,18 @@ import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
 export class IgraphComponent implements OnInit {
   pbutton;
   rawdata;
-  private fields: string[];
+  public searchText: string;
+  selectedFields: string[] = ['Glorefs'];
+  fields: string[];
   public graphstyle: string;
-
+  private myId: number;
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
 
   ngOnInit() {
     this.graphstyle = "lines";
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
+    this.myId = id;
     this.pbutton = this.pbservice.getPbutton(id).subscribe(res => {
       this.pbutton = res;
     },
@@ -37,10 +40,26 @@ export class IgraphComponent implements OnInit {
     this.pbservice.getFields(id).subscribe((res: string[]) => {
       this.fields = res;
     }, console.error);
+
+    console.log(this.selectedFields);
   }
 
-  selectFields() {
+  updateFields() {
+    console.log("requesting " + this.selectedFields);
+    //if ('datetime' not in this.selectedFields) {
+    //todo: make sure datetime is in there
+    //}
+    this.pbservice.getData(this.myId).subscribe((res: Object) => {
+      this.rawdata = res;
+      //console.log(res);
+      this.drawGraph();
+    });
 
+  }
+
+  onNgModelChange(event) {
+    console.log('on ng model change', event);
+    console.log(this.selectedFields);
   }
 
   updateGraphStyle() {
@@ -71,6 +90,7 @@ export class IgraphComponent implements OnInit {
     for (var row of this.rawdata) {
       x.push(Date.parse(row[0].replace(/\//g, '-')));
       y.push(row[1]);
+      //TODO: adopt for multiple y axis
     }
     //see https://plot.ly/python/reference/#scattergl-mode
     //for doc

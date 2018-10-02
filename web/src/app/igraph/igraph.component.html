@@ -1,12 +1,13 @@
 <mat-drawer-container>
   <mat-drawer #snav [mode]="'side'">
-    <mat-nav-list>
-      <mat-selection-list #selectedfields>
-        <mat-list-option *ngFor="let item of fields">
-          {{item}}
-        </mat-list-option>
+      <button mat-stroked-button (click)="updateFields()">Apply</button>
+      <mat-form-field>
+        <input matInput placeholder="search: e.g. wdphase" [(ngModel)]="searchText">
+      </mat-form-field>
+      <mat-selection-list #list [(ngModel)]="selectedFields" (ngModelChange)="onNgModelChange($event)">
+        <mat-list-option *ngFor="let item of fields" [value]="item">{{item}}</mat-list-option>
       </mat-selection-list>
-    </mat-nav-list>
+
   </mat-drawer>
 
   <mat-drawer-content>
