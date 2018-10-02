@@ -39,6 +39,10 @@ export class IgraphComponent implements OnInit {
     }, console.error);
   }
 
+  selectFields() {
+
+  }
+
   updateGraphStyle() {
     var update = {};
     if (this.graphstyle == "lines") {

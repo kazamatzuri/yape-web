@@ -1,12 +1,28 @@
-<section class="style-section">
+<mat-drawer-container>
+  <mat-drawer #snav [mode]="'side'">
+    <mat-nav-list>
+      <mat-selection-list #selectedfields>
+        <mat-list-option *ngFor="let item of fields">
+          {{item}}
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <mat-drawer-content>
+    <section class="style-section" fxLayoutGap="20px">
       <label class="style-margin">Color:</label>
       <mat-radio-group [(ngModel)]="graphstyle" (change)="updateGraphStyle()">
-        <mat-radio-button class="example-margin" value="lines">
+        <mat-radio-button value="lines">
           Lines
         </mat-radio-button>
-        <mat-radio-button class="example-margin" value="dots">
+        <mat-radio-button value="dots">
           Dots
         </mat-radio-button>
       </mat-radio-group>
+
+      <button mat-stroked-button (click)="snav.toggle()">Select fields</button>
     </section>
-<div id="graphdiv"></div>
+    <div id="graphdiv"></div>
+  </mat-drawer-content>
+</mat-drawer-container>
