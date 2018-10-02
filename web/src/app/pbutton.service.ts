@@ -36,13 +36,21 @@ export class PbuttonService {
   }
 
   getData(id): Observable<any> {
-    console.log("getting data " + id);
     var url = `${API_URL}/pbutton/` + id + '/data';
     console.log(url);
     return this.http
       .get(url)
       .pipe(catchError(PbuttonService._handleError));
   }
+
+  getFields(id): Observable<any> {
+    var url = `${API_URL}/pbutton/` + id + '/fields';
+    console.log(url);
+    return this.http
+      .get(url)
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
 
   getPbutton(id): Observable<any> {
     console.log("getting pb " + id);

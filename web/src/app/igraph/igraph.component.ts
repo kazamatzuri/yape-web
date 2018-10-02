@@ -13,6 +13,7 @@ import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
 export class IgraphComponent implements OnInit {
   pbutton;
   rawdata;
+  private fields: string[];
   public graphstyle: string;
 
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
@@ -33,6 +34,9 @@ export class IgraphComponent implements OnInit {
     },
       console.error
     );
+    this.pbservice.getFields(id).subscribe((res: string[]) => {
+      this.fields = res;
+    }, console.error);
   }
 
   updateGraphStyle() {
