@@ -85,11 +85,14 @@ def getFields(id):
     pm=ProjectManager()
     return jsonify(pm.getFields(id))
 
-@app.route('/pbutton/<id>/data',methods=['GET','POST'])
+@app.route('/pbutton/<id>/data',methods=["GET","POST"])
 def getData(id):
     pm=ProjectManager()
     if request.method=='POST':
-        req_data = request.get_json()
+        #print(request.get_json())
+        data = request.data
+        req_data = json.loads(data)
+        print(req_data)
         return pm.getData(id,req_data)
     else:
         return pm.getData(id,None)
