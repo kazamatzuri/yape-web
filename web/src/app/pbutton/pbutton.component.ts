@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PButton } from '../pbutton';
 import { ActivatedRoute, Router } from "@angular/router";
 import { PbuttonService } from "../pbutton.service";
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pbutton',

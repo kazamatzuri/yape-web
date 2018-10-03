@@ -1,3 +1,16 @@
 
-<p>PButtons file: {{mypb.filename}}<p>
-<p>Database: {{mypb.database}}</p>
+
+<mat-card >
+  <mat-card-header>
+    <mat-card-title>General info</mat-card-title>
+    <!--<mat-card-subtitle>subtitle</mat-card-subtitle>-->
+  </mat-card-header>
+  <mat-card-content>
+    <p>PButtons file: {{mypb.filename}}<mat-icon>open_in_browser</mat-icon><p>
+    <p>Database: {{mypb.database}}<mat-icon>save_alt</mat-icon></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button md-button>LIKE</button>
+    <button md-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>
