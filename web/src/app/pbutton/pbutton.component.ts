@@ -41,15 +41,16 @@ export class PbuttonComponent implements OnInit {
 
   }
   getText(name) {
-    console.log("getText called for " + name);
+    //console.log("getText called for " + name);
     var text = [];
     var obj = this.textfields[name];
     //console.log(obj);
     for (var line in obj) {
       //console.log(obj[line][0]);
       text.push(obj[line][0]);
+      //console.log(obj[line][0]);
     }
-    return text;
+    return text.join('');
   }
   generateGraphs() {
     console.log("generate " + this.pbutton);

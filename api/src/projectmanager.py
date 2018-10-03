@@ -37,11 +37,15 @@ class ProjectManager():
     @staticmethod
     def check_data(db,name):
         cur = db.cursor()
-        cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", [name])
-        if len(cur.fetchall()) == 0:
-            #logging.warning("no data for:"+name)
-            return False
-        return True
+        data=True
+        try:
+            cur.execute("SELECT * FROM "+name+" LIMIT 2")
+            if (len(cur.fetchall())<2):
+               data=False
+        except:
+            data=False
+            pass
+        return data
 
     @staticmethod
     def generateGraphs(id):

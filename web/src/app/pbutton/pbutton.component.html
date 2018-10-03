@@ -20,15 +20,15 @@
   </mat-tab>
   <mat-tab label="Text pieces">
     <ng-template matTabContent>
-      <mat-tab-group *ngIf="textfieldnames">
-        <mat-tab  *ngFor="let cgroup of textfieldnames" label="{{cgroup}}">
-      <mat-card>
-        <mat-card-content>
-          {{getText(cgroup)}}
-        </mat-card-content>
-      </mat-card>
-    </mat-tab>
-    </mat-tab-group>
+      <mat-tab-group *ngIf="textfieldnames.length>0">
+        <mat-tab *ngFor="let cgroup of textfieldnames" label="{{cgroup}}">
+          <mat-card>
+            <mat-card-content>
+              <pre class="txtdisplay">{{getText(cgroup)}}</pre>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
     </ng-template>
   </mat-tab>
 </mat-tab-group>
