@@ -2,12 +2,19 @@ from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton,PButtonSchema
 from os import walk
+import os
 from os.path import join
 from datetime import datetime
 from flask import send_from_directory
 import numpy as np
 import pandas as pd
 import sqlite3
+import yape
+import logging
+import traceback
+#note: getting an error: ImportError: Python is not installed as a framework. The Mac OS X backend...
+# see to fix it:
+#https://stackoverflow.com/questions/49367013/pipenv-install-matplotlib
 
 from subprocess import call
 UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
@@ -68,7 +75,19 @@ class ProjectManager():
         pb.database=filedb
         bdir=join(UPLOAD_FOLDER,dir)
         f=join(bdir,pb.filename)
-        call(["yape","-q","--filedb",filedb,f])
+        try:
+            os.remove(filedb)
+        except OSError:
+            pass
+        #call(["yape","-q","--filedb",filedb,f])
+        params=['--filedb',filedb,f]
+        #logging.debug(params)
+
+        try:
+            yape.main.yape2(params)
+        except:
+            logging.debug("error while parsing:"+f)
+            logging.debug(traceback.format_exc())
         session.commit()
         session.close()
 
@@ -110,6 +129,7 @@ class ProjectManager():
         if fields is None:
             df=pd.read_sql_query("select datetime,Glorefs from mgstat",db)
             session.close()
+
             return df[['datetime','Glorefs']].to_json(orient='values')
         #else:
 
@@ -200,6 +220,8 @@ class ProjectManager():
         session=Session()
         session.add(pb)
         session.commit()
+        ProjectManager.createDB(pb.id)
+        session.close()
         print("saved pid:"+projectid+" fn:"+filename)
 
     @staticmethod
