@@ -1,6 +1,4 @@
-<h3 matSubheader>{{pbutton.filename}} last generated: {{pbutton.ran_last}}</h3>
-
-<mat-tab-group>
+<mat-tab-group *ngIf="pbutton">
   <mat-tab label="Info">
     <ng-template matTabContent>
       <pboverview [mypb]="pbutton"></pboverview>
@@ -22,20 +20,15 @@
   </mat-tab>
   <mat-tab label="Text pieces">
     <ng-template matTabContent>
-      <mat-tab-group>
-        <mat-tab label="cpf">
-
-        </mat-tab>
-        <mat-tab label="cstat">
-
-        </mat-tab>
-        <mat-tab label="cpf">
-
-        </mat-tab>
-        <mat-tab label="cpf">
-
-        </mat-tab>
-      </mat-tab-group>
+      <mat-tab-group *ngIf="textfieldnames">
+        <mat-tab  *ngFor="let cgroup of textfieldnames" label="{{cgroup}}">
+      <mat-card>
+        <mat-card-content>
+          {{getText(cgroup)}}
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+    </mat-tab-group>
     </ng-template>
   </mat-tab>
 </mat-tab-group>

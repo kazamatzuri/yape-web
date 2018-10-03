@@ -78,7 +78,7 @@ def updateGraphs(id):
 @app.route('/pbutton/<id>/textfields')
 def getTextFields(id):
     pm=ProjectManager()
-    return pm.getTextFields(id)
+    return jsonify(pm.getTextFields(id))
 
 @app.route('/pbutton/<id>/fields')
 def getFields(id):

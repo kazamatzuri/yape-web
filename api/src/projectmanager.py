@@ -35,6 +35,15 @@ class ProjectManager():
         return getattr(self.instance, name)
 
     @staticmethod
+    def check_data(db,name):
+        cur = db.cursor()
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table' AND name=?", [name])
+        if len(cur.fetchall()) == 0:
+            #logging.warning("no data for:"+name)
+            return False
+        return True
+
+    @staticmethod
     def generateGraphs(id):
         session=Session()
         pb=session.query(PButton).get(id)
@@ -105,8 +114,22 @@ class ProjectManager():
         return {}
 
     @staticmethod
-    def getTextFields(id,fields):
+    def getTextFields(id):
+        session=Session()
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        cur = db.cursor()
+        list=['license', 'cpffile', 'ss1', 'ss2', 'cstatc11', 'cstatc12', 'cstatc13', 'cstatc14',
+              'cstatD1', 'cstatD2', 'cstatD3', 'cstatD4', 'cstatD5', 'cstatD6', 'cstatD7', 'cstatD8',
+              'windowsinfo','linuxinfo', 'tasklist']
         data={}
+        for field in list:
+            if ProjectManager.check_data(db,field):
+                cur.execute("select * from "+field)
+                data[field]=cur.fetchall()
+        cur.close()
         return data
 
     @staticmethod

@@ -11,6 +11,8 @@ import { PbuttonService } from "../pbutton.service";
 export class PbuttonComponent implements OnInit {
 
   pbutton: PButton;
+  textfields;
+  textfieldnames = [];
   graphsub;
   currentgraphs: string[];
 
@@ -29,11 +31,26 @@ export class PbuttonComponent implements OnInit {
       console.log(this.currentgraphs.length);
     }, console.error
     );
+    this.pbservice.getTextFields(id).subscribe(res => {
+      this.textfields = res;
+      this.textfieldnames = Object.keys(this.textfields);
+      console.log(res);
+    }, console.error);
 
 
 
   }
-
+  getText(name) {
+    console.log("getText called for " + name);
+    var text = [];
+    var obj = this.textfields[name];
+    //console.log(obj);
+    for (var line in obj) {
+      //console.log(obj[line][0]);
+      text.push(obj[line][0]);
+    }
+    return text;
+  }
   generateGraphs() {
     console.log("generate " + this.pbutton);
     this.pbservice.generateGraphs(this.pbutton._id);
