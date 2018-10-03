@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class PbuttonComponent implements OnInit {
 
-  pbutton;
+  pbutton: PButton;
   graphsub;
   currentgraphs: string[];
 
@@ -19,7 +19,7 @@ export class PbuttonComponent implements OnInit {
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
-    this.pbutton = this.pbservice.getPbutton(id).subscribe(res => {
+    this.pbservice.getPbutton(id).subscribe(res => {
       this.pbutton = res;
     },
       console.error
@@ -37,7 +37,7 @@ export class PbuttonComponent implements OnInit {
 
   generateGraphs() {
     console.log("generate " + this.pbutton);
-    this.pbservice.generateGraphs(this.pbutton.id);
+    this.pbservice.generateGraphs(this.pbutton._id);
   }
 
 

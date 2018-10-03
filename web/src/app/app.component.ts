@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as Auth0 from 'auth0-web';
+//import * as Auth0 from 'auth0-web';
 
 @Component({
   selector: 'app-root',

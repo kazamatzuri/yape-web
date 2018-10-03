@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 })
 export class ProjectComponent implements OnInit {
 
-  project;
+  project: Project;
   pbuttonslistSubs: Subscription;
   pbuttonslist: PButton[];
 
@@ -22,7 +22,7 @@ export class ProjectComponent implements OnInit {
 
   ngOnInit() {
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
-    this.project = this.projects.getProject(id).subscribe(res => {
+    this.projects.getProject(id).subscribe(res => {
       this.project = res;
     },
       console.error

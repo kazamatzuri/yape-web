@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ProjectService } from "../project.service";
 import { Router } from "@angular/router";
 
