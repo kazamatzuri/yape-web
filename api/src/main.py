@@ -93,9 +93,9 @@ def getData(id):
         data = request.data
         req_data = json.loads(data)
         print(req_data)
-        return pm.getData(id,req_data)
+        return jsonify(pm.getData(id,req_data))
     else:
-        return pm.getData(id,None)
+        return jsonify(pm.getData(id,None))
 
 @app.route('/pbutton/<id>/<url>')
 def getImage(id,url):

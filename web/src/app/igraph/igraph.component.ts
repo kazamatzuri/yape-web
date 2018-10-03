@@ -87,6 +87,7 @@ export class IgraphComponent implements OnInit {
     var TESTER = document.getElementById('graphdiv');
     var x = [];
     var y = [];
+
     for (var row of this.rawdata) {
       x.push(Date.parse(row[0].replace(/\//g, '-')));
       y.push(row[1]);

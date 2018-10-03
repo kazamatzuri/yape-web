@@ -22,7 +22,7 @@
         </mat-radio-button>
       </mat-radio-group>
       <mat-form-field>
-      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" multiple (ngModelChange)="onNgModelChange($event)">
+      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" multiple (ngModelChange)="updateFields()">
         <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option>
       </mat-select></mat-form-field>
       <!--<button mat-stroked-button (click)="snav.toggle()">Select fields</button>-->

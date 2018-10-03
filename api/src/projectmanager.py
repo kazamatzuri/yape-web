@@ -158,19 +158,18 @@ class ProjectManager():
         session.close()
         db=sqlite3.connect(filedb)
         print(fields)
-        if fields is None:
-            df=pd.read_sql_query("select datetime,Glorefs from mgstat",db)
-            session.close()
-            return df.to_json(orient='values')
-        else:
+        query="select datetime,Glorefs from mgstat"
+        if fields is not None:
             query="select datetime"
             for i in fields:
                 query+=","+i
             query+=" from mgstat"
-            print(query)
-            df=pd.read_sql_query(query,db)
-            session.close()
-            return df.to_json(orient='values')
+        df=pd.read_sql_query(query,db)
+        session.close()
+        d={}
+        d['x']=df.datetime[:2].to_json(orient='values')
+        d['y']=df[:2].drop(['datetime'], axis=1).to_json(orient='values')
+        return d
 
     @staticmethod
     def getGraphs(id):
