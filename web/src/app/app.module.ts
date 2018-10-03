@@ -32,6 +32,7 @@ import { ImageDeckComponent } from './image-deck/image-deck.component';
 import { IgraphComponent } from './igraph/igraph.component';
 import { PlotlyModule } from 'angular-plotly.js';
 import { MatRadioModule } from '@angular/material/radio';
+import { PboverviewComponent } from './pboverview/pboverview.component';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -61,6 +62,7 @@ const appRoutes: Routes = [
     ImageDeckComponent,
     FilterPipe,
     IgraphComponent,
+    PboverviewComponent,
 
   ],
   imports: [

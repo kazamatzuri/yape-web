@@ -1,30 +1,41 @@
 <h3 matSubheader>{{pbutton.filename}} last generated: {{pbutton.ran_last}}</h3>
 
 <mat-tab-group>
+  <mat-tab label="Info">
+    <ng-template matTabContent>
+      <pboverview ></pboverview>
+    </ng-template>
+  </mat-tab>
   <mat-tab label="Interactive">
-    <igraph></igraph>
+    <ng-template matTabContent>
+      <igraph></igraph>
+    </ng-template>
   </mat-tab>
   <mat-tab label="Static Graphs">
-    <mat-form-field>
-      <input matInput placeholder="search: e.g. wdphase" [(ngModel)]="searchText">
-    </mat-form-field>
-    <button class="pull-right" mat-stroked-button (click)="generateGraphs()">Regenerate static graphs</button>
-    <app-image-deck [items]="currentgraphs| filter : searchText"></app-image-deck>
+    <ng-template matTabContent>
+      <mat-form-field>
+        <input matInput placeholder="search: e.g. wdphase" [(ngModel)]="searchText">
+      </mat-form-field>
+      <button class="pull-right" mat-stroked-button (click)="generateGraphs()">Regenerate static graphs</button>
+      <app-image-deck [items]="currentgraphs| filter : searchText"></app-image-deck>
+    </ng-template>
   </mat-tab>
   <mat-tab label="Text pieces">
-  <mat-tab-group>
-    <mat-tab label="cpf">
+    <ng-template matTabContent>
+      <mat-tab-group>
+        <mat-tab label="cpf">
 
-    </mat-tab>
-    <mat-tab label="cstat">
+        </mat-tab>
+        <mat-tab label="cstat">
 
-    </mat-tab>
-    <mat-tab label="cpf">
+        </mat-tab>
+        <mat-tab label="cpf">
 
-    </mat-tab>
-    <mat-tab label="cpf">
+        </mat-tab>
+        <mat-tab label="cpf">
 
-    </mat-tab>
-  </mat-tab-group>
+        </mat-tab>
+      </mat-tab-group>
+    </ng-template>
   </mat-tab>
 </mat-tab-group>
