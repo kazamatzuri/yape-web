@@ -3,6 +3,7 @@ export class PButton {
     public project: number,
     public description: string,
     public filename: string,
+    public database: string,
     public wrc?: number,
     public _id?: number,
     public graphdir?: string,

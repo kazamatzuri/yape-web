@@ -320,7 +320,7 @@
         },
         "yape": {
             "git": "https://github.com/murrayo/yape.git",
-            "ref": "6f80aaf4e2ec56375d39aacb31b083f4dc51898f"
+            "ref": "74caae284d880028f15cbaad9a1a28e36957f328"
         }
     },
     "develop": {}

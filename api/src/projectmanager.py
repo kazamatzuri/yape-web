@@ -64,6 +64,7 @@ class ProjectManager():
 
     @staticmethod
     def createDB(id):
+        print("createdb "+id)
         session=Session()
         pb=session.query(PButton).get(id)
         dir=pb.graphdir
@@ -75,6 +76,7 @@ class ProjectManager():
         pb.database=filedb
         bdir=join(UPLOAD_FOLDER,dir)
         f=join(bdir,pb.filename)
+        print("before try")
         try:
             os.remove(filedb)
         except OSError:
@@ -82,12 +84,13 @@ class ProjectManager():
         #call(["yape","-q","--filedb",filedb,f])
         params=['--filedb',filedb,f]
         #logging.debug(params)
-
+        args = yape.main.parse_args(params)
         try:
-            yape.main.yape2(params)
+            yape.main.yape2(args)
         except:
             logging.debug("error while parsing:"+f)
             logging.debug(traceback.format_exc())
+            print(traceback.format_exc())
         session.commit()
         session.close()
 
@@ -99,6 +102,7 @@ class ProjectManager():
         if filedb is None or filedb=="":
             ProjectManager.createDB(id)
         session.close()
+        return {}
 
     @staticmethod
     def getTextFields(id,fields):

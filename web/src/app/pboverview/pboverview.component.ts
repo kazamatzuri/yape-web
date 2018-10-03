@@ -9,8 +9,9 @@ import { PButton } from '../pbutton';
 export class PboverviewComponent implements OnInit {
   //@Input()
   //@Input('mypb') mypb: PButton;
-  @Input()
-  mypb: string;
+
+  @Input() mypb: PButton;
+
   constructor() { }
 
   ngOnInit() {
