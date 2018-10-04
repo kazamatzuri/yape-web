@@ -25,7 +25,7 @@
       <mat-select class="selectClass" #list [(ngModel)]="selectedFields" multiple (ngModelChange)="updateFields()">
         <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option>
       </mat-select></mat-form-field>
-      <!--<button mat-stroked-button (click)="snav.toggle()">Select fields</button>-->
+      <button mat-stroked-button (click)="shareLoc()">Share location</button>
     </section>
     <div id="graphdiv"></div>
   </mat-drawer-content>

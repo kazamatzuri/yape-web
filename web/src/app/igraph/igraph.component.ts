@@ -83,7 +83,12 @@ export class IgraphComponent implements OnInit {
     var graphDiv = document.getElementById('graphdiv');
     Plotly.restyle(graphDiv, update);
   }
-
+  shareLoc() {
+    var graphdiv = document.getElementById('graphdiv');
+    var xRange = graphdiv.layout.xaxis.range;
+    //var yRange = graphdiv.layout.yaxis.range;
+    console.log(xRange);
+  }
   drawGraph() {
     Plotly.setPlotConfig({
       modeBarButtonsToRemove: ['sendDataToCloud']
