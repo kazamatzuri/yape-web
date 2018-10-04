@@ -148,6 +148,22 @@ class ProjectManager():
         names = [description[0] for description in cursor.description]
         return names
 
+    @staticmethod
+    def getDescription(id):
+        session=Session()
+        ProjectManager.assertDB(id)
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        list=['mgstat','perfmon','iostat','vmstat','sard','sar-u']
+        data={}
+        for i in list:
+            if ProjectManager.check_data(db,i):
+                cursor = db.execute('select * from '+i)
+                names = [description[0] for description in cursor.description]
+                data[i]=names
+        return data
 
     @staticmethod
     def getData(id,fields):
@@ -170,7 +186,30 @@ class ProjectManager():
         d={}
         d['x']=df.datetime.to_json(orient='values')
         d['y']=df.drop(['datetime'], axis=1).to_json(orient='values')
-        print(d)
+        return d
+
+    @staticmethod
+    def getSpecificData(set,id,fields):
+        session=Session()
+        ProjectManager.assertDB(id)
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        #TODO: sanitize input
+        query="select * from "+set
+        if fields is not None:
+            query="select datetime"
+            for i in fields:
+                query+=",\""+i+"\""
+            query+=" from "+set
+        print(query)
+        df=pd.read_sql_query(query,db)
+        print(query)
+        session.close()
+        d={}
+        d['x']=df[:5].datetime.to_json(orient='values')
+        d['y']=df[:5].drop(['datetime'], axis=1).to_json(orient='values')
         return d
 
     @staticmethod

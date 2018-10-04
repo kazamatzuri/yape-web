@@ -85,6 +85,12 @@ def getFields(id):
     pm=ProjectManager()
     return jsonify(pm.getFields(id))
 
+@app.route('/pbutton/<id>/describe')
+def getDescription(id):
+    pm=ProjectManager()
+    return jsonify(pm.getDescription(id))
+
+
 @app.route('/pbutton/<id>/data',methods=["GET","POST"])
 def getData(id):
     pm=ProjectManager()
@@ -96,6 +102,22 @@ def getData(id):
         return jsonify(pm.getData(id,req_data))
     else:
         return jsonify(pm.getData(id,None))
+
+@app.route('/pbutton/<id>/data/<set>',methods=["GET","POST"])
+def getSpecificData(set,id):
+    pm=ProjectManager()
+    if request.method=='POST':
+        #print(request.get_json())
+        data = request.data
+        if (len(data)>0):
+            req_data = json.loads(data)
+        else:
+            req_data=None
+        print(req_data)
+        return jsonify(pm.getSpecificData(set,id,req_data))
+    else:
+        return jsonify(pm.getSpecificData(set,id,None))
+
 
 @app.route('/pbutton/<id>/<url>')
 def getImage(id,url):
