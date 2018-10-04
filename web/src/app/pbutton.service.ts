@@ -53,7 +53,13 @@ export class PbuttonService {
 
   getFields(id): Observable<any> {
     var url = `${API_URL}/pbutton/` + id + '/fields';
-    console.log(url);
+    return this.http
+      .get(url)
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
+  getDescription(id): Observable<any> {
+    var url = `${API_URL}/pbutton/` + id + '/describe';
     return this.http
       .get(url)
       .pipe(catchError(PbuttonService._handleError));
@@ -62,7 +68,6 @@ export class PbuttonService {
 
   getTextFields(id): Observable<any> {
     var url = `${API_URL}/pbutton/` + id + '/textfields';
-    console.log(url);
     return this.http
       .get(url)
       .pipe(catchError(PbuttonService._handleError));

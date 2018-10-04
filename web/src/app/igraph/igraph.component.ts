@@ -16,6 +16,7 @@ export class IgraphComponent implements OnInit {
   public searchText: string;
   selectedFields: string[] = ['Glorefs'];
   fields;
+  description: Object;
   public graphstyle: string;
   private myId: number;
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
@@ -30,7 +31,11 @@ export class IgraphComponent implements OnInit {
     },
       console.error
     );
-    //.map((response:Response) => response.json())
+    this.pbservice.getDescription(id).subscribe(res => {
+      this.description = res;
+      console.log(this.description);
+    }, console.error);
+
     this.pbservice.getData(id).subscribe((res: Object) => {
       this.rawdata = res;
       //console.log(res);
