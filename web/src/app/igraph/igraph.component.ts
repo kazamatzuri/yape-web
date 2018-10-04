@@ -15,7 +15,7 @@ export class IgraphComponent implements OnInit {
   rawdata;
   public searchText: string;
   selectedFields: string[] = ['Glorefs'];
-  fields: string[];
+  fields;
   public graphstyle: string;
   private myId: number;
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
@@ -25,19 +25,20 @@ export class IgraphComponent implements OnInit {
     this.graphstyle = "lines";
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this.myId = id;
-    this.pbutton = this.pbservice.getPbutton(id).subscribe(res => {
+    this.pbservice.getPbutton(id).subscribe(res => {
       this.pbutton = res;
     },
       console.error
     );
-    this.rawdata = this.pbservice.getData(id).subscribe((res: Object) => {
+    //.map((response:Response) => response.json())
+    this.pbservice.getData(id).subscribe((res: Object) => {
       this.rawdata = res;
       //console.log(res);
       this.drawGraph();
     },
       console.error
     );
-    this.pbservice.getFields(id).subscribe((res: string[]) => {
+    this.pbservice.getFields(id).subscribe((res: Object) => {
       this.fields = res;
     }, console.error);
 
@@ -49,7 +50,7 @@ export class IgraphComponent implements OnInit {
     //if ('datetime' not in this.selectedFields) {
     //todo: make sure datetime is in there
     //}
-    this.pbservice.getData(this.myId).subscribe((res: Object) => {
+    this.pbservice.getData(this.myId, this.selectedFields).subscribe((res: Object) => {
       this.rawdata = res;
       //console.log(res);
       this.drawGraph();
@@ -65,19 +66,24 @@ export class IgraphComponent implements OnInit {
   updateGraphStyle() {
     var update = {};
     if (this.graphstyle == "lines") {
+
       update = {
         'mode': 'lines',
         opacity: 1.0,
         'marker.symbol': 'line'
       };
-    } else {
+    }
+    else {
+
       update = {
         'mode': 'markers',
         'marker.symbol': 'circle',
-      }
+        'marker.size': '1.1'
+      };
     }
+
     var graphDiv = document.getElementById('graphdiv');
-    Plotly.restyle(graphDiv, update, 0);
+    Plotly.restyle(graphDiv, update);
   }
 
   drawGraph() {
@@ -85,32 +91,36 @@ export class IgraphComponent implements OnInit {
       modeBarButtonsToRemove: ['sendDataToCloud']
     });
     var TESTER = document.getElementById('graphdiv');
-    var x = [];
-    var y = [];
-
-    for (var row of this.rawdata) {
-      x.push(Date.parse(row[0].replace(/\//g, '-')));
-      y.push(row[1]);
-      //TODO: adopt for multiple y axis
+    var traces = [];
+    var rawx = JSON.parse(this.rawdata.x)
+    var rawy = JSON.parse(this.rawdata.y)
+    for (var c = 0; c < rawx.length; c++) {
+      for (var d = 0; d < rawy[0].length; d++) {
+        if (traces[d] == null) {
+          traces[d] = {};
+          traces[d].marker = {};
+          traces[d].name = this.selectedFields[d];
+          traces[d].yaxis = this.selectedFields[d];
+          traces[d].x = [];
+          traces[d].y = [];
+        }
+        traces[d].x.push(Date.parse(rawx[c].replace(/\//g, '-')))
+        traces[d].y.push(rawy[c][d]);
+      }
     }
+    console.log(traces);
+
     //see https://plot.ly/python/reference/#scattergl-mode
     //for doc
-    var data = [{
-      type: "scattergl",
-      mode: "markers",
-      marker: {
-        symbol: "circle",
-        size: 1
-      },
-      x: x,
-      y: y
-    }];
-
     if (this.graphstyle == "lines") {
-      data[0].marker.symbol = "";
-      data[0].mode = "lines";
+      for (var i = 0; i < traces.length; i++) {
+        traces[i].marker.symbol = "";
+        traces[i].mode = "lines";
+      }
     } else {
-      data[0].marker.symbol = "circle";
+      for (var i = 0; i < traces.length; i++) {
+        traces[i].marker.symbol = "circle";
+      }
     }
 
 
@@ -119,11 +129,10 @@ export class IgraphComponent implements OnInit {
         type: 'date',
         nticks: 25
       },
-      height: 600,
-      title: 'glorefs test'
+      height: 600
     };
     //console.log(data);
-    Plotly.plot(TESTER, data, layout);
+    Plotly.newPlot(TESTER, traces, layout);
 
   }
 

@@ -35,13 +35,21 @@ export class PbuttonService {
       .pipe(catchError(PbuttonService._handleError));
   }
 
-  getData(id): Observable<any> {
+  getData(id, fields = null): Observable<any> {
     var url = `${API_URL}/pbutton/` + id + '/data';
     console.log(url);
-    return this.http
-      .get(url)
-      .pipe(catchError(PbuttonService._handleError));
+    console.log(fields);
+    if (fields == null) {
+      return this.http
+        .get(url)
+        .pipe(catchError(PbuttonService._handleError));
+    } else {
+      return this.http
+        .post(url, JSON.stringify(fields))
+        .pipe(catchError(PbuttonService._handleError));
+    }
   }
+
 
   getFields(id): Observable<any> {
     var url = `${API_URL}/pbutton/` + id + '/fields';

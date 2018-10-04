@@ -165,10 +165,12 @@ class ProjectManager():
                 query+=","+i
             query+=" from mgstat"
         df=pd.read_sql_query(query,db)
+        print(query)
         session.close()
         d={}
-        d['x']=df.datetime[:2].to_json(orient='values')
-        d['y']=df[:2].drop(['datetime'], axis=1).to_json(orient='values')
+        d['x']=df.datetime.to_json(orient='values')
+        d['y']=df.drop(['datetime'], axis=1).to_json(orient='values')
+        print(d)
         return d
 
     @staticmethod
