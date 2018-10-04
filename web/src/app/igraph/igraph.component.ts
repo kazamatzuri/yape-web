@@ -74,14 +74,12 @@ export class IgraphComponent implements OnInit {
       };
     }
     else {
-
       update = {
         'mode': 'markers',
         'marker.symbol': 'circle',
-        'marker.size': '1.1'
+        'marker.size': '1.2'
       };
     }
-
     var graphDiv = document.getElementById('graphdiv');
     Plotly.restyle(graphDiv, update);
   }
@@ -98,6 +96,7 @@ export class IgraphComponent implements OnInit {
       for (var d = 0; d < rawy[0].length; d++) {
         if (traces[d] == null) {
           traces[d] = {};
+          traces[d].type = 'scattergl';
           traces[d].marker = {};
           traces[d].name = this.selectedFields[d];
           traces[d].yaxis = this.selectedFields[d];
@@ -108,7 +107,7 @@ export class IgraphComponent implements OnInit {
         traces[d].y.push(rawy[c][d]);
       }
     }
-    console.log(traces);
+    //console.log(traces);
 
     //see https://plot.ly/python/reference/#scattergl-mode
     //for doc
@@ -120,9 +119,9 @@ export class IgraphComponent implements OnInit {
     } else {
       for (var i = 0; i < traces.length; i++) {
         traces[i].marker.symbol = "circle";
+        traces[i].marker.size = 1.2;
       }
     }
-
 
     var layout = {
       xaxis: {
