@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class ProjectComponent implements OnInit {
 
   project: Project;
-  pbuttonslistSubs: Subscription;
+
   pbuttonslist: PButton[];
 
   constructor(private projects: ProjectService, private route: ActivatedRoute, private router: Router) {
@@ -27,7 +27,7 @@ export class ProjectComponent implements OnInit {
     },
       console.error
     );
-    this.pbuttonslistSubs = this.projects.getPButtons(id).subscribe(res => {
+    this.projects.getPButtons(id).subscribe(res => {
       this.pbuttonslist = res;
     },
       console.error

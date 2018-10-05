@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PbuttonService } from "../pbutton.service";
 
 import * as Plotly from 'plotly.js/dist/plotly.js';
-import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
+//import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
 
 @Component({
   selector: 'igraph',
@@ -90,9 +90,9 @@ export class IgraphComponent implements OnInit {
   }
   shareLoc() {
     var graphdiv = document.getElementById('graphdiv');
-    var xRange = graphdiv.layout.xaxis.range;
+    //var xRange = graphdiv.layout.xaxis.range;
     //var yRange = graphdiv.layout.yaxis.range;
-    console.log(xRange);
+    //console.log(xRange);
   }
   drawGraph() {
     Plotly.setPlotConfig({

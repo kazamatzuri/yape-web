@@ -43,9 +43,12 @@ def upload_file(id):
             if files[file].filename == '':
                 logging.error("no filename supplied in upload")
                 sc={"status":"error"}
-                return Response(jsonify(sc),status=400,mimetype='application/json')
+                return jsonify(sc),400
             if file and allowed_file(files[file].filename):
                 filename = secure_filename(files[file].filename)
+                if pm.existsFile(filename):
+                    sc={"status":"error","error":"existing file"}
+                    return jsonify(sc),400
                 fn=filename.rsplit('.',1)[0].lower()
                 dir=os.path.join(app.config['UPLOAD_FOLDER'],fn)
                 if not os.path.exists(dir):

@@ -8,7 +8,7 @@ from .entity import Entity, Base
 class PButton(Entity, Base):
     __tablename__ = 'pbutton'
 
-    filename = Column(String)
+    filename = Column(String,unique=True)
     database = Column(String,nullable=True)
     graphdir = Column(String, nullable=True)
     ran_last = Column(DateTime, nullable=True)

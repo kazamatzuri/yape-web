@@ -77,7 +77,7 @@ class ProjectManager():
 
     @staticmethod
     def createDB(id):
-        print("createdb "+id)
+        #print("createdb "+id)
         session=Session()
         pb=session.query(PButton).get(id)
         dir=pb.graphdir
@@ -293,11 +293,35 @@ class ProjectManager():
 
 
     @staticmethod
+    def allPButtons():
+        session=Session()
+        pbs=session.query(PButton)
+        schema = PButtonSchema(many=True)
+        pbuttons = schema.dump(pbutton_objects)
+        session.close()
+        return pbuttons
+
+    @staticmethod
+    def existsFile(file):
+        session=Session()
+        pbs=session.query(PButton).filter(PButton.filename==file)
+        schema = PButtonSchema(many=True)
+        pbuttons = schema.dump(pbs)
+        session.close()
+        if (len(pbuttons)>0):
+            return True
+        return False
+
+    @staticmethod
     def addPButton(projectid,filename):
         pb=PButton(created_by="system",project_id=projectid,filename=filename)
         session=Session()
         session.add(pb)
-        session.commit()
+        try:
+            session.commit()
+        except:
+            return
+        print(pb.id)
         ProjectManager.createDB(pb.id)
         session.close()
         print("saved pid:"+projectid+" fn:"+filename)
