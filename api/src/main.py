@@ -11,7 +11,7 @@ import json
 from werkzeug.utils import secure_filename
 import logging
 
-UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
+UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
 ALLOWED_EXTENSIONS = set(['html'])
 
 app = Flask(__name__)
@@ -31,10 +31,10 @@ def allowed_file(filename):
 def upload_file(id):
     pm = ProjectManager()
     try:
-        project = pm.getProject(id).data
+        project = pm.getProject(id)
     except:
         sc={"status":"project not found"}
-        return Response(jsonify(sc),status=404,mimetype='application/json')
+        return jsonify(sc),404
     if request.method=='POST':
         if 'file' not in request.files:
             return "error"
@@ -64,7 +64,7 @@ def upload_file(id):
 @app.route('/pbutton/<id>')
 def get_pbutton(id):
     pm = ProjectManager()
-    return jsonify(pm.getPbutton(id).data)
+    return jsonify(pm.getPbutton(id))
 
 @app.route('/pbutton/<id>/parse')
 def parse_pbutton(id):
@@ -136,7 +136,7 @@ def getGraphs(id):
 #@requires_auth
 def get_projects():
     pm = ProjectManager()
-    return jsonify(pm.getProjects().data)
+    return jsonify(pm.getProjects())
     # fetching from the database
     #return jsonify(projects.data)
 
@@ -144,14 +144,14 @@ def get_projects():
 @app.route('/project/<id>')
 def get_project(id):
     pm = ProjectManager()
-    return jsonify(pm.getProject(id).data)
+    return jsonify(pm.getProject(id))
     # fetching from the database
     #return jsonify(projects.data)
 
 @app.route('/project/<id>/pbuttons')
 def get_project_buttons(id):
     pm = ProjectManager()
-    return jsonify(pm.getPButtons(id).data)
+    return jsonify(pm.getPButtons(id))
     # fetching from the database
     #return jsonify(projects.data)
 

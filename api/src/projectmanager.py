@@ -17,7 +17,7 @@ import traceback
 #https://stackoverflow.com/questions/49367013/pipenv-install-matplotlib
 
 from subprocess import call
-UPLOAD_FOLDER='/Users/kazamatzuri 1/work/temp/yape-data'
+UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
 
 class ProjectManager():
     class __ProjectManager:
@@ -97,6 +97,7 @@ class ProjectManager():
         #call(["yape","-q","--filedb",filedb,f])
         params=['--filedb',filedb,f]
         #logging.debug(params)
+        print(filedb)
         args = yape.main.parse_args(params)
         try:
             yape.main.yape2(args)
@@ -127,7 +128,8 @@ class ProjectManager():
         cur = db.cursor()
         list=['license', 'cpffile', 'ss1', 'ss2', 'cstatc11', 'cstatc12', 'cstatc13', 'cstatc14',
               'cstatD1', 'cstatD2', 'cstatD3', 'cstatD4', 'cstatD5', 'cstatD6', 'cstatD7', 'cstatD8',
-              'windowsinfo','linuxinfo', 'tasklist']
+              'windowsinfo','linuxinfo', 'tasklist','cpu','df-m','fdisk-l','ifconfig','ipcs','mount','pselfy1',
+              'pselfy2','pselfy3','pselfy4','sysctl-a']
         data={}
         for field in list:
             if ProjectManager.check_data(db,field):
@@ -232,12 +234,9 @@ class ProjectManager():
     def getProjects():
         session = Session()
         project_objects = session.query(Project).all()
-
         # transforming into JSON-serializable objects
-
         schema = ProjectSchema(many=True)
         projects = schema.dump(project_objects)
-
         # serializing as JSON
         session.close()
         return projects
@@ -339,6 +338,6 @@ class ProjectManager():
         session.commit()
 
         # return created exam
-        new_project = ProjectSchema().dump(project).data
+        new_project = ProjectSchema().dump(project)
         session.close()
         return new_project
