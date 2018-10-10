@@ -22,8 +22,10 @@
         </mat-radio-button>
       </mat-radio-group>
       <mat-form-field>
-      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" multiple (ngModelChange)="updateFields()">
-        <mat-option *ngFor="let item of fields" [value]="item">{{item}}</mat-option>
+      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" (ngModelChange)="updateFields($event)" placeholder="Add column">
+        <mat-optgroup *ngFor="let group of descriptionGroups" [label]="group">
+          <mat-option *ngFor="let item of description[group]" [value]="group+'.'+item">{{item}}</mat-option>
+        </mat-optgroup>
       </mat-select></mat-form-field>
       <button mat-stroked-button (click)="shareLoc()">Share location</button>
     </section>

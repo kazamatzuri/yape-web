@@ -28,6 +28,14 @@ export class PbuttonService {
     return res;
   }
 
+  getSpecificData(id, set, field) {
+    ///pbutton/<id>/data/<set>
+    var url = `${API_URL}/pbutton/` + id + '/data/' + set;
+    return this.http
+      .post(url, JSON.stringify(field))
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
   getCurrentGraphs(id) {
     var url = `${API_URL}/pbutton/` + id + '/graphs';
     return this.http

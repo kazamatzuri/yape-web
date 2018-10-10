@@ -164,6 +164,7 @@ class ProjectManager():
             if ProjectManager.check_data(db,i):
                 cursor = db.execute('select * from '+i)
                 names = [description[0] for description in cursor.description]
+                names.remove('datetime')
                 data[i]=names
         return data
 
@@ -210,8 +211,8 @@ class ProjectManager():
         print(query)
         session.close()
         d={}
-        d['x']=df[:5].datetime.to_json(orient='values')
-        d['y']=df[:5].drop(['datetime'], axis=1).to_json(orient='values')
+        d['x']=df.datetime.to_json(orient='values')
+        d['y']=df.drop(['datetime'], axis=1).to_json(orient='values')
         return d
 
     @staticmethod
