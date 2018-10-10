@@ -16,6 +16,8 @@ export class IgraphComponent implements OnInit {
   public searchText: string;
   selectedFields: string[] = ['Glorefs'];
   fields;
+  traces: Array<Object>[];
+  layout: Object;
   displayedFields: string[];
   description: Object;
   descriptionGroups: string[];
@@ -24,10 +26,18 @@ export class IgraphComponent implements OnInit {
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
   ngOnInit() {
+    this.traces = [];
     this.displayedFields = [];
-    Plotly.setPlotConfig({
-      modeBarButtonsToRemove: ['sendDataToCloud']
-    });
+    this.layout = {
+      xaxis: {
+        type: 'date',
+        nticks: 25
+      },
+      height: 600
+    };
+    //Plotly.setPlotConfig({
+    //  modeBarButtonsToRemove: ['sendDataToCloud']
+    //});
     this.graphstyle = "lines";
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this.myId = id;
@@ -60,7 +70,7 @@ export class IgraphComponent implements OnInit {
     this.pbservice.getSpecificData(this.myId, set, field).subscribe((res: Object) => {
       var data = res;
       //console.log(res);
-      this.addtoGraph(data, field);
+      this.addtoGraph(data, added);
     });
 
   }
@@ -94,46 +104,68 @@ export class IgraphComponent implements OnInit {
   }
 
   addtoGraph(data, fieldname) {
-    var TESTER = document.getElementById('graphdiv');
-    var traces = [];
+    var gd = document.getElementById('graphdiv');
+
     var rawx = JSON.parse(data.x)
     var rawy = JSON.parse(data.y)
+    //this came from a version where you could add more fields at once, i'll leave the complexity here for now,
+    // because I might be using it to restore states when coming from a bookmarked location
+    var newtrace;
+    console.log("fieldname:" + fieldname);
     for (var c = 0; c < rawx.length; c++) {
       for (var d = 0; d < rawy[0].length; d++) {
-        if (traces[d] == null) {
-          traces[d] = {};
-          traces[d].type = 'scattergl';
-          traces[d].marker = {};
-          traces[d].name = fieldname;
-          //traces[d].yaxis = 'yaxis';
-          traces[d].x = [];
-          traces[d].y = [];
+
+        if (newtrace == null) {
+          newtrace = {};
+          newtrace.type = 'scattergl';
+          newtrace.marker = {};
+          newtrace.name = fieldname;
+          if (this.displayedFields.length > 0) {
+            newtrace.yaxis = 'y' + (this.displayedFields.length + 1);
+          }
+          newtrace.x = [];
+          newtrace.y = [];
         }
-        traces[d].x.push(Date.parse(rawx[c].replace(/\//g, '-')))
-        traces[d].y.push(rawy[c][d]);
+        newtrace.x.push(Date.parse(rawx[c].replace(/\//g, '-')))
+        newtrace.y.push(rawy[c][d]);
       }
     }
+
     if (this.graphstyle == "lines") {
-      for (var i = 0; i < traces.length; i++) {
-        traces[i].marker.symbol = "";
-        traces[i].mode = "lines";
-      }
+      newtrace.marker.symbol = "";
+      newtrace.mode = "lines";
     } else {
-      for (var i = 0; i < traces.length; i++) {
-        traces[i].marker.symbol = "circle";
-        traces[i].marker.size = 1.2;
-      }
+
+      newtrace.marker.symbol = "circle";
+      newtrace.marker.size = 1.2;
+
     }
-    var layout = {
-      xaxis: {
-        type: 'date',
-        nticks: 25
-      },
-      height: 600
-    };
-    //console.log(data);
+
+
+    var yxname = 'yaxis' + (this.displayedFields.length + 1);
+    if (this.displayedFields.length >= 1) {
+      this.layout[yxname] = {
+        title: fieldname,
+        side: 'right',
+        autorange: 'true',
+        overlaying: 'y' + this.displayedFields.length,
+        datarevision: this.displayedFields.length + 1,
+      };
+    } else {
+      this.layout['yaxis'] = {
+        title: fieldname
+      };
+    }
+    console.log(this.layout);
+    console.log(this.traces);
+    this.traces.push(newtrace);
     this.displayedFields.push(fieldname);
-    Plotly.plot(TESTER, traces, layout);
+    Plotly.react(gd, this.traces, this.layout);
+    /*if (this.displayedFields.length > 1) {
+      Plotly.update(gd, traces, layout);
+    } else {
+      Plotly.plot(gd, traces, layout);
+    }*/
 
   }
 
