@@ -12,7 +12,7 @@
 
   <mat-drawer-content>
     <section class="style-section" fxLayoutGap="20px">
-      <label class="style-margin">Color:</label>
+      <!--<label class="style-margin">Color:</label>-->
       <mat-radio-group [(ngModel)]="graphstyle" (change)="updateGraphStyle()">
         <mat-radio-button value="lines">
           Lines
@@ -22,12 +22,14 @@
         </mat-radio-button>
       </mat-radio-group>
       <mat-form-field>
-      <mat-select class="selectClass" #list [(ngModel)]="selectedFields" (ngModelChange)="updateFields($event)" placeholder="Add column">
-        <mat-optgroup *ngFor="let group of descriptionGroups" [label]="group">
-          <mat-option *ngFor="let item of description[group]" [value]="group+'.'+item">{{item}}</mat-option>
-        </mat-optgroup>
-      </mat-select></mat-form-field>
-      <button mat-stroked-button (click)="shareLoc()">Share location</button>
+        <mat-select class="selectClass" #list [(ngModel)]="selectedFields" (ngModelChange)="updateFields($event)" placeholder="Add column">
+          <mat-optgroup *ngFor="let group of descriptionGroups" [label]="group">
+            <mat-option *ngFor="let item of description[group]" [value]="group+'.'+item">{{item}}</mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+      <span class="fill-space"></span>
+      <button mat-stroked-button (click)="shareLoc()">Share</button>
     </section>
     <div id="graphdiv"></div>
   </mat-drawer-content>

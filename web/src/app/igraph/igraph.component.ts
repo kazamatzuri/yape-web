@@ -16,6 +16,7 @@ export class IgraphComponent implements OnInit {
   public searchText: string;
   selectedFields: string[] = ['Glorefs'];
   fields;
+  displayedFields: string[];
   description: Object;
   descriptionGroups: string[];
   public graphstyle: string;
@@ -23,6 +24,10 @@ export class IgraphComponent implements OnInit {
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
   ngOnInit() {
+    this.displayedFields = [];
+    Plotly.setPlotConfig({
+      modeBarButtonsToRemove: ['sendDataToCloud']
+    });
     this.graphstyle = "lines";
     let id = parseInt(this.route.snapshot.paramMap.get('id'))
     this.myId = id;
@@ -39,13 +44,7 @@ export class IgraphComponent implements OnInit {
       //console.log(this.description['mgstat']);
     }, console.error);
 
-    this.pbservice.getData(id).subscribe((res: Object) => {
-      this.rawdata = res;
-      //console.log(res);
-      this.drawGraph();
-    },
-      console.error
-    );
+    this.updateFields("mgstat.Glorefs");
 
     console.log(this.selectedFields);
   }
@@ -64,12 +63,6 @@ export class IgraphComponent implements OnInit {
       this.addtoGraph(data, field);
     });
 
-  }
-
-
-  onNgModelChange(event) {
-    console.log('on ng model change', event);
-    console.log(this.selectedFields);
   }
 
   updateGraphStyle() {
@@ -139,59 +132,10 @@ export class IgraphComponent implements OnInit {
       height: 600
     };
     //console.log(data);
+    this.displayedFields.push(fieldname);
     Plotly.plot(TESTER, traces, layout);
 
   }
 
-  drawGraph() {
-    Plotly.setPlotConfig({
-      modeBarButtonsToRemove: ['sendDataToCloud']
-    });
-    var TESTER = document.getElementById('graphdiv');
-    var traces = [];
-    var rawx = JSON.parse(this.rawdata.x)
-    var rawy = JSON.parse(this.rawdata.y)
-    for (var c = 0; c < rawx.length; c++) {
-      for (var d = 0; d < rawy[0].length; d++) {
-        if (traces[d] == null) {
-          traces[d] = {};
-          traces[d].type = 'scattergl';
-          traces[d].marker = {};
-          traces[d].name = this.selectedFields[d];
-          traces[d].yaxis = this.selectedFields[d];
-          traces[d].x = [];
-          traces[d].y = [];
-        }
-        traces[d].x.push(Date.parse(rawx[c].replace(/\//g, '-')))
-        traces[d].y.push(rawy[c][d]);
-      }
-    }
-    //console.log(traces);
-
-    //see https://plot.ly/python/reference/#scattergl-mode
-    //for doc
-    if (this.graphstyle == "lines") {
-      for (var i = 0; i < traces.length; i++) {
-        traces[i].marker.symbol = "";
-        traces[i].mode = "lines";
-      }
-    } else {
-      for (var i = 0; i < traces.length; i++) {
-        traces[i].marker.symbol = "circle";
-        traces[i].marker.size = 1.2;
-      }
-    }
-
-    var layout = {
-      xaxis: {
-        type: 'date',
-        nticks: 25
-      },
-      height: 600
-    };
-    //console.log(data);
-    Plotly.plot(TESTER, traces, layout);
-
-  }
 
 }
