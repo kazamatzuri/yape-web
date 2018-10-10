@@ -31,9 +31,15 @@ export class IgraphComponent implements OnInit {
     this.layout = {
       xaxis: {
         type: 'date',
-        nticks: 25
+        nticks: 25,
+        domain: [0, 0.9],
       },
-      height: 600
+      margin: { r: 300 },
+      height: 600,
+      legend: {
+        x: 1.1,
+      },
+      showlegend: true
     };
     //Plotly.setPlotConfig({
     //  modeBarButtonsToRemove: ['sendDataToCloud']
@@ -143,17 +149,25 @@ export class IgraphComponent implements OnInit {
 
 
     var yxname = 'yaxis' + (this.displayedFields.length + 1);
+    //if we want more than 5 columns, adjust here
+    var pos = this.layout['xaxis'].domain[1] + (this.displayedFields.length * ((1 - this.layout['xaxis'].domain[1]) / 8));
+    console.log("pos:" + pos);
     if (this.displayedFields.length >= 1) {
       this.layout[yxname] = {
-        title: fieldname,
+        //title: fieldname,
         side: 'right',
         autorange: 'true',
-        overlaying: 'y' + this.displayedFields.length,
-        datarevision: this.displayedFields.length + 1,
+        overlaying: 'y',
+        //datarevision: this.displayedFields.length + 1,
+        position: pos,
+        anchor: 'free',
+        showline: 'true'
       };
     } else {
       this.layout['yaxis'] = {
-        title: fieldname
+        title: fieldname,
+        side: 'left',
+
       };
     }
     console.log(this.layout);
