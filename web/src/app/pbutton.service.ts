@@ -28,6 +28,21 @@ export class PbuttonService {
     return res;
   }
 
+  saveBookmark(data: Object) {
+    ///pbutton/<id>/data/<set>
+    var url = `${API_URL}/bookmark`;
+    return this.http
+      .post(url, JSON.stringify(data))
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
+  loadBookmark(key: string) {
+    var url = `${API_URL}/bookmark/` + key;
+    return this.http
+      .get(url)
+      .pipe(catchError(PbuttonService._handleError));
+  }
+
   getSpecificData(id, set, field) {
     ///pbutton/<id>/data/<set>
     var url = `${API_URL}/pbutton/` + id + '/data/' + set;

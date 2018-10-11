@@ -1,6 +1,7 @@
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton,PButtonSchema
+from .entities.bookmark import Bookmark,BookmarkSchema
 from os import walk
 import os
 from os.path import join
@@ -33,6 +34,43 @@ class ProjectManager():
 
     def __getattr__(self, name):
         return getattr(self.instance, name)
+
+
+    @staticmethod
+    def addBookmark(data):
+        bm = Bookmark(data=data)
+        session = Session()
+        session.add(bm)
+        session.commit()
+        newbm = BookmarkSchema().dump(bm)
+        session.close()
+        return newbm
+
+
+    @staticmethod
+    def getProject(projectId):
+        session = Session()
+        project_object = session.query(Project).get(projectId)
+        if project_object==None:
+            session.close()
+            return None
+        schema = ProjectSchema()
+        project = schema.dump(project_object)
+        session.close()
+        return project
+
+    @staticmethod
+    def getBookmark(bmid):
+        session = Session()
+        bookmark = session.query(Bookmark).get(bmid)
+        if bookmark==None:
+            session.close()
+            return None
+        print(bookmark)
+        schema=BookmarkSchema()
+        bmi = schema.dump(bookmark)
+        session.close()
+        return bmi
 
     @staticmethod
     def check_data(db,name):
@@ -235,10 +273,8 @@ class ProjectManager():
     def getProjects():
         session = Session()
         project_objects = session.query(Project).all()
-        # transforming into JSON-serializable objects
         schema = ProjectSchema(many=True)
         projects = schema.dump(project_objects)
-        # serializing as JSON
         session.close()
         return projects
 
@@ -246,51 +282,25 @@ class ProjectManager():
     def getPbutton(pbId):
         session = Session()
         pb_object = session.query(PButton).get(pbId)
-        #print(projectId)
-        #print(project_object)
-        # transforming into JSON-serializable objects
+        if pb_object==None:
+            session.close()
+            return None
         schema = PButtonSchema()
+        print(pb_object)
         pb = schema.dump(pb_object)
-        # serializing as JSON
         session.close()
         return pb
 
-    @staticmethod
-    def getProject(projectId):
-        session = Session()
-        project_object = session.query(Project).get(projectId)
-        #print(projectId)
-        #print(project_object)
-        # transforming into JSON-serializable objects
 
-        schema = ProjectSchema()
-        project = schema.dump(project_object)
-
-        # serializing as JSON
-        session.close()
-        return project
 
     @staticmethod
     def getPButtons(projectId):
-
         session = Session()
         pbutton_objects = session.query(PButton).filter(PButton.project_id==projectId)
         schema = PButtonSchema(many=True)
-
         pbuttons = schema.dump(pbutton_objects)
         session.close()
         return pbuttons
-        #print(projectId)
-        #print(project_object)
-        # transforming into JSON-serializable objects
-
-        schema = ProjectSchema()
-        project = schema.dump(project_object)
-
-        # serializing as JSON
-        session.close()
-        return project
-
 
     @staticmethod
     def allPButtons():

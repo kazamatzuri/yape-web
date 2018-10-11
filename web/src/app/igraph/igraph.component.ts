@@ -130,6 +130,13 @@ export class IgraphComponent implements OnInit {
       columns: this.displayedFields,
       pbutton: this.pbutton.id,
     };
+    this.pbservice.saveBookmark(state).subscribe(res => {
+      var bookmark = res;
+      console.log(bookmark);
+      //TODO: display bookmark url in dialog
+    }, console.error);
+
+
     console.log(encodeURI(JSON.stringify(state)));
   }
 

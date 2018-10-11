@@ -1,5 +1,5 @@
 # coding=utf-8
-from flask import Flask, jsonify, request, session, Response
+from flask import Flask, jsonify, request, session, Response,abort
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
@@ -60,11 +60,35 @@ def upload_file(id):
     sc={"status":"error"}
     return jsonify(sc),400
 
+@app.route('/bookmark/<id>')
+def getBookmark(id):
+    pm = ProjectManager()
+    bm=pm.getBookmark(id)
+    if bm==None:
+        abort(404)
+    return jsonify(bm)
+
+@app.route('/bookmark',methods=['POST'])
+def addBookmark():
+    pm = ProjectManager()
+    if request.method=='POST':
+        #print(request.get_json())
+        data = request.data
+        req_data = json.loads(data)
+        return jsonify(pm.addBookmark(req_data))
+    else:
+        sc={"error":"no data provided"}
+        return jsonify(sc),400
+
+
 #@requires_auth
 @app.route('/pbutton/<id>')
 def get_pbutton(id):
     pm = ProjectManager()
-    return jsonify(pm.getPbutton(id))
+    pb=pm.getPbutton(id)
+    if pb==None:
+        abort(404)
+    return jsonify(pb)
 
 @app.route('/pbutton/<id>/parse')
 def parse_pbutton(id):
