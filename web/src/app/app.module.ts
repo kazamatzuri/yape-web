@@ -18,7 +18,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { MatButtonModule, MatSelectModule, MatInputModule, MatNativeDateModule, MatIconModule, MatSidenavModule, MatListModule, MatToolbarModule, MatCardModule } from '@angular/material';
+import { MatButtonModule, MatSelectModule, MatInputModule, MatNativeDateModule, MatIconModule } from '@angular/material';
+import { MatSidenavModule, MatListModule, MatToolbarModule, MatCardModule } from '@angular/material';
+import { MatMenuModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
@@ -78,6 +80,7 @@ const appRoutes: Routes = [
     FlexLayoutModule,
     MatTabsModule,
     MatSelectModule,
+    MatMenuModule,
     CommonModule, MatButtonModule, MatToolbarModule, MatNativeDateModule,
     MatIconModule, MatSidenavModule, MatListModule, MatInputModule,
     MatCardModule,

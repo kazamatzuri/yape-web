@@ -1,4 +1,7 @@
 <h3 matSubheader>{{project?.title}}</h3>
+
+Notes:
+<p>{{project?.description}}</p>
 <mat-list>
   <h3 matSubheader>pButtons</h3>
   <mat-list-item *ngFor="let pb of pbuttonslist" (click)="openPButton(pb)"> {{pb.filename}} </mat-list-item>
