@@ -32,13 +32,11 @@ export class IgraphComponent implements OnInit {
       xaxis: {
         type: 'date',
         nticks: 25,
-        domain: [0, 0.9],
+        domain: [0, 1],
       },
-      margin: { r: 300 },
+      // margin: { r: 300 },
       height: 600,
-      legend: {
-        x: 1.1,
-      },
+
       showlegend: true
     };
     //Plotly.setPlotConfig({
@@ -150,28 +148,39 @@ export class IgraphComponent implements OnInit {
 
     var yxname = 'yaxis' + (this.displayedFields.length + 1);
     //if we want more than 5 columns, adjust here
-    var pos = this.layout['xaxis'].domain[1] + (this.displayedFields.length * ((1 - this.layout['xaxis'].domain[1]) / 8));
-    console.log("pos:" + pos);
     if (this.displayedFields.length >= 1) {
       this.layout[yxname] = {
-        //title: fieldname,
+        title: fieldname,
         side: 'right',
         autorange: 'true',
         overlaying: 'y',
         //datarevision: this.displayedFields.length + 1,
-        position: pos,
         anchor: 'free',
-        showline: 'true'
+        showline: 'true',
       };
     } else {
       this.layout['yaxis'] = {
         title: fieldname,
         side: 'left',
-
       };
     }
+
     console.log(this.layout);
-    console.log(this.traces);
+    var axisspace = 0.03;
+    this.layout['xaxis'].domain[1] = 1 - (this.displayedFields.length) * axisspace;
+    for (var i = 1; i < this.displayedFields.length + 1; i++) {
+      if (i > 0) {
+        yxname = 'yaxis' + (i + 1);
+      } else {
+        yxname = 'yaxis';
+      }
+      this.layout[yxname].position = this.layout['xaxis'].domain[1] +
+        (i * axisspace);
+    }
+
+
+
+
     this.traces.push(newtrace);
     this.displayedFields.push(fieldname);
     Plotly.react(gd, this.traces, this.layout);
