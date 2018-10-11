@@ -28,10 +28,10 @@
           </mat-optgroup>
         </mat-select>
       </mat-form-field>-->
-      <button mat-stroked-button [matMenuTriggerFor]="menu">
-        Add Columns
+      <button mat-stroked-button [matMenuTriggerFor]="addmenu">
+        Add Columns<mat-icon>add_box</mat-icon>
       </button>
-      <mat-menu #menu="matMenu">
+      <mat-menu #addmenu="matMenu">
         <ng-container *ngFor="let group of descriptionGroups">
           <button mat-menu-item [matMenuTriggerFor]="sub_menu">{{ group }}</button>
           <mat-menu #sub_menu="matMenu">
@@ -40,8 +40,14 @@
         </ng-container>
       </mat-menu>
 
+      <button mat-stroked-button [matMenuTriggerFor]="removemenu">
+        Remove Columns<mat-icon>delete_box</mat-icon>
+      </button>
+      <mat-menu #removemenu="matMenu">
+             <button *ngFor="let item of displayedFields" mat-menu-item (click)="deleteFields(item)">{{ item }}</button>
+      </mat-menu>
 
-      <button mat-stroked-button (click)="shareLoc()" class='rightbutton'>Share</button>
+      <button mat-stroked-button (click)="shareLoc()" class='rightbutton'>Share<mat-icon>share</mat-icon></button>
     </section>
     <div id="graphdiv"></div>
   </mat-drawer-content>
