@@ -63,6 +63,22 @@ export class IgraphComponent implements OnInit {
     console.log(this.selectedFields);
   }
 
+  deleteFields(toremove: string) {
+    //// TODO:
+    var idx = -1;
+    for (var i = 0; i < this.traces.length; i++) {
+      if (this.traces[i]['name'] == toremove) {
+        idx = i;
+      }
+    }
+    console.log("remove idx" + idx);
+    var gd = document.getElementById('graphdiv');
+    Plotly.deleteTraces(gd, idx);
+    this.displayedFields = this.displayedFields.splice(this.displayedFields.indexOf(toremove), 1)
+    this.adjustLegend();
+
+
+  }
   updateFields(added: string) {
     console.log("requesting " + added);
     //if ('datetime' not in this.selectedFields) {
@@ -167,7 +183,7 @@ export class IgraphComponent implements OnInit {
         overlaying: 'y',
         //datarevision: this.displayedFields.length + 1,
         anchor: 'free',
-        showline: 'true',
+        showline: true,
       };
     } else {
       this.layout['yaxis'] = {
@@ -176,10 +192,25 @@ export class IgraphComponent implements OnInit {
       };
     }
 
+
+    this.traces.push(newtrace);
+    this.displayedFields.push(fieldname);
+    this.adjustLegend();
+    Plotly.react(gd, this.traces, this.layout);
+    /*if (this.displayedFields.length > 1) {
+      Plotly.update(gd, traces, layout);
+    } else {
+      Plotly.plot(gd, traces, layout);
+    }*/
+
+  }
+
+  adjustLegend() {
     console.log(this.layout);
-    var axisspace = 0.03;
-    this.layout['xaxis'].domain[1] = 1 - (this.displayedFields.length) * axisspace;
-    for (var i = 1; i < this.displayedFields.length + 1; i++) {
+    var yxname: string;
+    var axisspace = 0.032;
+    this.layout['xaxis'].domain[1] = 1 - (this.displayedFields.length - 1) * axisspace;
+    for (var i = 1; i < this.displayedFields.length; i++) {
       if (i > 0) {
         yxname = 'yaxis' + (i + 1);
       } else {
@@ -188,19 +219,6 @@ export class IgraphComponent implements OnInit {
       this.layout[yxname].position = this.layout['xaxis'].domain[1] +
         (i * axisspace);
     }
-
-
-
-
-    this.traces.push(newtrace);
-    this.displayedFields.push(fieldname);
-    Plotly.react(gd, this.traces, this.layout);
-    /*if (this.displayedFields.length > 1) {
-      Plotly.update(gd, traces, layout);
-    } else {
-      Plotly.plot(gd, traces, layout);
-    }*/
-
   }
 
 
