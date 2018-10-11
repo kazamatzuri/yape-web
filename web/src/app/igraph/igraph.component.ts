@@ -105,10 +105,16 @@ export class IgraphComponent implements OnInit {
   }
 
   shareLoc() {
-    var graphdiv = document.getElementById('graphdiv');
-    //var xRange = graphdiv.layout.xaxis.range;
-    //var yRange = graphdiv.layout.yaxis.range;
-    //console.log(xRange);
+    var graphdiv = (<Plotly>document.getElementById('graphdiv'));
+    var xRange = graphdiv.layout.xaxis.range;
+    var yRange = graphdiv.layout.yaxis.range;
+    var state = {
+      yRange: yRange,
+      xRange: xRange,
+      columns: this.displayedFields,
+      pbutton: this.pbutton.id,
+    };
+    console.log(encodeURI(JSON.stringify(state)));
   }
 
   addtoGraph(data, fieldname) {
