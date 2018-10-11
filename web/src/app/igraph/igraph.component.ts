@@ -68,6 +68,10 @@ export class IgraphComponent implements OnInit {
     //if ('datetime' not in this.selectedFields) {
     //todo: make sure datetime is in there
     //}
+    console.log(this.displayedFields);
+    if (this.displayedFields.indexOf(added) != -1) {
+      return;
+    }
     var set = added.split(".")[0];
     var field = [added.split(".")[1]];
 
@@ -152,7 +156,8 @@ export class IgraphComponent implements OnInit {
       this.layout[yxname] = {
         title: fieldname,
         side: 'right',
-        autorange: 'true',
+        rang: [0],
+        //autorange: 'true',
         overlaying: 'y',
         //datarevision: this.displayedFields.length + 1,
         anchor: 'free',
