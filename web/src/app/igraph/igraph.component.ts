@@ -120,7 +120,7 @@ export class IgraphComponent implements OnInit {
     Plotly.restyle(graphDiv, update);
   }
 
-  shareLoc() {
+  createBookmark() {
     var graphdiv = (<Plotly>document.getElementById('graphdiv'));
     var xRange = graphdiv.layout.xaxis.range;
     var yRange = graphdiv.layout.yaxis.range;
@@ -145,8 +145,6 @@ export class IgraphComponent implements OnInit {
 
     var rawx = JSON.parse(data.x)
     var rawy = JSON.parse(data.y)
-    //this came from a version where you could add more fields at once, i'll leave the complexity here for now,
-    // because I might be using it to restore states when coming from a bookmarked location
     var newtrace;
     console.log("fieldname:" + fieldname);
     for (var c = 0; c < rawx.length; c++) {
@@ -180,7 +178,6 @@ export class IgraphComponent implements OnInit {
 
 
     var yxname = 'yaxis' + (this.displayedFields.length + 1);
-    //if we want more than 5 columns, adjust here
     if (this.displayedFields.length >= 1) {
       this.layout[yxname] = {
         title: fieldname,

@@ -38,7 +38,8 @@ class ProjectManager():
 
     @staticmethod
     def addBookmark(data):
-        bm = Bookmark(data=data)
+        print(data)
+        bm = Bookmark(data=data,created_by="user")
         session = Session()
         session.add(bm)
         session.commit()
@@ -71,6 +72,19 @@ class ProjectManager():
         bmi = schema.dump(bookmark)
         session.close()
         return bmi
+
+    @staticmethod
+    def getBookmarks():
+        session = Session()
+        bookmarks = session.query(Bookmark)
+        if bookmarks==None:
+            session.close()
+            return []
+        schema=BookmarkSchema(many=True)
+        bmi = schema.dump(bookmarks)
+        session.close()
+        return bmi
+
 
     @staticmethod
     def check_data(db,name):

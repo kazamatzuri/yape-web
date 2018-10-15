@@ -47,7 +47,7 @@
              <button *ngFor="let item of displayedFields" mat-menu-item (click)="deleteFields(item)">{{ item }}</button>
       </mat-menu>
 
-      <button mat-stroked-button (click)="shareLoc()" class='rightbutton'>Share<mat-icon>share</mat-icon></button>
+      <button mat-stroked-button (click)="createBookmark()" class='rightbutton'>Share<mat-icon>share</mat-icon></button>
     </section>
     <div id="graphdiv"></div>
   </mat-drawer-content>

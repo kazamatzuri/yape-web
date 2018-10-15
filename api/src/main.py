@@ -22,10 +22,8 @@ CORS(app)
 # generate database schema
 Base.metadata.create_all(engine)
 
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 @app.route('/project/<id>',methods=['POST'])
 def upload_file(id):
@@ -67,6 +65,12 @@ def getBookmark(id):
     if bm==None:
         abort(404)
     return jsonify(bm)
+
+@app.route('/bookmarks')
+def getBookmarks():
+    pm = ProjectManager()
+    bms=pm.getBookmarks()
+    return jsonify(bms)
 
 @app.route('/bookmark',methods=['POST'])
 def addBookmark():
