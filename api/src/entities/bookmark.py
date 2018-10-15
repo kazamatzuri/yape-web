@@ -13,6 +13,7 @@ class Bookmark(Entity, Base):
     pbutton = Column(Integer)
     xRange = Column(String)
     yRange = Column(String)
+    project = Column(Integer)
 
     def __init__(self, data, created_by):
         Entity.__init__(self, "system")
@@ -21,7 +22,7 @@ class Bookmark(Entity, Base):
         self.pbutton = data['pbutton']
         self.xRange = json.dumps(data['xRange'])
         self.yRange = json.dumps(data['yRange'])
-
+        self.project = data['project']
 
 class BookmarkSchema(Schema):
     id = fields.Number()
@@ -32,3 +33,4 @@ class BookmarkSchema(Schema):
     created_by = fields.Str()
     xRange = fields.Str()
     yRange = fields.Str()
+    project = fields.Number()

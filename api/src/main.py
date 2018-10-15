@@ -184,6 +184,13 @@ def get_project_buttons(id):
     #return jsonify(projects.data)
 
 
+@app.route('/project/<id>/bookmarks')
+def get_project_bookmars(id):
+    pm = ProjectManager()
+    return jsonify(pm.getProjectBookmarks(id))
+
+
+
 @app.route('/projects', methods=['POST'])
 #@requires_auth
 def add_project():

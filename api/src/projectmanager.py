@@ -85,6 +85,18 @@ class ProjectManager():
         session.close()
         return bmi
 
+    @staticmethod
+    def getProjectBookmarks(prid):
+        session = Session()
+        bookmarks = session.query(Bookmark).filter(Bookmark.project==prid)
+        if bookmarks==None:
+            session.close()
+            return []
+        schema=BookmarkSchema(many=True)
+        bmi = schema.dump(bookmarks)
+        session.close()
+        return bmi
+
 
     @staticmethod
     def check_data(db,name):

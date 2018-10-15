@@ -124,11 +124,13 @@ export class IgraphComponent implements OnInit {
     var graphdiv = (<Plotly>document.getElementById('graphdiv'));
     var xRange = graphdiv.layout.xaxis.range;
     var yRange = graphdiv.layout.yaxis.range;
+    console.log(this.pbutton);
     var state = {
       yRange: yRange,
       xRange: xRange,
       columns: this.displayedFields,
       pbutton: this.pbutton.id,
+      project: this.pbutton.project_id
     };
     this.pbservice.saveBookmark(state).subscribe(res => {
       var bookmark = res;
