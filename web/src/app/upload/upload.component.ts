@@ -15,6 +15,8 @@ export class UploadComponent {
 
   public openUploadDialog() {
     let dialogRef = this.dialog.open(DialogComponent, { width: '50%', height: '50%' });
-
+    dialogRef.afterClosed().subscribe(() => {
+      console.log("after close");
+    });
   }
 }

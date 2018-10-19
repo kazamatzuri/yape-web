@@ -1,6 +1,6 @@
 # coding=utf-8
 from flask import Flask, jsonify, request, session, Response,abort
-from flask_socketio import SocketIO, join_room,emit
+#from flask_socketio import SocketIO, join_room,emit
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
@@ -16,7 +16,7 @@ UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
 ALLOWED_EXTENSIONS = set(['html'])
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+#socketio = SocketIO(app)
 ROOMS = {}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
