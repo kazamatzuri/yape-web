@@ -1,5 +1,6 @@
 # coding=utf-8
 from flask import Flask, jsonify, request, session, Response,abort
+from flask_socketio import SocketIO, join_room,emit
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
@@ -15,9 +16,12 @@ UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
 ALLOWED_EXTENSIONS = set(['html'])
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+ROOMS = {}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 CORS(app)
+
 
 # generate database schema
 Base.metadata.create_all(engine)
@@ -205,3 +209,6 @@ def handle_auth_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code
     return response
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)

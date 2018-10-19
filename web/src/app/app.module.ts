@@ -26,7 +26,6 @@ import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 
 import { UploadModule } from './upload/upload.module';
-import { UploadPageComponent } from './upload-page/upload-page.component';
 import { ProjectComponent } from './project/project.component';
 import { PbuttonComponent } from './pbutton/pbutton.component';
 import { ImageCardComponent } from './image-card/image-card.component';
@@ -42,7 +41,6 @@ const appRoutes: Routes = [
   { path: 'project/:id', component: ProjectComponent },
   { path: 'pbutton/:id', component: PbuttonComponent },
   { path: '', component: HomeComponent },
-  { path: 'upload', component: UploadPageComponent },
   //{ path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
 
@@ -57,7 +55,6 @@ const appRoutes: Routes = [
     //CallbackComponent,
     AboutComponent,
     HomeComponent,
-    UploadPageComponent,
     ProjectComponent,
     PbuttonComponent,
     ImageCardComponent,
