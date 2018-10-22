@@ -124,7 +124,6 @@ export class IgraphComponent implements OnInit {
     var graphdiv = (<Plotly>document.getElementById('graphdiv'));
     var xRange = graphdiv.layout.xaxis.range;
     var yRange = graphdiv.layout.yaxis.range;
-    console.log(this.pbutton);
     var state = {
       yRange: yRange,
       xRange: xRange,
@@ -163,7 +162,7 @@ export class IgraphComponent implements OnInit {
           newtrace.x = [];
           newtrace.y = [];
         }
-        newtrace.x.push(Date.parse(rawx[c].replace(/\//g, '-')))
+        newtrace.x.push(new Date(rawx[c]))
         newtrace.y.push(rawy[c][d]);
       }
     }

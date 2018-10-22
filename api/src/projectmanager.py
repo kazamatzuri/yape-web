@@ -275,7 +275,7 @@ class ProjectManager():
         print(query)
         session.close()
         d={}
-        d['x']=df.datetime.to_json(orient='values')
+        d['x']=pd.to_datetime(df['datetime']).to_json(orient='values')
         d['y']=df.drop(['datetime'], axis=1).to_json(orient='values')
         return d
 
