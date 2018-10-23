@@ -10,7 +10,6 @@ class Comment(Entity, Base):
 
     comment = Column(String)
     bookmark = Column(Integer, ForeignKey('bookmark.id'))
-    ran_last = Column(DateTime, nullable=True)
     project_id = Column(Integer, ForeignKey('project.id'))
 
     def __init__(self, created_by,project_id,filename):

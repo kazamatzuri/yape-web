@@ -62,8 +62,9 @@ export class IgraphComponent implements OnInit {
       //console.log(this.description['mgstat']);
     }, console.error);
 
-    var bm = this.route.snapshot.queryParamMap.get("bm")
-    if (bm != "") {
+    var bm = this.route.snapshot.queryParamMap.get("bm");
+
+    if (bm != null) {
       console.log("loading bookmark" + bm);
       this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
         this.layout['xaxis'].range = JSON.parse(res.xRange);
@@ -73,7 +74,7 @@ export class IgraphComponent implements OnInit {
         this.updateFields(this.selectedFields);
       }, console.error);
     } else {
-      this.updateFields(this.selectedFields);
+      this.updateFields(["mgstat.Glorefs"]);
     }
     console.log(this.selectedFields);
   }
@@ -102,15 +103,15 @@ export class IgraphComponent implements OnInit {
     console.log(this.displayedFields);
     if (added.length == 1) {
       for (var f in added) {
-        if (this.displayedFields.indexOf(f) == -1) {
-          var set = f.split(".")[0];
-          var field = [f.split(".")[1]];
+        if (this.displayedFields.indexOf(added[f]) == -1) {
+          var set = added[f].split(".")[0];
+          var field = [added[f].split(".")[1]];
           this.showSpinner = true;
           this.pbservice.getSpecificData(this.myId, set, field).subscribe((res: Object) => {
             var data = res;
             //console.log(res);
             this.showSpinner = false;
-            this.addtoGraph(data, f);
+            this.addtoGraph(data, added[f]);
           });
         }
       }
