@@ -36,6 +36,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { PboverviewComponent } from './pboverview/pboverview.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ShareDialogComponent } from './share-dialog/share-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -65,6 +67,7 @@ const appRoutes: Routes = [
     IgraphComponent,
     PboverviewComponent,
     SpinnerComponent,
+    ShareDialogComponent,
 
   ],
   imports: [
@@ -81,12 +84,16 @@ const appRoutes: Routes = [
     MatTabsModule,
     MatSelectModule,
     MatMenuModule,
+    MatDialogModule,
     CommonModule, MatButtonModule, MatToolbarModule, MatNativeDateModule,
     MatIconModule, MatSidenavModule, MatListModule, MatInputModule,
     MatCardModule,
     UploadModule,
     MatProgressSpinnerModule,
 
+  ],
+  entryComponents: [
+    ShareDialogComponent,
   ],
   providers: [ProjectService],
   bootstrap: [AppComponent]

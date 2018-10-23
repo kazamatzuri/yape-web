@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { PbuttonService } from "../pbutton.service";
 import { Bookmark } from "../bookmark";
+import { ShareDialogComponent } from "../share-dialog/share-dialog.component";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import * as Plotly from 'plotly.js/dist/plotly.js';
 //import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
@@ -25,7 +27,7 @@ export class IgraphComponent implements OnInit {
   descriptionGroups: string[];
   public graphstyle: string;
   private myId: number;
-  constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
+  constructor(private route: ActivatedRoute, private pbservice: PbuttonService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.showSpinner = true;
@@ -166,7 +168,15 @@ export class IgraphComponent implements OnInit {
     this.pbservice.saveBookmark(state).subscribe((res: Bookmark) => {
       var bookmark = res;
       console.log("bookmark result" + bookmark.id);
+      const dialogRef = this.dialog.open(ShareDialogComponent, {
+        width: '250px', height: '150px',
+        data: { name: bookmark.id }
+      });
 
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+
+      });
       //TODO: display bookmark url in dialog
     }, console.error);
 
