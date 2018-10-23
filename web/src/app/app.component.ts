@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   template: `
   <mat-toolbar color="primary" class="mat-elevation-z10">
      <button mat-button *ngIf="authenticated" routerLink=""><i class="material-icons">library_home</i> Yape</button>
-     <button mat-button *ngIf="authenticated" routerLink="upload"><i class="material-icons">library_add</i> Upload</button>
+     <!--<button mat-button *ngIf="authenticated" routerLink="upload"><i class="material-icons">library_add</i> Upload</button>-->
      <button mat-button *ngIf="authenticated" routerLink="projects"><i class="material-icons">library_books</i> My Projects</button>
 
      <!-- This fills the remaining space of the current row -->

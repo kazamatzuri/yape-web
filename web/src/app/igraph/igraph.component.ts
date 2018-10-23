@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { PbuttonService } from "../pbutton.service";
+import { Bookmark } from "../bookmark";
 
 import * as Plotly from 'plotly.js/dist/plotly.js';
 //import { Config, Data, Layout } from 'plotly.js/dist/plotly.js';
@@ -41,6 +42,8 @@ export class IgraphComponent implements OnInit {
 
       showlegend: true
     };
+
+
     //Plotly.setPlotConfig({
     //  modeBarButtonsToRemove: ['sendDataToCloud']
     //});
@@ -127,21 +130,23 @@ export class IgraphComponent implements OnInit {
     var graphdiv = (<Plotly>document.getElementById('graphdiv'));
     var xRange = graphdiv.layout.xaxis.range;
     var yRange = graphdiv.layout.yaxis.range;
-    var state = {
+
+    var state: Bookmark = {
       yRange: yRange,
       xRange: xRange,
-      columns: this.displayedFields,
+      columns: JSON.stringify(this.displayedFields),
       pbutton: this.pbutton.id,
       project: this.pbutton.project_id
     };
     this.pbservice.saveBookmark(state).subscribe(res => {
       var bookmark = res;
-      console.log(bookmark);
+      console.log("bookmark result" + bookmark);
+
       //TODO: display bookmark url in dialog
     }, console.error);
 
 
-    console.log(encodeURI(JSON.stringify(state)));
+    //console.log(encodeURI(JSON.stringify(state)));
   }
 
   addtoGraph(data, fieldname) {

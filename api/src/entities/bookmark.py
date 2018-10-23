@@ -3,6 +3,7 @@ from marshmallow import Schema, fields
 from sqlalchemy.orm import relationship
 import json
 
+
 from .entity import Entity, Base
 
 

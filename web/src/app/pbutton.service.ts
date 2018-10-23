@@ -3,6 +3,7 @@ import { API_URL } from './env';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Bookmark } from './bookmark';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class PbuttonService {
     return res;
   }
 
-  saveBookmark(data: Object) {
+  saveBookmark(data: Bookmark) {
     ///pbutton/<id>/data/<set>
     var url = `${API_URL}/bookmark`;
     return this.http
