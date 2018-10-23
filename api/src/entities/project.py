@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 
 from .entity import Entity, Base
 from .pbutton import PButton,PButtonSchema
+from .comment import Comment,CommentSchema
 
 class Project(Entity, Base):
     __tablename__ = 'project'
@@ -12,8 +13,8 @@ class Project(Entity, Base):
     wrc = Column(Integer)
     description = Column(String)
     user = Column(String)
-    children = relationship("PButton")
-
+    pbuttons = relationship("PButton")
+    comments = relationship("Comment")
 
     def __init__(self, title, description, created_by):
         Entity.__init__(self, created_by)
@@ -30,4 +31,5 @@ class ProjectSchema(Schema):
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
     last_updated_by = fields.Str()
-    children = fields.Nested(PButtonSchema,many=True)
+    pbuttons = fields.Nested(PButtonSchema,many=True)
+    comments = fields.Nested(CommentSchema,many=True)

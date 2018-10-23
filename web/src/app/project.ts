@@ -4,7 +4,7 @@ export class Project {
   constructor(
     public title: string,
     public description: string,
-    public children: PButton[],
+    public pbuttons: PButton[],
     public id?: number,
     public wrc?: number,
     public updatedAt?: Date,

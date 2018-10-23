@@ -8,7 +8,7 @@ from .entity import Entity, Base
 
 
 class Bookmark(Entity, Base):
-    __tablename__ = 'state'
+    __tablename__ = 'bookmark'
 
     columns = Column(String)
     pbutton = Column(Integer)
