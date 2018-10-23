@@ -1,12 +1,24 @@
-
 <div class="projects">
-      <mat-card class="example-card" *ngFor="let project of projectsList" class="mat-elevation-z5" (click)="openProject(project)">
-        <mat-card-content>
-          <mat-card-title>{{project.title}}</mat-card-title>
-          <mat-card-subtitle>{{project.description}}</mat-card-subtitle>
-            <p>{{project.created_at}}</p>
-        </mat-card-content>
-      </mat-card>
-    </div>
+  <mat-card class="example-card" *ngFor="let project of projectsList" class="mat-elevation-z5" (click)="openProject(project)">
+    <mat-card-content>
+      <mat-card-title>{{project.title}}</mat-card-title>
+      <mat-card-subtitle>Description: {{project.description}}</mat-card-subtitle>
+      <p>Created {{project.created_at|date: 'dd/MM/yyyy'}}.</p>
+      <table>
+        <tr>
+          <th># Pbuttons</th>
+          <th># Bookmarks</th>
+          <th># Comments</th>
+        </tr>
+        <tr>
+          <td>{{project.children.length}}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
 
-<button routerLink="/new-project"><i class="material-icons">library_add</i> New Project</button>
+    </mat-card-content>
+  </mat-card>
+</div>
+<br />
+<button routerLink="/new-project"><i class="material-icons">library_add</i>New Project</button>
