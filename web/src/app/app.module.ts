@@ -34,6 +34,8 @@ import { IgraphComponent } from './igraph/igraph.component';
 import { PlotlyModule } from 'angular-plotly.js';
 import { MatRadioModule } from '@angular/material/radio';
 import { PboverviewComponent } from './pboverview/pboverview.component';
+import { SpinnerComponent } from './spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -62,6 +64,7 @@ const appRoutes: Routes = [
     FilterPipe,
     IgraphComponent,
     PboverviewComponent,
+    SpinnerComponent,
 
   ],
   imports: [
@@ -82,6 +85,7 @@ const appRoutes: Routes = [
     MatIconModule, MatSidenavModule, MatListModule, MatInputModule,
     MatCardModule,
     UploadModule,
+    MatProgressSpinnerModule,
 
   ],
   providers: [ProjectService],

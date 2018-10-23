@@ -18,6 +18,7 @@ export class IgraphComponent implements OnInit {
   fields;
   traces: Array<Object>[];
   layout: Object;
+  showSpinner: Boolean;
   displayedFields: string[];
   description: Object;
   descriptionGroups: string[];
@@ -26,6 +27,7 @@ export class IgraphComponent implements OnInit {
   constructor(private route: ActivatedRoute, private pbservice: PbuttonService) { }
 
   ngOnInit() {
+    this.showSpinner = true;
     this.traces = [];
     this.displayedFields = [];
     this.layout = {
@@ -90,10 +92,11 @@ export class IgraphComponent implements OnInit {
     }
     var set = added.split(".")[0];
     var field = [added.split(".")[1]];
-
+    this.showSpinner = true;
     this.pbservice.getSpecificData(this.myId, set, field).subscribe((res: Object) => {
       var data = res;
       //console.log(res);
+      this.showSpinner = false;
       this.addtoGraph(data, added);
     });
 
@@ -147,7 +150,6 @@ export class IgraphComponent implements OnInit {
     var rawx = JSON.parse(data.x)
     var rawy = JSON.parse(data.y)
     var newtrace;
-    console.log("fieldname:" + fieldname);
     for (var c = 0; c < rawx.length; c++) {
       for (var d = 0; d < rawy[0].length; d++) {
 

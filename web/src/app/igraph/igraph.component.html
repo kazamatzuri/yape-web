@@ -9,7 +9,6 @@
       </mat-select>
 
   </mat-drawer>-->
-
   <mat-drawer-content>
     <section class="style-section" fxLayoutGap="20px">
       <!--<label class="style-margin">Color:</label>-->
@@ -49,6 +48,7 @@
 
       <button mat-stroked-button (click)="createBookmark()" class='rightbutton'>Share<mat-icon>share</mat-icon></button>
     </section>
+    <spinner [show]="showSpinner" [size]="150"> </spinner>
     <div id="graphdiv"></div>
   </mat-drawer-content>
 </mat-drawer-container>
