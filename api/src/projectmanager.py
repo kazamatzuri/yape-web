@@ -256,6 +256,24 @@ class ProjectManager():
         return d
 
     @staticmethod
+    def getmixedData(id,fields):
+        collected={}
+        session=Session()
+        ProjectManager.assertDB(id)
+        pb=session.query(PButton).get(id)
+        filedb=pb.database
+        session.close()
+        db=sqlite3.connect(filedb)
+        print(fields)
+        if fields is not None:
+            for i in fields:
+                set=i.split(".")[0]
+                cf=i.split(".")[1]
+                data=ProjectManager.getSpecificData(set,id,[cf])
+                collected[set]=data
+        return collected
+
+    @staticmethod
     def getSpecificData(set,id,fields):
         session=Session()
         ProjectManager.assertDB(id)
@@ -265,12 +283,11 @@ class ProjectManager():
         db=sqlite3.connect(filedb)
         #TODO: sanitize input
         query="select * from "+set
-        if fields is not None:
+        if (fields is not None):
             query="select datetime"
             for i in fields:
                 query+=",\""+i+"\""
             query+=" from "+set
-        print(query)
         df=pd.read_sql_query(query,db)
         print(query)
         session.close()

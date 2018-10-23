@@ -42,15 +42,7 @@ export class IgraphComponent implements OnInit {
 
       showlegend: true
     };
-    var bm = this.route.snapshot.queryParamMap.get("bm")
-    if (bm != "") {
-      console.log("loading bookmark" + bm);
-      this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
-        this.layout['xaxis'].range = JSON.parse(res.xRange);
-        //this.layout['yaxis'] = { range: res.yRange };
-        console.log(JSON.stringify(this.layout));
-      }, console.error);
-    }
+
     //Plotly.setPlotConfig({
     //  modeBarButtonsToRemove: ['sendDataToCloud']
     //});
@@ -70,8 +62,19 @@ export class IgraphComponent implements OnInit {
       //console.log(this.description['mgstat']);
     }, console.error);
 
-    this.updateFields("mgstat.Glorefs");
-
+    var bm = this.route.snapshot.queryParamMap.get("bm")
+    if (bm != "") {
+      console.log("loading bookmark" + bm);
+      this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
+        this.layout['xaxis'].range = JSON.parse(res.xRange);
+        //this.layout['yaxis'] = { range: res.yRange };
+        this.selectedFields = JSON.parse(res.columns);
+        console.log(JSON.parse(res.columns));
+        this.updateFields(this.selectedFields);
+      }, console.error);
+    } else {
+      this.updateFields(this.selectedFields);
+    }
     console.log(this.selectedFields);
   }
 
@@ -91,25 +94,39 @@ export class IgraphComponent implements OnInit {
 
 
   }
-  updateFields(added: string) {
+  updateFields(added: string[]) {
     console.log("requesting " + added);
     //if ('datetime' not in this.selectedFields) {
     //todo: make sure datetime is in there
     //}
     console.log(this.displayedFields);
-    if (this.displayedFields.indexOf(added) != -1) {
-      return;
+    if (added.length == 1) {
+      for (var f in added) {
+        if (this.displayedFields.indexOf(f) == -1) {
+          var set = f.split(".")[0];
+          var field = [f.split(".")[1]];
+          this.showSpinner = true;
+          this.pbservice.getSpecificData(this.myId, set, field).subscribe((res: Object) => {
+            var data = res;
+            //console.log(res);
+            this.showSpinner = false;
+            this.addtoGraph(data, f);
+          });
+        }
+      }
+    } else {
+      console.log("get multiple");
+      this.showSpinner = true;
+      this.pbservice.getData(this.myId, added).subscribe((res: Object) => {
+        var data = res;
+        //console.log(res);
+        this.showSpinner = false;
+        for (var k in Object.keys(data)) {
+          //console.log("adding " + Object.keys(data)[k]);
+          this.addtoGraph(data[Object.keys(data)[k]], f);
+        }
+      });
     }
-    var set = added.split(".")[0];
-    var field = [added.split(".")[1]];
-    this.showSpinner = true;
-    this.pbservice.getSpecificData(this.myId, set, field).subscribe((res: Object) => {
-      var data = res;
-      //console.log(res);
-      this.showSpinner = false;
-      this.addtoGraph(data, added);
-    });
-
   }
 
   updateGraphStyle() {
@@ -158,7 +175,7 @@ export class IgraphComponent implements OnInit {
 
   addtoGraph(data, fieldname) {
     var gd = document.getElementById('graphdiv');
-
+    console.log(data)
     var rawx = JSON.parse(data.x)
     var rawy = JSON.parse(data.y)
     var newtrace;
@@ -214,10 +231,10 @@ export class IgraphComponent implements OnInit {
 
     this.traces.push(newtrace);
     this.displayedFields.push(fieldname);
-    console.log(JSON.stringify(this.layout));
+
     this.adjustLegend();
     Plotly.react(gd, this.traces, this.layout);
-    console.log(JSON.stringify(this.layout));
+
     /*if (this.displayedFields.length > 1) {
       Plotly.update(gd, traces, layout);
     } else {

@@ -61,13 +61,15 @@ export class PbuttonService {
 
   getData(id, fields = null): Observable<any> {
     var url = `${API_URL}/pbutton/` + id + '/data';
-    console.log(url);
-    console.log(fields);
+    console.log("url:" + url);
+    console.log("fields:" + fields);
     if (fields == null) {
+      console.log("get");
       return this.http
         .get(url)
         .pipe(catchError(PbuttonService._handleError));
     } else {
+      console.log("post");
       return this.http
         .post(url, JSON.stringify(fields))
         .pipe(catchError(PbuttonService._handleError));
