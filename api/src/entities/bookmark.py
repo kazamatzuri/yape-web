@@ -14,7 +14,7 @@ class Bookmark(Entity, Base):
     pbutton = Column(Integer)
     xRange = Column(String)
     yRange = Column(String)
-    project = Column(Integer)
+    project = Column(Integer, ForeignKey('project.id'))
 
     def __init__(self, data, created_by):
         Entity.__init__(self, "system")

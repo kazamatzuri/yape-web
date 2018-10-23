@@ -34,7 +34,7 @@
         <ng-container *ngFor="let group of descriptionGroups">
           <button mat-menu-item [matMenuTriggerFor]="sub_menu">{{ group }}</button>
           <mat-menu #sub_menu="matMenu">
-             <button *ngFor="let subItem of description[group]" mat-menu-item (click)="updateFields(group+'.'+subItem)">{{ subItem }}</button>
+             <button *ngFor="let subItem of description[group]" mat-menu-item (click)="updateFields([group+'.'+subItem])">{{ subItem }}</button>
           </mat-menu>
         </ng-container>
       </mat-menu>
