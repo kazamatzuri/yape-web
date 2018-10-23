@@ -42,8 +42,15 @@ export class IgraphComponent implements OnInit {
 
       showlegend: true
     };
-
-
+    var bm = this.route.snapshot.queryParamMap.get("bm")
+    if (bm != "") {
+      console.log("loading bookmark" + bm);
+      this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
+        this.layout['xaxis'].range = JSON.parse(res.xRange);
+        //this.layout['yaxis'] = { range: res.yRange };
+        console.log(JSON.stringify(this.layout));
+      }, console.error);
+    }
     //Plotly.setPlotConfig({
     //  modeBarButtonsToRemove: ['sendDataToCloud']
     //});
@@ -69,7 +76,7 @@ export class IgraphComponent implements OnInit {
   }
 
   deleteFields(toremove: string) {
-    //// TODO:
+
     var idx = -1;
     for (var i = 0; i < this.traces.length; i++) {
       if (this.traces[i]['name'] == toremove) {
@@ -138,9 +145,9 @@ export class IgraphComponent implements OnInit {
       pbutton: this.pbutton.id,
       project: this.pbutton.project_id
     };
-    this.pbservice.saveBookmark(state).subscribe(res => {
+    this.pbservice.saveBookmark(state).subscribe((res: Bookmark) => {
       var bookmark = res;
-      console.log("bookmark result" + bookmark);
+      console.log("bookmark result" + bookmark.id);
 
       //TODO: display bookmark url in dialog
     }, console.error);
@@ -190,12 +197,12 @@ export class IgraphComponent implements OnInit {
       this.layout[yxname] = {
         title: fieldname,
         side: 'right',
-        rang: [0],
         //autorange: 'true',
         overlaying: 'y',
         //datarevision: this.displayedFields.length + 1,
         anchor: 'free',
         showline: true,
+
       };
     } else {
       this.layout['yaxis'] = {
@@ -207,8 +214,10 @@ export class IgraphComponent implements OnInit {
 
     this.traces.push(newtrace);
     this.displayedFields.push(fieldname);
+    console.log(JSON.stringify(this.layout));
     this.adjustLegend();
     Plotly.react(gd, this.traces, this.layout);
+    console.log(JSON.stringify(this.layout));
     /*if (this.displayedFields.length > 1) {
       Plotly.update(gd, traces, layout);
     } else {
