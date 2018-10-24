@@ -71,7 +71,7 @@ export class PbuttonService {
     } else {
       console.log("post");
       return this.http
-        .post(url, JSON.stringify(fields))
+        .post(url, fields)
         .pipe(catchError(PbuttonService._handleError));
     }
   }

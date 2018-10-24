@@ -71,8 +71,8 @@ export class IgraphComponent implements OnInit {
       this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
         this.layout['xaxis'].range = JSON.parse(res.xRange);
         //this.layout['yaxis'] = { range: res.yRange };
-        this.selectedFields = JSON.parse(res.columns);
-        console.log(JSON.parse(res.columns));
+        this.selectedFields = res.columns;
+        console.log("selected fields:" + this.selectedFields);
         this.updateFields(this.selectedFields);
       }, console.error);
     } else {
@@ -126,7 +126,7 @@ export class IgraphComponent implements OnInit {
         this.showSpinner = false;
         for (var k in Object.keys(data)) {
           //console.log("adding " + Object.keys(data)[k]);
-          this.addtoGraph(data[Object.keys(data)[k]], f);
+          this.addtoGraph(data[Object.keys(data)[k]], Object.keys(data)[k]);
         }
       });
     }
@@ -161,7 +161,7 @@ export class IgraphComponent implements OnInit {
     var state: Bookmark = {
       yRange: yRange,
       xRange: xRange,
-      columns: JSON.stringify(this.displayedFields),
+      columns: this.displayedFields,
       pbutton: this.pbutton.id,
       project: this.pbutton.project_id
     };

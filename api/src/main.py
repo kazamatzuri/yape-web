@@ -133,7 +133,7 @@ def getData(id):
         #print(request.get_json())
         data = request.data
         req_data = json.loads(data)
-        return jsonify(pm.getmixedData(id,json.loads(req_data)))
+        return jsonify(pm.getmixedData(id,req_data))
     else:
         return jsonify(pm.getData(id,None))
 
