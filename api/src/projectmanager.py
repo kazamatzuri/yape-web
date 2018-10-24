@@ -2,6 +2,7 @@ from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton,PButtonSchema
 from .entities.bookmark import Bookmark,BookmarkSchema
+from .entities.layout import Layout,LayoutSchema
 from os import walk
 import os
 from os.path import join
@@ -72,6 +73,31 @@ class ProjectManager():
         bmi = schema.dump(bookmark)
         session.close()
         return bmi
+
+    @staticmethod
+    def getLayout(id = None):
+        if (id==None):
+            session = Session()
+            layouts = session.query(Layout)
+            if layouts==None:
+                session.close()
+                return []
+            schema=LayoutSchema(many=True)
+            lys = schema.dump(layouts)
+            session.close()
+            return lys
+        else:
+            session = Session()
+            layout = session.query(Layout).get(id)
+            if layout==None:
+                session.close()
+                return None
+            print(layout)
+            schema=LayoutSchema()
+            l = schema.dump(layout)
+            session.close()
+            return l
+
 
     @staticmethod
     def getBookmarks():

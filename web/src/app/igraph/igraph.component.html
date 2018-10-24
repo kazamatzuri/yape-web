@@ -46,6 +46,13 @@
              <button *ngFor="let item of displayedFields" mat-menu-item (click)="deleteFields(item)">{{ item }}</button>
       </mat-menu>
 
+      <button mat-stroked-button [matMenuTriggerFor]="layoutmenu">
+        Load Layout<mat-icon>bookmark</mat-icon>
+      </button>
+      <mat-menu #layoutmenu="matMenu">
+             <button *ngFor="let item of displayedFields" mat-menu-item (click)="deleteFields(item)">{{ item }}</button>
+      </mat-menu>
+
       <button mat-stroked-button (click)="createBookmark()" class='rightbutton'>Share<mat-icon>share</mat-icon></button>
     </section>
     <spinner [show]="showSpinner" [size]="150"> </spinner>

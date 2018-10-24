@@ -76,6 +76,23 @@ def getBookmarks():
     bms=pm.getBookmarks()
     return jsonify(bms)
 
+@app.route('/layout/<id>')
+def getLayout(id):
+    pm = ProjectManager()
+    l=pm.getLayout(id)
+    if l==None:
+        abort(404)
+    return jsonify(bm)
+
+@app.route('/layouts')
+def getLayouts():
+    pm = ProjectManager()
+    ls=pm.getLayout()
+    return jsonify(ls)
+
+
+
+
 @app.route('/bookmark',methods=['POST'])
 def addBookmark():
     pm = ProjectManager()
