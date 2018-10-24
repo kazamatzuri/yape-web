@@ -4,7 +4,25 @@ Notes:
 <p>{{project?.description}}</p>
 <mat-list>
   <h3 matSubheader>pButtons</h3>
-  <mat-list-item *ngFor="let pb of pbuttonslist" (click)="openPButton(pb)"> {{pb.filename}} </mat-list-item>
+  <mat-list-item *ngFor="let pb of pbuttonslist">
+    <button mat-stroked-button (click)="openPButton(pb)">{{pb.filename}}</button>
+    <button mat-button [matMenuTriggerFor]="bmmenu">{{project?.bookmarks.length}} Bookmarks <mat-icon>more_vert</mat-icon></button>
+    <mat-menu #bmmenu="matMenu" class="bmmenu" backdropClass="bmmenu">
+
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let bm of project?.bookmarks" (click)="openBookmark(bm)">
+          <span matLine><mat-icon>bookmark</mat-icon>{{renderRange(bm)}}</span><br />
+          <span matLine>{{renderCols(bm)}}</span>
+        </mat-list-item>
+      </mat-list>
+
+      <!--<button mat-menu-item *ngFor="let bm of project?.bookmarks">
+        <mat-icon>bookmark</mat-icon>
+        <span>{{renderRange(bm)}}</span><br>
+        <span>{{renderCols(bm)}}</span>
+      </button>-->
+    </mat-menu>
+  </mat-list-item>
   <mat-list-item>
     <app-upload [project]="project"></app-upload>
   </mat-list-item>
