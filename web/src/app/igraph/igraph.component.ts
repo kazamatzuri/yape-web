@@ -71,9 +71,12 @@ export class IgraphComponent implements OnInit {
       this.pbservice.loadBookmark(bm).subscribe((res: Bookmark) => {
         this.layout['xaxis'].range = JSON.parse(res.xRange);
         //this.layout['yaxis'] = { range: res.yRange };
-        this.selectedFields = res.columns;
+        this.selectedFields = JSON.parse(res.columns);
         console.log("selected fields:" + this.selectedFields);
-        this.updateFields(this.selectedFields);
+        //var data=JSON.parse(res.columns);
+        for (var i in this.selectedFields) {
+          this.updateFields([this.selectedFields[i]]);
+        }
       }, console.error);
     } else {
       this.updateFields(["mgstat.Glorefs"]);

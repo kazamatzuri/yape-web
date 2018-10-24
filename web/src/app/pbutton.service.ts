@@ -29,7 +29,9 @@ export class PbuttonService {
     return res;
   }
 
-  saveBookmark(data: Bookmark) {
+  //ignore type because of sqlalchemy's sqlite restriction on no arrays...
+  //bookmark.columns
+  saveBookmark(data) {
     ///pbutton/<id>/data/<set>
     var url = `${API_URL}/bookmark`;
     return this.http
