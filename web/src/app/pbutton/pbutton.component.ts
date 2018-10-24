@@ -54,7 +54,7 @@ export class PbuttonComponent implements OnInit {
   }
   generateGraphs() {
     console.log("generate " + this.pbutton);
-    this.pbservice.generateGraphs(this.pbutton._id);
+    this.pbservice.generateGraphs(this.pbutton.id);
   }
 
 

@@ -5,7 +5,7 @@ export class PButton {
     public filename: string,
     public database: string,
     public wrc?: number,
-    public _id?: number,
+    public id?: number,
     public graphdir?: string,
     public ran_last?: Date,
     public updatedAt?: Date,

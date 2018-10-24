@@ -19,6 +19,7 @@ export class ProjectFormComponent {
   project = {
     title: '',
     description: '',
+    pbuttons: [], bookmarks: [], comments: []
   };
 
   constructor(private projects: ProjectService, private router: Router) { }

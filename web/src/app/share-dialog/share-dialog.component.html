@@ -1,7 +1,16 @@
 <h2 mat-dialog-title>Sharing</h2>
-<mat-dialog-content>{{this.url}}</mat-dialog-content>
+<span><a mat-button href="{{getUrl()}}" target="_blank">Open in new window</a></span>
+<mat-dialog-content>
+  <div class="sharecontainer">
+    <mat-form-field>
+      <input matInput value="{{getUrl()}}" #url readonly />
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  <button mat-button [mat-dialog-close]="true">Yes</button>
+  <button mat-button (click)="copyLink(url)">
+    <mat-icon>file_copy</mat-icon>Copy
+  </button>
+  <button mat-button [mat-dialog-close]="true">Done</button>
 </mat-dialog-actions>

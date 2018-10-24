@@ -5,3 +5,16 @@
   /* bring your own prefixes */
   transform: translate(-50%, -50%);
 }
+
+.mat-form-field-infix {
+  width:340px;
+}
+
+.sharecontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.sharecontainer > * {
+  width: 100%;
+}

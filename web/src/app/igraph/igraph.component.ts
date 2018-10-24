@@ -161,7 +161,7 @@ export class IgraphComponent implements OnInit {
     var xRange = graphdiv.layout.xaxis.range;
     var yRange = graphdiv.layout.yaxis.range;
 
-    var state: Bookmark = {
+    var state = {
       yRange: yRange,
       xRange: xRange,
       columns: this.displayedFields,
@@ -172,8 +172,8 @@ export class IgraphComponent implements OnInit {
       var bookmark = res;
       console.log("bookmark result" + bookmark.id);
       const dialogRef = this.dialog.open(ShareDialogComponent, {
-        width: '250px', height: '150px',
-        data: { name: bookmark.id }
+        width: '450px', height: '250px',
+        data: { url: bookmark.id, pbutton: this.pbutton }
       });
 
       dialogRef.afterClosed().subscribe(result => {
