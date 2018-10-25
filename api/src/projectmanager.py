@@ -110,6 +110,7 @@ class ProjectManager():
             cl = LayoutSchema().dump(cl)
             return cl
         else:
+            session.close()
             return None
 
 
