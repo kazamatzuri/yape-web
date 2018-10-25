@@ -5,9 +5,10 @@ from sqlalchemy.orm import relationship
 from .entity import Entity, Base
 
 
-class LayoutColumn(Entity, Base):
+class LayoutColumn(Base):
     __tablename__ = 'layoutcolumn'
 
+    id = Column(Integer, primary_key=True)
     col = Column(String)
     layout_id = Column(Integer, ForeignKey('layout.id'))
 
@@ -20,6 +21,3 @@ class LayoutColumnSchema(Schema):
     id = fields.Number()
     col = fields.Str()
     layout_id = fields.Number()
-    created_at = fields.DateTime()
-    updated_at = fields.DateTime()
-    last_updated_by = fields.Str()

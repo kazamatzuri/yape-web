@@ -13,12 +13,18 @@ from werkzeug.utils import secure_filename
 import logging
 
 UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
-ALLOWED_EXTENSIONS = set(['html'])
+ALLOWED_EXTENSIONS = set(['html','zip'])
 
 app = Flask(__name__)
 #socketio = SocketIO(app)
-ROOMS = {}
+app.config.update(dict(
+    DATABASE=os.path.join(app.root_path, 'data.db'),
+))
+app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config.from_envvar('UPLOAD_FOLDER', silent=True)
+
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 CORS(app)
 
@@ -102,9 +108,6 @@ def getLayouts():
     ls=pm.getLayout()
     return jsonify(ls)
 
-
-
-
 @app.route('/bookmark',methods=['POST'])
 def addBookmark():
     pm = ProjectManager()
@@ -116,7 +119,6 @@ def addBookmark():
     else:
         sc={"error":"no data provided"}
         return jsonify(sc),400
-
 
 #@requires_auth
 @app.route('/pbutton/<id>')

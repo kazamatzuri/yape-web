@@ -17,6 +17,7 @@ class Layout(Entity, Base):
     def __init__(self, created_by,name):
         Entity.__init__(self, created_by)
         self.created_by=created_by
+        self.owner=created_by
         self.name=name
 
 
