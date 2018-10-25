@@ -9,7 +9,7 @@ from .layoutcolumn import LayoutColumn,LayoutColumnSchema
 class Layout(Entity, Base):
     __tablename__ = 'layout'
 
-    name = Column(String)
+    name = Column(String,unique=True)
     owner = Column(String)
     columns = relationship("LayoutColumn")
 
@@ -19,8 +19,6 @@ class Layout(Entity, Base):
         self.created_by=created_by
         self.owner=created_by
         self.name=name
-
-
 
 class LayoutSchema(Schema):
     id = fields.Number()

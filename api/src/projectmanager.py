@@ -75,8 +75,8 @@ class ProjectManager():
 
     @staticmethod
     def getLayout(id=None):
+        session = Session()
         if (id == None):
-            session = Session()
             layouts = session.query(Layout)
             if layouts == None:
                 session.close()
@@ -86,7 +86,6 @@ class ProjectManager():
             session.close()
             return lys
         else:
-            session = Session()
             layout = session.query(Layout).get(id)
             if layout == None:
                 session.close()
@@ -99,16 +98,20 @@ class ProjectManager():
 
     @staticmethod
     def saveLayout(data):
-        print(data['cols'])
-        l = Layout(name=data['name'], created_by="user")
-        for c in data['cols']:
-            l.columns.append(LayoutColumn(l, c))
         session = Session()
-        session.add(l)
-        session.commit()
-        nl = LayoutSchema().dump(l)
-        session.close()
-        return nl
+        cl = session.query(Layout).filter(name==data['name'])
+        if cl == None:
+            cl = Layout(name=data['name'], created_by="user")
+            for c in data['cols']:
+                l.columns.append(LayoutColumn(l, c))
+            session.add(cl)
+            session.commit()
+            session.close()
+            cl = LayoutSchema().dump(cl)
+            return cl
+        else:
+            return None
+
 
     @staticmethod
     def getBookmarks():

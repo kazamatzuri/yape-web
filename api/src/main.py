@@ -89,7 +89,10 @@ def saveLayout():
     if request.method=='POST':
         data = request.data
         req_data = json.loads(data)
-        return jsonify(pm.saveLayout(req_data))
+        layout=pm.saveLayout(req_data)
+        if layout is None:
+            abort(400)
+        return jsonify(layout)
     else:
         sc={"error":"no data provided"}
         return jsonify(sc),400
@@ -100,7 +103,7 @@ def getLayout(id):
     l=pm.getLayout(id)
     if l==None:
         abort(404)
-    return jsonify(bm)
+    return jsonify(l)
 
 @app.route('/layouts')
 def getLayouts():
