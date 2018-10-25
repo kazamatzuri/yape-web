@@ -97,6 +97,19 @@ class ProjectManager():
             l = schema.dump(layout)
             session.close()
             return l
+    @staticmethod
+    def saveLayout(data):
+        print(data['cols'])
+        l = Layout(name=data['name'],created_by="user")
+        for c in data['cols']:
+            l.columns.append(LayoutColumn(l,c))
+        session = Session()
+        session.add(l)
+        session.commit()
+        nl = LayoutSchema().dump(l)
+        session.close()
+        return nl
+
 
 
     @staticmethod

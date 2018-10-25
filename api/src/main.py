@@ -77,6 +77,17 @@ def getBookmarks():
     bms=pm.getBookmarks()
     return jsonify(bms)
 
+@app.route('/layout',methods=['POST'])
+def saveLayout():
+    pm = ProjectManager()
+    if request.method=='POST':
+        data = request.data
+        req_data = json.loads(data)
+        return jsonify(pm.saveLayout(req_data))
+    else:
+        sc={"error":"no data provided"}
+        return jsonify(sc),400
+
 @app.route('/layout/<id>')
 def getLayout(id):
     pm = ProjectManager()
