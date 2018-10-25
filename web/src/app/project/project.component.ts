@@ -29,7 +29,8 @@ export class ProjectComponent implements OnInit {
   }
 
   renderCols(bm): string {
-    var cols = JSON.parse(JSON.parse(bm.columns))
+    console.log(bm.columns)
+    var cols = JSON.parse(bm.columns)
     return cols.join(",")
   }
   openBookmark(bm) {

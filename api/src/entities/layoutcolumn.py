@@ -11,9 +11,8 @@ class LayoutColumn(Entity, Base):
     col = Column(String)
     layout_id = Column(Integer, ForeignKey('layout.id'))
 
-    def __init__(self, created_by,layout,col):
-        Entity.__init__(self, created_by)
-        self.created_by=created_by
+    def __init__(self,layout,col):
+        Entity.__init__(self, "system")
         self.layout_id=layout
         self.col=col
 

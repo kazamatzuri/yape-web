@@ -3,6 +3,7 @@ from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton,PButtonSchema
 from .entities.bookmark import Bookmark,BookmarkSchema
 from .entities.layout import Layout,LayoutSchema
+from .entities.layoutcolumn import LayoutColumn,LayoutColumnSchema
 from os import walk
 import os
 from os.path import join
@@ -35,7 +36,6 @@ class ProjectManager():
 
     def __getattr__(self, name):
         return getattr(self.instance, name)
-
 
     @staticmethod
     def addBookmark(data):
