@@ -24,4 +24,4 @@ RUN chown -R yape:yape ./
 USER yape
 
 EXPOSE 5000
-ENTRYPOINT ["./bootstrap.sh"]
+ENTRYPOINT ["./boot.sh"]

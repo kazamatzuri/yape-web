@@ -5,17 +5,16 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-socketio = "*"
 eventlet = "*"
 yape = { git = 'https://github.com/murrayo/yape.git'}
 sqlalchemy = "*"
 marshmallow = "*"
 flask-cors = "*"
-python-jose-cryptodome = "*"
 numpy = "*"
 pandas = "*"
 pyyaml = "*"
 matplotlib = "*"
+gunicorn = "*"
 
 [dev-packages]
 

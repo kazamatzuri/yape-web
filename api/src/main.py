@@ -27,7 +27,7 @@ app.config.from_envvar('UPLOAD_FOLDER', silent=True)
 
 app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
 CORS(app)
-
+application = app
 
 # generate database schema
 Base.metadata.create_all(engine)
