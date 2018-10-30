@@ -181,7 +181,6 @@ def getSpecificData(set,id):
             req_data = json.loads(data)
         else:
             req_data=None
-        print(req_data)
         return jsonify(pm.getSpecificData(set,id,req_data))
     else:
         return jsonify(pm.getSpecificData(set,id,None))

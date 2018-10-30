@@ -1,5 +1,5 @@
 #!/bin/sh
-source venv/bin/activate
+pipenv shell
 flask db upgrade
 flask translate compile
-exec gunicorn -b :5000 --access-logfile - --error-logfile - ./src/main.py
+gunicorn -b :5000 --access-logfile - --error-logfile - src.main:app

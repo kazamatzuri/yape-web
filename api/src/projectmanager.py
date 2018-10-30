@@ -83,7 +83,6 @@ class ProjectManager():
                 return []
             schema = LayoutSchema(many=True)
             lys = schema.dump(layouts)
-            print(lys)
             session.close()
             return lys
         else:
