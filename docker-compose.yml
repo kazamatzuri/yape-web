@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+  api:
+    build: api
+    ports:
+     - "5000:5000"
+  web:
+    container_name: web
+    build: 
+      context: web
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+     - "4200:4200"
