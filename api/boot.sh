@@ -1,5 +1,5 @@
 #!/bin/sh
-pipenv shell
-flask db upgrade
-flask translate compile
-gunicorn -b :5000 --access-logfile - --error-logfile - src.main:app
+
+pipenv run flask db upgrade
+pipenv run flask translate compile
+pipenv run gunicorn -b :5000 --access-logfile - --error-logfile - src.main:app

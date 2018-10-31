@@ -10,10 +10,12 @@ COPY Pipfile.lock Pipfile.lock
 RUN pip install pipenv
 
 COPY src src
-COPY setup.py boot.sh ./
-RUN chmod +x boot.sh
+
 RUN pipenv install --system --deploy
 RUN pipenv install gunicorn
+
+COPY setup.py boot.sh ./
+RUN chmod +x boot.sh
 
 ENV FLASK_APP =./src/main.py
 
