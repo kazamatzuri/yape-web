@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drone-config
+  namespace: drone
+data:
+
+  #######################
+  # Drone Server Config #
+  #######################
+
+  # server host name
+  server.host: http://yape.iscinternal.com
+  # start the server in debug mode
+  server.debug: "true"
+  # open user registration
+  server.open: "true"
+  # database driver, defaul as sqlite3
+  server.database.driver: sqlite3
+  # database driver configuration string
+  server.database.datasource: drone.sqlite
+  # list of admin users
+  server.admin: kazamatzuri
+
+  # remote parameters (GitHub)
+  server.remote.github: "true"
+  server.remote.github.client: e8b7db4315702c6fbb42
+  server.remote.github.secret: 982dc6696bf37c86b522b5b76f75c77fd69a2384
+
+  # remote parameters (Gitea)
+  server.remote.gitea: "false"
+  server.remote.gitea.url: "https://try.gitea.io"
+  server.remote.gitea.skip.verify: "true"
+
+  ######################
+  # Drone Agent Config #
+  ######################
+
+  agent.debug: "true"
+  agent.debug.pretty: "true"
+  agent.max.procs: "1"
+  agent.healthcheck: "true"
+  agent.keepalive.time: "1s"
+  agent.keepalive.timeout: "5s"
