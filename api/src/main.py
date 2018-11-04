@@ -64,7 +64,7 @@ def upload_file(id):
                     os.makedirs(dir)
                 files[file].save(os.path.join(dir, filename))
                 sc={"status":"success","id":fn}
-                pm.addPButton(id,filename)
+                pm.addPButton(project.id,filename)
                 return jsonify(sc),201
     sc={"status":"error"}
     return jsonify(sc),400
@@ -236,11 +236,14 @@ def add_project():
     return jsonify(new_project), 201
 
 
+@app.route("/",methods=['GET'])
+def health_check():
+    status={}
+    status['alive']=True
+    return jsonify(status)
+
 #@app.errorhandler(AuthError)
 #def handle_auth_error(ex):
 #    response = jsonify(ex.error)
 #    response.status_code = ex.status_code
 #    return response
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True)
