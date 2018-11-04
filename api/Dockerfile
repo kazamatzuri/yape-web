@@ -4,17 +4,14 @@ RUN adduser -D yape
 
 WORKDIR /home/yape
 
-RUN apk --no-cache add g++ freetype-dev libpng-dev git
-COPY Pipfile Pipfile
-COPY Pipfile.lock Pipfile.lock
-RUN pip install pipenv
+RUN apk -U --no-cache add g++ freetype-dev libpng-dev git
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
 
 COPY src src
 
-RUN pipenv install --system --deploy
-RUN pipenv install gunicorn
-
-COPY setup.py boot.sh ./
+COPY boot.sh boot.sh
 RUN chmod +x boot.sh
 
 ENV FLASK_APP =./src/main.py

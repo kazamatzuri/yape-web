@@ -1,0 +1,11 @@
+git+git://github.com/murrayo/yape@master
+flask
+eventlet 
+sqlalchemy
+marshmallow 
+flask-cors 
+numpy 
+pandas==0.23.4
+pyyaml==3.13
+matplotlib==2.2.3
+gunicorn

@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: kazamatzuri/yape-web
+  repository: kazamatzuri/yape
   tag: latest
   pullPolicy: IfNotPresent
 

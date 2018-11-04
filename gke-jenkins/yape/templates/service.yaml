@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "yape.name" . }}
+    app.kubernetes.io/name: {{ include "yape.name" . }}-web
     app.kubernetes.io/instance: {{ .Release.Name }}

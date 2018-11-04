@@ -5,7 +5,7 @@ from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton
-from .auth import AuthError, requires_auth
+#from .auth import AuthError, requires_auth
 from .projectmanager import ProjectManager
 import os
 import json
@@ -236,11 +236,11 @@ def add_project():
     return jsonify(new_project), 201
 
 
-@app.errorhandler(AuthError)
-def handle_auth_error(ex):
-    response = jsonify(ex.error)
-    response.status_code = ex.status_code
-    return response
+#@app.errorhandler(AuthError)
+#def handle_auth_error(ex):
+#    response = jsonify(ex.error)
+#    response.status_code = ex.status_code
+#    return response
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
