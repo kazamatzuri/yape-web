@@ -20,8 +20,8 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
-        - name: {{ .Chart.Name }}-web
-          image: "{{ .Values.image.repository }}-web:{{ .Values.image.tag }}"
+        - name: yape-web
+          image: "{{ .Values.image.webrepository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -36,8 +36,8 @@ spec:
               path: /
               port: http
           resources:
-        - name: {{ .Chart.Name }}-api
-          image: "{{ .Values.image.repository }}-api:{{ .Values.image.tag }}"
+        - name: yape-api
+          image: "{{ .Values.image.apirepository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
@@ -46,11 +46,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5000
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: 5000
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

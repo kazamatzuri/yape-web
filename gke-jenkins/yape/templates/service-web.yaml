@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "yape.fullname" . }}
+  name: {{ include "yape.fullname" . }}-web
   labels:
     app.kubernetes.io/name: {{ include "yape.name" . }}
     helm.sh/chart: {{ include "yape.chart" . }}
@@ -10,10 +10,10 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: 80
       targetPort: http
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "yape.name" . }}-web
+    app.kubernetes.io/name: {{ include "yape.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
