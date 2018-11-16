@@ -104,3 +104,7 @@ ENV/
 .idea/
 *.iml
 .DS_Store
+
+#postgresql
+.database
+database/

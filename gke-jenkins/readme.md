@@ -30,14 +30,14 @@ let's add helm support and nginx-ingress
 ```
 kubectl apply -f tiller-rbac.yaml
 helm init  --service-account tiller
-helm install stable/nginx-ingress --namespace kube-system
+helm install --values traefik-values.yaml stable/traefik
 ```
 
 get external ip with:
 ```
 kubectl get svc -n kube-system
 ```
-(look for the external-ip on nginx-ingress-controller), you should get 'default backend - 404' on this now
+(look for the external-ip on ingress-controller), you should get 'default backend - 404' on this now
 
 
 With the yape chart in the same directory do

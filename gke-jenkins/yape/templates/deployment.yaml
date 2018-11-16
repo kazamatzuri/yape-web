@@ -20,6 +20,18 @@ spec:
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       containers:
+        
+        #- name: yape-db
+        #  image: postgres:latest
+        #  imagePullPolicy: "IfNotPresent"
+        #  ports:
+        #    - containerPort: 5432
+        #  envFrom:
+        #    - configMapRef:
+        #        name: postgres-config
+        #  volumeMounts:
+        #    - mountPath: /var/lib/postgresql/data
+        #      name: pgdb
         - name: yape-web
           image: "{{ .Values.image.webrepository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -52,16 +64,14 @@ spec:
               path: /
               port: 5000
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+          volumeMounts:
+            - mountPath: /data
+              name: yapedb          
+      volumes:
+        - name: pgdb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+        - name: yapedb
+          persistentVolumeClaim:
+            claimName: yape-pv-claim
+

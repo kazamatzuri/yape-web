@@ -4,10 +4,11 @@
 
 replicaCount: 1
 
+
 image:
   webrepository: kazamatzuri/yape-web
   apirepository: kazamatzuri/yape-api
-  tag: latest
+  tag: 0.1
   pullPolicy: Always
 
 nameOverride: ""

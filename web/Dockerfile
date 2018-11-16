@@ -17,7 +17,7 @@ COPY . .
 RUN npm install
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN $(npm bin)/ng build --prod
+RUN NODE_OPTIONS=--max-old-space-size=4096 $(npm bin)/ng build --prod
 
 
 FROM nginx:alpine

@@ -1,5 +1,12 @@
 version: '3.7'
 services:
+  db:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
   api:
     build:
       context: api
@@ -7,18 +14,11 @@ services:
     image: "yape-api:latest"
     ports:
      - "5000:5000"
-    volumes:
-      - yape-data:/data
   web:
     container_name: web
     image: "yape-web:latest"
     build: 
       context: web
       dockerfile: Dockerfile
-    volumes:
-      - '.:/usr/src/app'
-      - '/usr/src/app/node_modules'
     ports:
-     - "4200:4200"
-volumes:
-  yape-data:
+     - "80:80"
