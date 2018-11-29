@@ -5,9 +5,9 @@ from jose import jwt
 from urllib.request import urlopen
 
 
-AUTH0_DOMAIN = 'yape-web.auth0.com'
+AUTH0_DOMAIN = 'https://yape-web.auth0.com/'
 ALGORITHMS = ['RS256']
-API_AUDIENCE = 'https://yape.iscinternal.com/api'
+API_AUDIENCE = 'https://yape.iscinternal.com:5000'
 
 
 class AuthError(Exception):
@@ -49,6 +49,27 @@ def get_token_auth_header():
     token = parts[1]
     return token
 
+def requires_role(required_role):
+    def decorator(f):
+        def wrapper(**args):
+            token = get_token_auth_header()
+            unverified_claims = jwt.get_unverified_claims(token)
+
+            # search current token for the expected role
+            if unverified_claims.get('https://yape.iscinternal.com/roles'):
+                roles = unverified_claims['https://yape.iscinternal.com/roles']
+                for role in roles:
+                    if role == required_role:
+                        return f(**args)
+
+            raise AuthError({
+                'code': 'insuficient_roles',
+                'description': 'You do not have the roles needed to perform this operation.'
+            }, 401)
+
+        return wrapper
+
+    return decorator
 
 def requires_auth(f):
     """Determines if the Access Token is valid

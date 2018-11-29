@@ -3,6 +3,8 @@ services:
   db:
     restart: always
     image: postgres:latest
+    networks:
+      - yape
     volumes:
       - ./database:/var/lib/postgresql/data
     ports:
@@ -12,13 +14,20 @@ services:
       context: api
       dockerfile: Dockerfile
     image: "yape-api:latest"
+    networks:
+      - yape
     ports:
      - "5000:5000"
   web:
     container_name: web
     image: "yape-web:latest"
+    networks:
+      - yape
     build: 
       context: web
       dockerfile: Dockerfile
     ports:
      - "80:80"
+
+networks:
+  yape:

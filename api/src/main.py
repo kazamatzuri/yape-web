@@ -5,7 +5,7 @@ from flask_cors import CORS
 from .entities.entity import Session, engine, Base
 from .entities.project import Project,ProjectSchema
 from .entities.pbutton import PButton
-#from .auth import AuthError, requires_auth
+from .auth import AuthError, requires_auth,requires_role
 from .projectmanager import ProjectManager
 import os
 import json
@@ -37,6 +37,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/project/<id>',methods=['POST'])
+@requires_auth
 def upload_file(id):
     pm = ProjectManager()
     try:
@@ -78,12 +79,15 @@ def getBookmark(id):
     return jsonify(bm)
 
 @app.route('/bookmarks')
+@requires_auth
 def getBookmarks():
     pm = ProjectManager()
     bms=pm.getBookmarks()
     return jsonify(bms)
 
 @app.route('/layout',methods=['POST'])
+@requires_auth
+#@requires_role('admin')
 def saveLayout():
     pm = ProjectManager()
     if request.method=='POST':
@@ -112,6 +116,7 @@ def getLayouts():
     return jsonify(ls)
 
 @app.route('/bookmark',methods=['POST'])
+@requires_auth
 def addBookmark():
     pm = ProjectManager()
     if request.method=='POST':
@@ -133,12 +138,14 @@ def get_pbutton(id):
     return jsonify(pb)
 
 @app.route('/pbutton/<id>/parse')
+@requires_auth
 def parse_pbutton(id):
     pm = ProjectManager()
     return jsonify(pm.createDB(id))
 
 
 @app.route('/pbutton/<id>/graphs',methods=['PUT','POST'])
+@requires_auth
 def updateGraphs(id):
     pm=ProjectManager()
     pm.generateGraphs(id)
@@ -197,14 +204,14 @@ def getGraphs(id):
     return jsonify(pm.getGraphs(id))
 
 @app.route('/projects')
-#@requires_auth
+@requires_auth
 def get_projects():
     pm = ProjectManager()
     return jsonify(pm.getProjects())
     # fetching from the database
     #return jsonify(projects.data)
 
-#@requires_auth
+@requires_auth
 @app.route('/project/<id>')
 def get_project(id):
     pm = ProjectManager()
@@ -242,8 +249,8 @@ def health_check():
     status['alive']=True
     return jsonify(status)
 
-#@app.errorhandler(AuthError)
-#def handle_auth_error(ex):
-#    response = jsonify(ex.error)
-#    response.status_code = ex.status_code
-#    return response
+@app.errorhandler(AuthError)
+def handle_auth_error(ex):
+    response = jsonify(ex.error)
+    response.status_code = ex.status_code
+    return response

@@ -1,9 +1,5 @@
 #Installation
 
-you'll need pipenv and python3. then cd into the api directory (same dir as the readme is) and run:
-```
-pipenv install
-```
 
 
 You might need to do this:
@@ -14,10 +10,3 @@ You might need to do this:
 ```
 I resolved this error by following the instructions in this answer while also using this document to find where the matplotlibrc file is located.
 
-To do this inside my pipenv I ran the following code:
-
-python
->>> import matplotlib
->>> matplotlib.matplotlib_fname()
-Using the output I navigated to the matplotlibrc file within my virtual environment and added backend: TkAgg to the file.
-```

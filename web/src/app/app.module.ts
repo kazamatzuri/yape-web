@@ -10,8 +10,6 @@ import { ProjectsComponent } from './projects/projects.component';
 
 import { ProjectFormComponent } from './projects/project-form.component';
 import { RouterModule, Routes } from '@angular/router';
-//import { CallbackComponent } from './callback/callback.component';
-//import * as Auth0 from 'auth0-web';
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -38,14 +36,17 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CallbackComponent } from './callback/callback.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'project/:id', component: ProjectComponent },
+  { path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard] },
+  { path: 'project/:id', component: ProjectComponent ,canActivate:[AuthGuard]},
   { path: 'pbutton/:id', component: PbuttonComponent },
   { path: '', component: HomeComponent },
-  //{ path: 'callback', component: CallbackComponent },
+  { path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
 
 ];
@@ -56,7 +57,6 @@ const appRoutes: Routes = [
     AppComponent,
     ProjectsComponent,
     ProjectFormComponent,
-    //CallbackComponent,
     AboutComponent,
     HomeComponent,
     ProjectComponent,
@@ -68,6 +68,7 @@ const appRoutes: Routes = [
     PboverviewComponent,
     SpinnerComponent,
     ShareDialogComponent,
+    CallbackComponent,
 
   ],
   imports: [
@@ -95,17 +96,14 @@ const appRoutes: Routes = [
   entryComponents: [
     ShareDialogComponent,
   ],
-  providers: [ProjectService],
+  
+  providers: [ProjectService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor() {
-    /*Auth0.configure({
-      domain: 'yape-web.auth0.com',
-      audience: 'https://yape.iscinternal.com/api',
-      clientID: 'nlNNFnZV0NRTorLtIUOVwaQWDXcv1GNZ',
-      redirectUri: 'http://localhost:4200/callback',
-      scope: 'openid profile manage:projects'
-    });*/
+
+
+
   }
 }

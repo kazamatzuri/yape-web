@@ -1,1 +1,1 @@
-export const API_URL = 'http://api.yape.local:5000';
+export const API_URL = 'http://yape.iscinternal.com:5000';
