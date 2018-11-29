@@ -4,13 +4,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Bookmark } from './bookmark';
+import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PbuttonService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,private authService: AuthService) {
   }
 
   private static _handleError(err: HttpErrorResponse | any) {
@@ -32,7 +33,6 @@ export class PbuttonService {
   //ignore type because of sqlalchemy's sqlite restriction on no arrays...
   //bookmark.columns
   saveBookmark(data) {
-    ///pbutton/<id>/data/<set>
     var url = `${API_URL}/bookmark`;
     return this.http
       .post(url, JSON.stringify(data))
@@ -40,6 +40,7 @@ export class PbuttonService {
   }
 
   loadBookmark(key: string) {
+
     var url = `${API_URL}/bookmark/` + key;
     return this.http
       .get(url)
@@ -47,7 +48,7 @@ export class PbuttonService {
   }
 
   getSpecificData(id, set, field) {
-    ///pbutton/<id>/data/<set>
+
     var url = `${API_URL}/pbutton/` + id + '/data/' + set;
     return this.http
       .post(url, JSON.stringify(field))

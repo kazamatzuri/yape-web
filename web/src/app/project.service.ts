@@ -19,35 +19,18 @@ export class ProjectService {
   }
 
   getPButtons(id): Observable<any> {
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${Auth0.getAccessToken()}`
-      })
-    };*/
     return this.http
       .get(`${API_URL}/project/` + id + '/pbuttons')
       .pipe(catchError(ProjectService._handleError));
   }
   // GET list of public, future events
   getProjects(): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${this.authService.accessToken}`
-      })
-    };
-
     return this.http
-      .get(`${API_URL}/projects`, httpOptions)
+      .get(`${API_URL}/projects`)
       .pipe(catchError(ProjectService._handleError));
   }
 
   getProject(id): Observable<any> {
-    console.log("getting" + 1);
-    /*const httpOptions = {
-      headers: new HttpHeaders({
-        'Authorization': `Bearer ${Auth0.getAccessToken()}`
-      })
-    };*/
     var url = `${API_URL}/project/` + id;
     console.log(url);
     return this.http
@@ -56,11 +39,7 @@ export class ProjectService {
   }
 
   saveProject(project: Project): Observable<any> {
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Authorization': `Bearer ${Auth0.getAccessToken()}`
-    //   })
-    // };
-    return this.http.post(`${API_URL}/projects`, project) //, httpOptions)
+
+    return this.http.post(`${API_URL}/projects`, project)
   }
 }

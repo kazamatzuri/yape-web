@@ -39,6 +39,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CallbackComponent } from './callback/callback.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './auth/auth.guard';
+import {HTTP_INTERCEPTORS } from '@angular/common/http';
+import {TokenInterceptor} from './auth/token.interceptor';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
@@ -97,7 +99,9 @@ const appRoutes: Routes = [
     ShareDialogComponent,
   ],
   
-  providers: [ProjectService,AuthService],
+  providers: [ProjectService,AuthService,{
+    provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
