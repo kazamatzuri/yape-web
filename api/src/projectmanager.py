@@ -269,7 +269,8 @@ class ProjectManager():
             if ProjectManager.check_data(db, i):
                 cursor = db.execute('select * from ' + i)
                 names = [description[0] for description in cursor.description]
-                names.remove('datetime')
+                if 'datetime' in names:
+                    names.remove('datetime')
                 data[i] = names
         return data
 

@@ -6,16 +6,17 @@ from .entity import Entity, Base
 
 
 class LayoutColumn(Base):
-    __tablename__ = 'layoutcolumn'
+    __tablename__ = "layoutcolumn"
 
     id = Column(Integer, primary_key=True)
     col = Column(String)
-    layout_id = Column(Integer, ForeignKey('layout.id'))
+    layout_id = Column(Integer, ForeignKey("layout.id"))
 
-    def __init__(self,layout,col):
+    def __init__(self, layout, col):
         Entity.__init__(self, "system")
-        self.layout_id=layout
-        self.col=col
+        self.layout_id = layout
+        self.col = col
+
 
 class LayoutColumnSchema(Schema):
     id = fields.Number()

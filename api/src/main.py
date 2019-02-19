@@ -1,31 +1,31 @@
 # coding=utf-8
-from flask import Flask, jsonify, request, session, Response,abort
-#from flask_socketio import SocketIO, join_room,emit
+from flask import Flask, jsonify, request, session, Response, abort
+
+# from flask_socketio import SocketIO, join_room,emit
 from flask_cors import CORS
 from .entities.entity import Session, engine, Base
-from .entities.project import Project,ProjectSchema
+from .entities.project import Project, ProjectSchema
 from .entities.pbutton import PButton
-from .auth import AuthError, requires_auth,requires_role
+
+# from .auth import AuthError, requires_auth,requires_role
 from .projectmanager import ProjectManager
 import os
 import json
 from werkzeug.utils import secure_filename
 import logging
 
-UPLOAD_FOLDER='/Users/kazamatzuri/work/temp/yape-data'
-ALLOWED_EXTENSIONS = set(['html','zip'])
+UPLOAD_FOLDER = "/Users/kazamatzuri/work/temp/yape-data"
+ALLOWED_EXTENSIONS = set(["html", "zip"])
 
 app = Flask(__name__)
-#socketio = SocketIO(app)
-app.config.update(dict(
-    DATABASE=os.path.join(app.root_path, 'data.db'),
-))
-app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+# socketio = SocketIO(app)
+app.config.update(dict(DATABASE=os.path.join(app.root_path, "data.db")))
+app.config.from_envvar("FLASKR_SETTINGS", silent=True)
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config.from_envvar('UPLOAD_FOLDER', silent=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config.from_envvar("UPLOAD_FOLDER", silent=True)
 
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 1024
+app.config["MAX_CONTENT_LENGTH"] = 1024 * 1024 * 1024
 CORS(app)
 application = app
 
@@ -34,222 +34,247 @@ Base.metadata.create_all(engine)
 
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@app.route('/project/<id>',methods=['POST'])
-@requires_auth
+
+@app.route("/project/<id>", methods=["POST"])
+# @requires_auth
 def upload_file(id):
     pm = ProjectManager()
     try:
         project = pm.getProject(id)
     except:
-        sc={"status":"project not found"}
-        return jsonify(sc),404
-    if request.method=='POST':
-        if 'file' not in request.files:
+        sc = {"status": "project " + str(project) + "not found"}
+        return jsonify(sc), 404
+    if request.method == "POST":
+        if "file" not in request.files:
             return "error"
         files = request.files.to_dict()
         for file in files:
-            if files[file].filename == '':
+            if files[file].filename == "":
                 logging.error("no filename supplied in upload")
-                sc={"status":"error"}
-                return jsonify(sc),400
+                sc = {"status": "error"}
+                return jsonify(sc), 400
             if file and allowed_file(files[file].filename):
                 filename = secure_filename(files[file].filename)
                 if pm.existsFile(filename):
-                    sc={"status":"error","error":"existing file"}
-                    return jsonify(sc),400
-                fn=filename.rsplit('.',1)[0].lower()
-                dir=os.path.join(app.config['UPLOAD_FOLDER'],fn)
+                    sc = {"status": "error", "error": "existing file"}
+                    return jsonify(sc), 400
+                fn = filename.rsplit(".", 1)[0].lower()
+                dir = os.path.join(app.config["UPLOAD_FOLDER"], fn)
                 if not os.path.exists(dir):
                     os.makedirs(dir)
                 files[file].save(os.path.join(dir, filename))
-                sc={"status":"success","id":fn}
-                pm.addPButton(project.id,filename)
-                return jsonify(sc),201
-    sc={"status":"error"}
-    return jsonify(sc),400
+                sc = {"status": "success", "id": fn}
+                pm.addPButton(id, filename)
+                return jsonify(sc), 201
+    sc = {"status": "error"}
+    return jsonify(sc), 400
 
-@app.route('/bookmark/<id>')
+
+@app.route("/bookmark/<id>")
 def getBookmark(id):
     pm = ProjectManager()
-    bm=pm.getBookmark(id)
-    if bm==None:
+    bm = pm.getBookmark(id)
+    if bm == None:
         abort(404)
     return jsonify(bm)
 
-@app.route('/bookmarks')
-@requires_auth
+
+@app.route("/bookmarks")
+# @requires_auth
 def getBookmarks():
     pm = ProjectManager()
-    bms=pm.getBookmarks()
+    bms = pm.getBookmarks()
     return jsonify(bms)
 
-@app.route('/layout',methods=['POST'])
-@requires_auth
-#@requires_role('admin')
+
+@app.route("/layout", methods=["POST"])
+# @requires_auth
+# @requires_role('admin')
 def saveLayout():
     pm = ProjectManager()
-    if request.method=='POST':
+    if request.method == "POST":
         data = request.data
         req_data = json.loads(data)
-        layout=pm.saveLayout(req_data)
+        layout = pm.saveLayout(req_data)
         if layout is None:
             abort(400)
         return jsonify(layout)
     else:
-        sc={"error":"no data provided"}
-        return jsonify(sc),400
+        sc = {"error": "no data provided"}
+        return jsonify(sc), 400
 
-@app.route('/layout/<id>')
+
+# @app.route('/layout/<id>')
+
+
 def getLayout(id):
     pm = ProjectManager()
-    l=pm.getLayout(id)
-    if l==None:
+    l = pm.getLayout(id)
+    if l == None:
         abort(404)
     return jsonify(l)
 
-@app.route('/layouts')
+
+@app.route("/layouts")
 def getLayouts():
     pm = ProjectManager()
-    ls=pm.getLayout()
+    ls = pm.getLayout()
     return jsonify(ls)
 
-@app.route('/bookmark',methods=['POST'])
-@requires_auth
+
+@app.route("/bookmark", methods=["POST"])
+# @requires_auth
 def addBookmark():
     pm = ProjectManager()
-    if request.method=='POST':
-        #print(request.get_json())
+    if request.method == "POST":
+        # print(request.get_json())
         data = request.data
         req_data = json.loads(data)
         return jsonify(pm.addBookmark(req_data))
     else:
-        sc={"error":"no data provided"}
-        return jsonify(sc),400
+        sc = {"error": "no data provided"}
+        return jsonify(sc), 400
 
-#@requires_auth
-@app.route('/pbutton/<id>')
+
+# @requires_auth
+
+
+@app.route("/pbutton/<id>")
 def get_pbutton(id):
     pm = ProjectManager()
-    pb=pm.getPbutton(id)
-    if pb==None:
+    pb = pm.getPbutton(id)
+    if pb == None:
         abort(404)
     return jsonify(pb)
 
-@app.route('/pbutton/<id>/parse')
-@requires_auth
+
+@app.route("/pbutton/<id>/parse")
+# @requires_auth
 def parse_pbutton(id):
     pm = ProjectManager()
     return jsonify(pm.createDB(id))
 
 
-@app.route('/pbutton/<id>/graphs',methods=['PUT','POST'])
-@requires_auth
+@app.route("/pbutton/<id>/graphs", methods=["PUT", "POST"])
+# @requires_auth
 def updateGraphs(id):
-    pm=ProjectManager()
+    pm = ProjectManager()
     pm.generateGraphs(id)
-    return jsonify({}),200
+    return jsonify({}), 200
 
-@app.route('/pbutton/<id>/textfields')
+
+@app.route("/pbutton/<id>/textfields")
 def getTextFields(id):
-    pm=ProjectManager()
+    pm = ProjectManager()
     return jsonify(pm.getTextFields(id))
 
-@app.route('/pbutton/<id>/fields')
+
+@app.route("/pbutton/<id>/fields")
 def getFields(id):
-    pm=ProjectManager()
+    pm = ProjectManager()
     return jsonify(pm.getFields(id))
 
-@app.route('/pbutton/<id>/describe')
+
+@app.route("/pbutton/<id>/describe")
 def getDescription(id):
-    pm=ProjectManager()
+    pm = ProjectManager()
     return jsonify(pm.getDescription(id))
 
 
-@app.route('/pbutton/<id>/data',methods=["GET","POST"])
+@app.route("/pbutton/<id>/data", methods=["GET", "POST"])
 def getData(id):
-    pm=ProjectManager()
-    if request.method=='POST':
-        #print(request.get_json())
+    pm = ProjectManager()
+    if request.method == "POST":
+        # print(request.get_json())
         data = request.data
         req_data = json.loads(data)
-        return jsonify(pm.getmixedData(id,req_data))
+        return jsonify(pm.getmixedData(id, req_data))
     else:
-        return jsonify(pm.getData(id,None))
+        return jsonify(pm.getData(id, None))
 
-@app.route('/pbutton/<id>/data/<set>',methods=["GET","POST"])
-def getSpecificData(set,id):
-    pm=ProjectManager()
-    if request.method=='POST':
-        #print(request.get_json())
+
+@app.route("/pbutton/<id>/data/<set>", methods=["GET", "POST"])
+def getSpecificData(set, id):
+    pm = ProjectManager()
+    if request.method == "POST":
+        # print(request.get_json())
         data = request.data
-        if (len(data)>0):
+        if len(data) > 0:
             req_data = json.loads(data)
         else:
-            req_data=None
-        return jsonify(pm.getSpecificData(set,id,req_data))
+            req_data = None
+        return jsonify(pm.getSpecificData(set, id, req_data))
     else:
-        return jsonify(pm.getSpecificData(set,id,None))
+        return jsonify(pm.getSpecificData(set, id, None))
 
 
-@app.route('/pbutton/<id>/<url>')
-def getImage(id,url):
-    pm=ProjectManager()
-    return pm.serveImg(id,url)
+@app.route("/pbutton/<id>/<url>")
+def getImage(id, url):
+    pm = ProjectManager()
+    return pm.serveImg(id, url)
 
-@app.route('/pbutton/<id>/graphs')
+
+@app.route("/pbutton/<id>/graphs")
 def getGraphs(id):
     pm = ProjectManager()
     return jsonify(pm.getGraphs(id))
 
-@app.route('/projects')
-@requires_auth
+
+@app.route("/projects")
+# @requires_auth
 def get_projects():
     pm = ProjectManager()
     return jsonify(pm.getProjects())
     # fetching from the database
-    #return jsonify(projects.data)
+    # return jsonify(projects.data)
 
-@requires_auth
-@app.route('/project/<id>')
+
+# @requires_auth
+
+
+@app.route("/project/<id>")
 def get_project(id):
     pm = ProjectManager()
     return jsonify(pm.getProject(id))
     # fetching from the database
-    #return jsonify(projects.data)
+    # return jsonify(projects.data)
 
-@app.route('/project/<id>/pbuttons')
+
+@app.route("/project/<id>/pbuttons")
 def get_project_buttons(id):
     pm = ProjectManager()
     return jsonify(pm.getPButtons(id))
     # fetching from the database
-    #return jsonify(projects.data)
+    # return jsonify(projects.data)
 
 
-@app.route('/project/<id>/bookmarks')
+@app.route("/project/<id>/bookmarks")
 def get_project_bookmars(id):
     pm = ProjectManager()
     return jsonify(pm.getProjectBookmarks(id))
 
 
-
-@app.route('/projects', methods=['POST'])
-#@requires_auth
+@app.route("/projects", methods=["POST"])
+# @requires_auth
 def add_project():
     pm = ProjectManager()
-    data=request.get_json()
-    new_project=pm.createProject(data["title"],data["description"])
+    data = request.get_json()
+    new_project = pm.createProject(data["title"], data["description"])
     return jsonify(new_project), 201
 
 
-@app.route("/",methods=['GET'])
+@app.route("/", methods=["GET"])
 def health_check():
-    status={}
-    status['alive']=True
+    status = {}
+    status["alive"] = True
     return jsonify(status)
 
-@app.errorhandler(AuthError)
+
+# @app.errorhandler(AuthError)
+
+
 def handle_auth_error(ex):
     response = jsonify(ex.error)
     response.status_code = ex.status_code

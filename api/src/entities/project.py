@@ -3,12 +3,13 @@ from marshmallow import Schema, fields
 from sqlalchemy.orm import relationship
 
 from .entity import Entity, Base
-from .pbutton import PButton,PButtonSchema
-from .comment import Comment,CommentSchema
-from .bookmark import Bookmark,BookmarkSchema
+from .pbutton import PButton, PButtonSchema
+from .comment import Comment, CommentSchema
+from .bookmark import Bookmark, BookmarkSchema
+
 
 class Project(Entity, Base):
-    __tablename__ = 'project'
+    __tablename__ = "project"
 
     title = Column(String)
     wrc = Column(Integer)
@@ -24,6 +25,7 @@ class Project(Entity, Base):
         self.user = created_by
         self.description = description
 
+
 class ProjectSchema(Schema):
     id = fields.Number()
     wrc = fields.Number()
@@ -33,6 +35,6 @@ class ProjectSchema(Schema):
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
     last_updated_by = fields.Str()
-    pbuttons = fields.Nested(PButtonSchema,many=True)
-    comments = fields.Nested(CommentSchema,many=True)
-    bookmarks = fields.Nested(BookmarkSchema,many=True)
+    pbuttons = fields.Nested(PButtonSchema, many=True)
+    comments = fields.Nested(CommentSchema, many=True)
+    bookmarks = fields.Nested(BookmarkSchema, many=True)

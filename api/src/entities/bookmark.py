@@ -8,22 +8,23 @@ from .entity import Entity, Base
 
 
 class Bookmark(Entity, Base):
-    __tablename__ = 'bookmark'
+    __tablename__ = "bookmark"
 
     columns = Column(String)
     pbutton = Column(Integer)
     xRange = Column(String)
     yRange = Column(String)
-    project = Column(Integer, ForeignKey('project.id'))
+    project = Column(Integer, ForeignKey("project.id"))
 
     def __init__(self, data, created_by):
         Entity.__init__(self, "system")
         self.created_by = created_by
-        self.columns = json.dumps(data['columns'])
-        self.pbutton = data['pbutton']
-        self.xRange = json.dumps(data['xRange'])
-        self.yRange = json.dumps(data['yRange'])
-        self.project = data['project']
+        self.columns = json.dumps(data["columns"])
+        self.pbutton = data["pbutton"]
+        self.xRange = json.dumps(data["xRange"])
+        self.yRange = json.dumps(data["yRange"])
+        self.project = data["project"]
+
 
 class BookmarkSchema(Schema):
     id = fields.Number()
