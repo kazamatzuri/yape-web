@@ -4,14 +4,14 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Bookmark } from './bookmark';
-import { AuthService } from './auth/auth.service';
+//import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PbuttonService {
 
-  constructor(private http: HttpClient,private authService: AuthService) {
+  constructor(private http: HttpClient) {
   }
 
   private static _handleError(err: HttpErrorResponse | any) {

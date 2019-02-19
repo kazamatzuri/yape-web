@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { API_URL } from './env';
 import { Project } from './project';
-import { AuthService } from './auth/auth.service';
+//import { AuthService } from './auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-  constructor(private http: HttpClient,private authService: AuthService) {
+  constructor(private http: HttpClient) {
   }
   private static _handleError(err: HttpErrorResponse | any) {
     console.log(err)

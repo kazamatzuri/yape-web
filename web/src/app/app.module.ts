@@ -36,19 +36,19 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShareDialogComponent } from './share-dialog/share-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { CallbackComponent } from './callback/callback.component';
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
-import {HTTP_INTERCEPTORS } from '@angular/common/http';
-import {TokenInterceptor} from './auth/token.interceptor';
+//import { CallbackComponent } from './callback/callback.component';
+//import { AuthService } from './auth/auth.service';
+//import { AuthGuard } from './auth/auth.guard';
+//import {HTTP_INTERCEPTORS } from '@angular/common/http';
+//import {TokenInterceptor} from './auth/token.interceptor';
 
 const appRoutes: Routes = [
   { path: 'new-project', component: ProjectFormComponent },
-  { path: 'projects', component: ProjectsComponent,canActivate:[AuthGuard] },
-  { path: 'project/:id', component: ProjectComponent ,canActivate:[AuthGuard]},
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'project/:id', component: ProjectComponent},
   { path: 'pbutton/:id', component: PbuttonComponent },
   { path: '', component: HomeComponent },
-  { path: 'callback', component: CallbackComponent },
+  //{ path: 'callback', component: CallbackComponent },
   { path: 'about', component: AboutComponent },
 
 ];
@@ -70,7 +70,7 @@ const appRoutes: Routes = [
     PboverviewComponent,
     SpinnerComponent,
     ShareDialogComponent,
-    CallbackComponent,
+    //CallbackComponent,
 
   ],
   imports: [
@@ -99,9 +99,9 @@ const appRoutes: Routes = [
     ShareDialogComponent,
   ],
   
-  providers: [ProjectService,AuthService,{
-    provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true
-  }],
+  //providers: [ProjectService,AuthService,{
+  //  provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true
+  //}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
