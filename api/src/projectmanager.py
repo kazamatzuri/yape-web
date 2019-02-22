@@ -15,19 +15,21 @@ import sqlite3
 import yape
 import logging
 import traceback
+
 # note: getting an error: ImportError: Python is not installed as a framework. The Mac OS X backend...
 # see to fix it:
 # https://stackoverflow.com/questions/49367013/pipenv-install-matplotlib
 
 from subprocess import call
-UPLOAD_FOLDER = '/Users/kazamatzuri/work/temp/yape-data'
+
+UPLOAD_FOLDER = "/Users/kazamatzuri/work/temp/yape-data"
 
 
-class ProjectManager():
+class ProjectManager:
     class __ProjectManager:
-
         def __str__(self):
             return repr(self)
+
     instance = None
 
     def __init__(self):
@@ -76,7 +78,7 @@ class ProjectManager():
     @staticmethod
     def getLayout(id=None):
         session = Session()
-        if (id == None):
+        if id == None:
             layouts = session.query(Layout)
             if layouts.count() == 0:
                 session.close()
@@ -98,12 +100,12 @@ class ProjectManager():
 
     @staticmethod
     def saveLayout(data):
-        print(data['name'])
+        print(data["name"])
         session = Session()
-        cl = session.query(Layout).filter(Layout.name==data['name'])
+        cl = session.query(Layout).filter(Layout.name == data["name"])
         if cl.count() == 0:
-            cl = Layout(name=data['name'], created_by="user")
-            for c in data['cols']:
+            cl = Layout(name=data["name"], created_by="user")
+            for c in data["cols"]:
                 cl.columns.append(LayoutColumn(cl, c))
             session.add(cl)
             session.commit()
@@ -145,7 +147,7 @@ class ProjectManager():
         data = True
         try:
             cur.execute("SELECT * FROM " + name + " LIMIT 2")
-            if (len(cur.fetchall()) < 2):
+            if len(cur.fetchall()) < 2:
                 data = False
         except:
             data = False
@@ -157,7 +159,7 @@ class ProjectManager():
         session = Session()
         pb = session.query(PButton).get(id)
         dir = pb.graphdir
-        if (dir is None or dir == ""):
+        if dir is None or dir == "":
             dir = pb.filename.split(".")[0]
         pb.ran_last = datetime.now()
         pb.graphdir = dir
@@ -182,11 +184,11 @@ class ProjectManager():
 
     @staticmethod
     def createDB(id):
-        #print("createdb "+id)
+        # print("createdb "+id)
         session = Session()
         pb = session.query(PButton).get(id)
         dir = pb.graphdir
-        if (dir is None or dir == ""):
+        if dir is None or dir == "":
             dir = pb.filename.split(".")[0]
         pb.graphdir = dir
         dir = join(UPLOAD_FOLDER, pb.graphdir)
@@ -200,7 +202,7 @@ class ProjectManager():
         except OSError:
             pass
         # call(["yape","-q","--filedb",filedb,f])
-        params = ['--filedb', filedb, f]
+        params = ["--filedb", filedb, f]
         # logging.debug(params)
         print(filedb)
         args = yape.main.parse_args(params)
@@ -231,10 +233,38 @@ class ProjectManager():
         session.close()
         db = sqlite3.connect(filedb)
         cur = db.cursor()
-        list = ['license', 'cpffile', 'ss1', 'ss2', 'cstatc11', 'cstatc12', 'cstatc13', 'cstatc14',
-                'cstatD1', 'cstatD2', 'cstatD3', 'cstatD4', 'cstatD5', 'cstatD6', 'cstatD7', 'cstatD8',
-                'windowsinfo', 'linuxinfo', 'tasklist', 'cpu', 'df-m', 'fdisk-l', 'ifconfig', 'ipcs', 'mount', 'pselfy1',
-                'pselfy2', 'pselfy3', 'pselfy4', 'sysctl-a']
+        list = [
+            "license",
+            "cpffile",
+            "ss1",
+            "ss2",
+            "cstatc11",
+            "cstatc12",
+            "cstatc13",
+            "cstatc14",
+            "cstatD1",
+            "cstatD2",
+            "cstatD3",
+            "cstatD4",
+            "cstatD5",
+            "cstatD6",
+            "cstatD7",
+            "cstatD8",
+            "windowsinfo",
+            "linuxinfo",
+            "tasklist",
+            "cpu",
+            "df-m",
+            "fdisk-l",
+            "ifconfig",
+            "ipcs",
+            "mount",
+            "pselfy1",
+            "pselfy2",
+            "pselfy3",
+            "pselfy4",
+            "sysctl-a",
+        ]
         data = {}
         for field in list:
             if ProjectManager.check_data(db, field):
@@ -251,7 +281,7 @@ class ProjectManager():
         filedb = pb.database
         session.close()
         db = sqlite3.connect(filedb)
-        cursor = db.execute('select * from mgstat')
+        cursor = db.execute("select * from mgstat")
         names = [description[0] for description in cursor.description]
         return names
 
@@ -263,14 +293,14 @@ class ProjectManager():
         filedb = pb.database
         session.close()
         db = sqlite3.connect(filedb)
-        list = ['mgstat', 'perfmon', 'iostat', 'vmstat', 'sard', 'sar-u']
+        list = ["mgstat", "perfmon", "iostat", "vmstat", "sard", "sar-u"]
         data = {}
         for i in list:
             if ProjectManager.check_data(db, i):
-                cursor = db.execute('select * from ' + i)
+                cursor = db.execute("select * from " + i)
                 names = [description[0] for description in cursor.description]
-                if 'datetime' in names:
-                    names.remove('datetime')
+                if "datetime" in names:
+                    names.remove("datetime")
                 data[i] = names
         return data
 
@@ -293,8 +323,8 @@ class ProjectManager():
         print(query)
         session.close()
         d = {}
-        d['x'] = pd.to_datetime(df['datetime']).to_json(orient='values')
-        d['y'] = df.drop(['datetime'], axis=1).to_json(orient='values')
+        d["x"] = pd.to_datetime(df["datetime"]).to_json(orient="values")
+        d["y"] = df.drop(["datetime"], axis=1).to_json(orient="values")
         return d
 
     @staticmethod
@@ -325,17 +355,17 @@ class ProjectManager():
         db = sqlite3.connect(filedb)
         # TODO: sanitize input
         query = "select * from " + set
-        if (fields is not None):
+        if fields is not None:
             query = "select datetime"
             for i in fields:
-                query += ",\"" + i + "\""
+                query += ',"' + i + '"'
             query += " from " + set
         df = pd.read_sql_query(query, db)
         print(query)
         session.close()
         d = {}
-        d['x'] = pd.to_datetime(df['datetime']).to_json(orient='values')
-        d['y'] = df.drop(['datetime'], axis=1).to_json(orient='values')
+        d["x"] = pd.to_datetime(df["datetime"]).to_json(orient="values")
+        d["y"] = df.drop(["datetime"], axis=1).to_json(orient="values")
         return d
 
     @staticmethod
@@ -345,7 +375,7 @@ class ProjectManager():
         dir = join(UPLOAD_FOLDER, pb.graphdir)
         session.close()
         print("graphdir: " + dir)
-        if (dir is None or dir == ""):
+        if dir is None or dir == "":
             return []
         f = []
         for (dirpath, dirnames, filenames) in walk(dir):
@@ -379,8 +409,7 @@ class ProjectManager():
     @staticmethod
     def getPButtons(projectId):
         session = Session()
-        pbutton_objects = session.query(PButton).filter(
-            PButton.project_id == projectId)
+        pbutton_objects = session.query(PButton).filter(PButton.project_id == projectId)
         schema = PButtonSchema(many=True)
         pbuttons = schema.dump(pbutton_objects)
         session.close()
@@ -391,7 +420,7 @@ class ProjectManager():
         session = Session()
         pbs = session.query(PButton)
         schema = PButtonSchema(many=True)
-        pbuttons = schema.dump(pbutton_objects)
+        pbuttons = schema.dump(pbs)
         session.close()
         return pbuttons
 
@@ -402,14 +431,13 @@ class ProjectManager():
         schema = PButtonSchema(many=True)
         pbuttons = schema.dump(pbs)
         session.close()
-        if (len(pbuttons) > 0):
+        if len(pbuttons) > 0:
             return True
         return False
 
     @staticmethod
     def addPButton(projectid, filename):
-        pb = PButton(created_by="system",
-                     project_id=projectid, filename=filename)
+        pb = PButton(created_by="system", project_id=projectid, filename=filename)
         session = Session()
         session.add(pb)
         try:
@@ -426,9 +454,10 @@ class ProjectManager():
         if description is None:
             description = ""
         # mount exam object
-        #posted_project = ProjectSchema(only=('title', 'description')).load(request.get_json())
-        project = Project(title=title, description=description,
-                          created_by="HTTP post request")
+        # posted_project = ProjectSchema(only=('title', 'description')).load(request.get_json())
+        project = Project(
+            title=title, description=description, created_by="HTTP post request"
+        )
         # persist exam
         session = Session()
         session.add(project)
